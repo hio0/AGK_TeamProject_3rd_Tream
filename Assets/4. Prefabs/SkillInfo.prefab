@@ -417,7 +417,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20.419998, y: -38.8}
+  m_AnchoredPosition: {x: 20.419998, y: -38.800003}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &729178879295456984
@@ -542,6 +542,7 @@ GameObject:
   - component: {fileID: 5197027548341726435}
   - component: {fileID: 7982825611688990814}
   - component: {fileID: 7808962397801962609}
+  - component: {fileID: 5735507933160199869}
   m_Layer: 5
   m_Name: SkillInfo
   m_TagString: Untagged
@@ -608,3 +609,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5735507933160199869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477532787997591064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dccf5b4c9606bd458148465c1425598, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myskill: {fileID: 0}
+  skillNameT: {fileID: 4570885469096952203}
+  skillBlaBlaT: {fileID: 7384401975362765951}

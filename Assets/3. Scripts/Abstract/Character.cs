@@ -8,4 +8,17 @@ public abstract class Character : MonoBehaviour
     public string characterName;
     
     public int hp;
+
+    [Header("시스템")]
+    public int nowPosition;
+
+    private void Start()
+    {
+        CheckMyPosition();
+    }
+
+    void CheckMyPosition()
+    {
+        nowPosition = FightManager.Instance.OurRange.GetSiblingIndex();
+    }
 }
