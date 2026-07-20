@@ -13,10 +13,18 @@ public class Select_UI : ActionObject
         can.alpha = 0f;
         mychar = GetComponentInParent<Character>();
 
-        if(mychar.nowPosition == FightManager.Instance.nowSelecedNum)
+        Action find = () =>
         {
-            Action action = () => can.alpha = 1f;
-            FightManager.Instance.OnCharSelceted += action;
-        }
+            if (mychar.nowPosition == FightManager.Instance.nowSelecedNum)
+            {
+                can.alpha = 1f;
+            }
+            else
+            {
+                can.alpha = 0f;
+            }
+        };
+
+        FightManager.Instance.OnCharSelceted += find;
     }
 }

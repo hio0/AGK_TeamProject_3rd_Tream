@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class OurOne : Character
 {
-    
+    private void Start()
+    {
+        skillList.Add(new Slash());
+    }
 }

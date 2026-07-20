@@ -18,7 +18,7 @@ public class SkillInfo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        skillNameT.text = myskill.skillName;
+        //skillNameT.text = myskill.skillName;
         //skillBlaBlaT.text = 
     }
 }

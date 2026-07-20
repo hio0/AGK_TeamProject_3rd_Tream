@@ -13,17 +13,17 @@ public class FightManager : MonoBehaviour
     public event Action OnCharSelceted;
     public event Action OnTurnFinish;
 
-    public Transform OurRange;
-    public Transform EnemyRange;
+    public Transform ourRange;
+    public Transform enemyRange;
     public int nowSelecedNum;
     public Character nowSelectedChar;
-
-    [Header("오브젝트")]
-    public SkillInfo pre_skillInfo;
+ 
 
     private void Awake()
     {
         Instance = this;
+
+        BasicSetting();
     }
 
     // Start is called before the first frame update
@@ -41,13 +41,12 @@ public class FightManager : MonoBehaviour
     // 시스템
     public void FightStart()
     {
-        BasicEventSet();
         OnFightStart?.Invoke();
 
         TurnStart();
     }
 
-    void BasicEventSet()
+    void BasicSetting()
     {
         Action a = () =>
         {
@@ -65,12 +64,11 @@ public class FightManager : MonoBehaviour
         {
             InputManager.Instance.OnPressA += a;
             InputManager.Instance.OnPressD += d;
-
-            nowSelecedNum = OurRange.childCount - 1;
-            SelectActingCharacter();
         };
-
         OnFightStart += firstSelect;
+        OnTurnStart += SelectActingCharacter;
+
+        nowSelecedNum = ourRange.childCount - 1;
     }
 
     public void TurnStart()
@@ -85,13 +83,13 @@ public class FightManager : MonoBehaviour
             nowSelecedNum = 0;
             return;
         }
-        if (nowSelecedNum > transform.childCount - 1)
+        if (nowSelecedNum > ourRange.childCount - 1)
         {
-            nowSelecedNum = transform.childCount - 1;
+            nowSelecedNum = ourRange.childCount - 1;
             return;
         }
 
-        nowSelectedChar = OurRange.GetChild(nowSelecedNum).GetComponent<Character>();
+        nowSelectedChar = ourRange.GetChild(nowSelecedNum).GetComponent<Character>();
         OnCharSelceted?.Invoke();
     }
 
