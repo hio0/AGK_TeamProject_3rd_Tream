@@ -11,5 +11,5 @@ public abstract class Skill
     public Character skillUser;
     public Character skilltarget;
 
-    protected abstract void Effect(Character user, Character target);
+    public abstract void Effect(Character user, Character target);
 }

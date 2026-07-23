@@ -15,9 +15,10 @@ public class FightManager : MonoBehaviour
 
     public Transform ourRange;
     public Transform enemyRange;
+    public List<Character> actingCharacterList = new();
+    public Stack<Character> actingTurnList = new();
     public int nowSelecedNum;
     public Character nowSelectedChar;
- 
 
     private void Awake()
     {
@@ -26,7 +27,7 @@ public class FightManager : MonoBehaviour
         BasicSetting();
     }
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update 
     void Start()
     {
         FightStart();
@@ -35,7 +36,7 @@ public class FightManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     // 시스템
@@ -66,7 +67,7 @@ public class FightManager : MonoBehaviour
             InputManager.Instance.OnPressD += d;
         };
         OnFightStart += firstSelect;
-        OnTurnStart += SelectActingCharacter;
+        //OnTurnStart += SelectActingCharacter;
 
         nowSelecedNum = ourRange.childCount - 1;
     }
@@ -78,19 +79,66 @@ public class FightManager : MonoBehaviour
 
     void SelectActingCharacter()
     {
-        if (nowSelecedNum < 0)
+        actingCharacterList.Clear();
+
+        void SetActingCharacterList(Transform range)
         {
-            nowSelecedNum = 0;
-            return;
-        }
-        if (nowSelecedNum > ourRange.childCount - 1)
-        {
-            nowSelecedNum = ourRange.childCount - 1;
-            return;
+            for (int i = 0; i < range.childCount; i++)
+            {
+                Character character = range.GetChild(i).GetComponent<Character>();
+
+                actingCharacterList.Add(character);
+            }
         }
 
-        nowSelectedChar = ourRange.GetChild(nowSelecedNum).GetComponent<Character>();
-        OnCharSelceted?.Invoke();
+        // 모든 캐릭터 가져오기
+        SetActingCharacterList(ourRange);
+        SetActingCharacterList(enemyRange);
+
+        void SwapTwoCollectionValue<T>(T targetVal, T changedVal)
+        {
+            T t = targetVal;
+            targetVal = changedVal;
+            changedVal = t;
+        }
+
+        // 순서 배정 전 랜덤 섞기
+        for (int i = 0; i < actingCharacterList.Count; i++)
+        {
+            int r = UnityEngine.Random.Range(0, actingCharacterList.Count);
+
+            SwapTwoCollectionValue(actingCharacterList[i], actingCharacterList[r]);
+        }
+
+        // 순서 정하기
+        for (int i = 0; i < actingCharacterList.Count; i++)
+        {
+            int giveSpeed = i + 1;
+
+            if (actingCharacterList[i].minSpeed > giveSpeed)
+            {
+                int minSpeed = actingCharacterList[i].minSpeed - 1;
+                if (actingCharacterList[i].minSpeed > actingCharacterList.Count)
+                {
+                    minSpeed = actingCharacterList.Count;
+                } 
+
+                SwapTwoCollectionValue(actingCharacterList[i], actingCharacterList[minSpeed]);
+            }
+        }
+
+        // 실제 순서 배정
+        for (int i = 0; i < actingCharacterList.Count; i++)
+        {
+            int giveSpeed = i + 1;
+
+            actingCharacterList[i].speed = giveSpeed;
+        }
+    }
+
+    void CharacterActing(Character acter)
+    {
+
     }
 
     public void TurnFinish()

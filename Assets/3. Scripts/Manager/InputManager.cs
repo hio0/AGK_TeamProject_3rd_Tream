@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
 
     public event Action OnPressA;
     public event Action OnPressD;
+    public event Action OnPressSemicolon;
 
     private void Awake()
     {
@@ -32,6 +33,11 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
         {
             OnPressD?.Invoke();
+        }
+        if(Input.GetKeyDown(KeyCode.Semicolon))
+        {
+            OnPressSemicolon?.Invoke();
+            GameEvent.OnNoticedSomething?.Invoke();
         }
     }
 

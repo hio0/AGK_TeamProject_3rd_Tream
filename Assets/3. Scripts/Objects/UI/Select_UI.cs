@@ -25,6 +25,7 @@ public class Select_UI : ActionObject
             }
         };
 
+        FightManager.Instance.OnCharSelceted -= find;
         FightManager.Instance.OnCharSelceted += find;
     }
 }

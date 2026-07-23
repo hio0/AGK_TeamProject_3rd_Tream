@@ -12,7 +12,7 @@ public class Slash : Skill, IAttackSkill
         damage = 5;
     }
 
-    protected override void Effect(Character user, Character target)
+    public override void Effect(Character user, Character target)
     {
 
     }
