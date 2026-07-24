@@ -152,10 +152,4 @@ public class FightManager : MonoBehaviour
         OnTurnStart = null;
         OnTurnFinish = null;
     }
-
-    // ±‚¥… ≈€«√∏¥
-    public void SkillInfoSet(RectTransform rect)
-    {
-
-    }
 }

@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: 168238462}
   - component: {fileID: 168238464}
   - component: {fileID: 168238463}
+  - component: {fileID: 168238465}
   m_Layer: 5
   m_Name: DownLetterBox
   m_TagString: Untagged
@@ -322,7 +323,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 238.7}
+  m_SizeDelta: {x: 0, y: 240}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &168238463
 MonoBehaviour:
@@ -344,7 +345,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: f67d3f026459dff4eb8f6ea276b73c97, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -362,6 +363,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168238461}
   m_CullTransparentMesh: 1
+--- !u!114 &168238465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168238461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4f45a9d61cdd64458200793d0665d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deffultTargetingPos: {x: 0, y: 240}
+  animationSpeed: 3
 --- !u!224 &192705780 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2872727597066026291, guid: cbeb9f160d2b57b4bbf50aadf7675bbc, type: 3}
@@ -1459,7 +1474,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deffultTargetingPos: {x: 0, y: 140}
-  animationSpeed: 3
+  animationSpeed: 4
+  narrationT: {fileID: 990811916}
+  narrationT_CnGr: {fileID: 990811918}
+  watingTime: 5
 --- !u!1 &853546506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,6 +1801,7 @@ GameObject:
   - component: {fileID: 990811917}
   - component: {fileID: 990811916}
   - component: {fileID: 990811915}
+  - component: {fileID: 990811918}
   m_Layer: 5
   m_Name: NarrationT
   m_TagString: Untagged
@@ -1922,6 +1941,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 990811913}
   m_CullTransparentMesh: 1
+--- !u!225 &990811918
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990811913}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1011591054
 PrefabInstance:
   m_ObjectHideFlags: 0

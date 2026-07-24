@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Semicolon))
         {
             OnPressSemicolon?.Invoke();
-            GameEvent.OnNoticedSomething?.Invoke();
+            GameEvent.OnNoticedSomething?.Invoke("ㄴ에런러");
         }
     }
 

@@ -7,22 +7,27 @@ public abstract class LetterBox : MonoBehaviour
     protected RectTransform rect;
     [SerializeField] protected Vector2 deffultTargetingPos;
     [SerializeField] protected float animationSpeed;
+    protected bool isIn;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         rect = GetComponent<RectTransform>();
+
         rect.sizeDelta = new Vector2(0, 0);
+        isIn = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected void Move()
     {
-        
-    }
+        StopAllCoroutines();
 
-    protected void Move(bool isin)
-    {
-        UIMovement.SizeSetAnimation(rect, deffultTargetingPos, animationSpeed);
+        Vector2 targetPos = Vector2.zero;
+        if(!isIn)
+        {
+            targetPos = deffultTargetingPos;
+        }
+        Debug.Log($"sf {rect != null}");
+        isIn = !isIn;
+        StartCoroutine(UIMovement.SizeSetAnimation(rect, targetPos, animationSpeed));
     }
 }
