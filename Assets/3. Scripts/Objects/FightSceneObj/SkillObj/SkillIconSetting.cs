@@ -7,7 +7,7 @@ public class SkillIconSetting : MonoBehaviour
     public List<Skill> mySkillList;
 
     [SerializeField] SkillIcon pre_skillIcon;
-    [SerializeField] SkillInfo skillInfo;
+    [SerializeField] SkillExplanation skillExplanation;
 
     private void OnEnable()
     {
@@ -34,7 +34,7 @@ public class SkillIconSetting : MonoBehaviour
         {
             SkillIcon skillIcon = Instantiate(pre_skillIcon, transform);
             
-            skillIcon.Initialize(skill);
+            skillIcon.Initialize(skill, skillExplanation);
         }
     }
 }

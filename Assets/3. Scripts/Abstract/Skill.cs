@@ -8,6 +8,8 @@ public abstract class Skill
     public string skillName;
     public Sprite skillIcon;
 
+    [TextArea] public string skillExplanation;
+
     [Header("시스템")]
     public Character skillUser;
     public Character skilltarget;

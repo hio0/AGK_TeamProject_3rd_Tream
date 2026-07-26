@@ -236,6 +236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5398506961735795266}
+  - component: {fileID: 6529937018926312250}
   m_Layer: 5
   m_Name: Character
   m_TagString: Untagged
@@ -264,6 +265,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6529937018926312250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9084140481200654269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14148e4f955133644a683fa84e1ba6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: "\uC694\uC774"
+  hp: 10
+  speed: 0
+  minSpeed: 3
+  nowPosition: 0
 --- !u!1001 &5115157370689649543
 PrefabInstance:
   m_ObjectHideFlags: 0

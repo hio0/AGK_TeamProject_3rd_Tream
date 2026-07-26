@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class OurOne : Character
 {
-    public OurOne()
+    public void Awake()
     {
         characterName = "요이";
         hp = 10;
         minSpeed = 3;
-    }
 
-    private void Start()
-    {
-        //skillList.Add(new Slash());
+        skillList.Add(new Slash());
     }
 }

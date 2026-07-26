@@ -9,13 +9,15 @@ using UnityEngine.UI;
 public class SkillIcon : MonoBehaviour
 {
     Skill myskill;
+    SkillExplanation skillExplanation;
 
     Image image;
     EventTrigger trigger;
 
-    public void Initialize(Skill skill)
+    public void Initialize(Skill skill, SkillExplanation skillExplan)
     {
         myskill = skill;
+        skillExplanation = skillExplan;
     }
 
     // Start is called before the first frame update
@@ -54,18 +56,24 @@ public class SkillIcon : MonoBehaviour
         trigger.triggers.Add(entry);
     }
 
+    void SkillExplanation()
+    {
+        skillExplanation.Initialize(myskill);
+        skillExplanation.gameObject.SetActive(true);
+    }
+
     void OnClick(PointerEventData data)
     {
-        
+        SkillExplanation();
     }
 
     void OnEnter(PointerEventData data)
     {
-        
+        SkillExplanation();
     }
 
     void OnExit(PointerEventData data)
     {
-        
+        skillExplanation.gameObject.SetActive(false);
     }
 }

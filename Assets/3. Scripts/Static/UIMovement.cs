@@ -19,6 +19,16 @@ public static class UIMovement
     }
 
     // DOTWeen
+    public static void DoAnchorMove(RectTransform rect, Vector2 targetPos, float time)
+    {
+        rect.DOAnchorPos(targetPos, time);
+    }
+
+    public static void DoSizeMove(RectTransform rect, Vector2 targetSize, float time)
+    {
+        rect.DOSizeDelta(targetSize, time);
+    }
+
     public static void DOFade(CanvasGroup what, float howmuch, float time)
     {
         what.DOFade(howmuch, time);
