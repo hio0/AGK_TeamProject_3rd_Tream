@@ -1,30 +1,40 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public class CharacterSelected
+{
+    public int selectedNum;
+    public Character selectedCharacter;
+}
 
 public class FightManager : MonoBehaviour
 {
     [Header("시스템")]
     public static FightManager Instance;
 
+    // NOTICE
+    // 전투 순서: 전투 시작 -> 턴 시작 -> 캐릭터 선택 -> 행동 시작 -> 스킬 시작 -> 스킬 종료 -> 행동 종료 -> (반복) -> 턴 종료 -> (반복) - > 전투 종료
     public event Action OnFightStart;
     public event Action OnTurnStart;
-    public event Action OnCharSelceted;
+    public Action<CharacterSelected> OnCharSelceted;
     public event Action OnTurnFinish;
+
+    public event Action OnActingStart;
+    public event Action OnSkillFinished;
+    public event Action OnActingFinished;
 
     public Transform ourRange;
     public Transform enemyRange;
-    public List<Character> actingCharacterList = new();
-    public Stack<Character> actingTurnList = new();
-    public int nowSelecedNum;
-    public Character nowSelectedChar;
+
+    [Header("UI")]
+    public GameObject fightP;
 
     private void Awake()
     {
         Instance = this;
-
-        BasicSetting();
     }
 
     // Start is called before the first frame update 
@@ -38,107 +48,32 @@ public class FightManager : MonoBehaviour
     {
 
     }
-
+    
     // 시스템
+
     public void FightStart()
     {
-        OnFightStart?.Invoke();
+        IEnumerator FightStartCor()
+        {
+            fightP.SetActive(false);
 
-        TurnStart();
+            yield return new WaitForSeconds(1.5f); // 전투 시작 연출
+
+            OnFightStart?.Invoke();
+
+            yield return new WaitForSeconds(2f); // 전투 시작 효과들
+            TurnStart();
+        }
+
+        StartCoroutine(FightStartCor());
     }
 
-    void BasicSetting()
-    {
-        Action a = () =>
-        {
-            nowSelecedNum -= 1;
-            SelectActingCharacter();
-        };
-
-        Action d = () =>
-        {
-            nowSelecedNum += 1;
-            SelectActingCharacter();
-        };
-
-        Action firstSelect = () =>
-        {
-            InputManager.Instance.OnPressA += a;
-            InputManager.Instance.OnPressD += d;
-        };
-        OnFightStart += firstSelect;
-        //OnTurnStart += SelectActingCharacter;
-
-        nowSelecedNum = ourRange.childCount - 1;
-    }
 
     public void TurnStart()
     {
+        fightP.SetActive(true);
+
         OnTurnStart?.Invoke();
-    }
-
-    void SelectActingCharacter()
-    {
-        actingCharacterList.Clear();
-
-        void SetActingCharacterList(Transform range)
-        {
-            for (int i = 0; i < range.childCount; i++)
-            {
-                Character character = range.GetChild(i).GetComponent<Character>();
-
-                actingCharacterList.Add(character);
-            }
-        }
-
-        // 모든 캐릭터 가져오기
-        SetActingCharacterList(ourRange);
-        SetActingCharacterList(enemyRange);
-
-        void SwapTwoCollectionValue<T>(T targetVal, T changedVal)
-        {
-            T t = targetVal;
-            targetVal = changedVal;
-            changedVal = t;
-        }
-
-        // 순서 배정 전 랜덤 섞기
-        for (int i = 0; i < actingCharacterList.Count; i++)
-        {
-            int r = UnityEngine.Random.Range(0, actingCharacterList.Count);
-
-            SwapTwoCollectionValue(actingCharacterList[i], actingCharacterList[r]);
-        }
-
-        // 순서 정하기
-        for (int i = 0; i < actingCharacterList.Count; i++)
-        {
-            int giveSpeed = i + 1;
-
-            if (actingCharacterList[i].minSpeed > giveSpeed)
-            {
-                int minSpeed = actingCharacterList[i].minSpeed - 1;
-                if (actingCharacterList[i].minSpeed > actingCharacterList.Count)
-                {
-                    minSpeed = actingCharacterList.Count;
-                } 
-
-                SwapTwoCollectionValue(actingCharacterList[i], actingCharacterList[minSpeed]);
-            }
-        }
-
-        // 실제 순서 배정
-        for (int i = 0; i < actingCharacterList.Count; i++)
-        {
-            int giveSpeed = i + 1;
-
-            actingCharacterList[i].speed = giveSpeed;
-        }
-    }
-
-    void CharacterActing(Character acter)
-    {
-
     }
 
     public void TurnFinish()

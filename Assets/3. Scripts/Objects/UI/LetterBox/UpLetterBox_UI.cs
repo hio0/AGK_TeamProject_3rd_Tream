@@ -15,8 +15,8 @@ public class UpLetterBox_UI : LetterBox
     private void OnEnable()
     {
         deffultTargetingPos = new Vector2(0, 140f);
-        animationSpeed = 3f;
-        watingTime = 3f;
+        animationSpeed = 5f;
+        watingTime = 4f;
 
         GameEvent.OnNoticedSomething += MyMovingTime;
     }
@@ -58,11 +58,10 @@ public class UpLetterBox_UI : LetterBox
 
     void SetNarrationText(string narration)
     {
-        float speed = animationSpeed - 0.5f;
         narrationT_CnGr.alpha = 0f;
-
         narrationT_CnGr.DOKill();
-        UIMovement.DOFade(narrationT_CnGr, 1f, speed);
+
+        UIMovement.DOFade(narrationT_CnGr, 1f, 1.5f);
         narrationT.text = narration;
     }
 }

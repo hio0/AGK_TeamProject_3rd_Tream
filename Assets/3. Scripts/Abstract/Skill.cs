@@ -6,6 +6,7 @@ public abstract class Skill
 {
     [Header("기본 정보")]
     public string skillName;
+    public Sprite skillIcon;
 
     [Header("시스템")]
     public Character skillUser;

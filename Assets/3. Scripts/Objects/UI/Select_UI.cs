@@ -13,9 +13,9 @@ public class Select_UI : ActionObject
         can.alpha = 0f;
         mychar = GetComponentInParent<Character>();
 
-        Action find = () =>
+        Action<CharacterSelected> find = (charselect) =>
         {
-            if (mychar.nowPosition == FightManager.Instance.nowSelecedNum)
+            if (mychar.speed == charselect.selectedNum)
             {
                 can.alpha = 1f;
             }

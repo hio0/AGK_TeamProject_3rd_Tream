@@ -13,6 +13,6 @@ public class OurOne : Character
 
     private void Start()
     {
-        skillList.Add(new Slash());
+        //skillList.Add(new Slash());
     }
 }

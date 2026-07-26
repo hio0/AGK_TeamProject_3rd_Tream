@@ -4,26 +4,36 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SkillIcon : MonoBehaviour
 {
+    Skill myskill;
+
+    Image image;
     EventTrigger trigger;
-    public SkillInfo pre_skillInfo;
+
+    public void Initialize(Skill skill)
+    {
+        myskill = skill;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        image = GetComponent<Image>();
         trigger = GetComponent<EventTrigger>();
+
+        SetIcon();
 
         AddEvent(trigger, EventTriggerType.PointerClick, OnClick);
         AddEvent(trigger, EventTriggerType.PointerEnter, OnEnter);
         AddEvent(trigger, EventTriggerType.PointerExit, OnExit);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetIcon()
     {
-        
+        image.sprite = myskill.skillIcon;
     }
 
     void AddEvent(EventTrigger trigger, EventTriggerType type, Action<PointerEventData> action)

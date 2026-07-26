@@ -26,7 +26,7 @@ public abstract class LetterBox : MonoBehaviour
         {
             targetPos = deffultTargetingPos;
         }
-        Debug.Log($"sf {rect != null}");
+
         isIn = !isIn;
         StartCoroutine(UIMovement.SizeSetAnimation(rect, targetPos, animationSpeed));
     }
