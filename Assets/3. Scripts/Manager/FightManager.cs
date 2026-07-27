@@ -10,6 +10,11 @@ public class CharacterSelected
     public Character selectedCharacter;
 }
 
+public class FindTarget
+{
+    public Skill selectedSkill;
+}
+
 public class FightManager : MonoBehaviour
 {
     [Header("시스템")]
@@ -19,15 +24,13 @@ public class FightManager : MonoBehaviour
     // 전투 순서: 전투 시작 -> 턴 시작 -> 캐릭터 선택 -> 행동 시작 -> 스킬 시작 -> 스킬 종료 -> 행동 종료 -> (반복) -> 턴 종료 -> (반복) - > 전투 종료
     public event Action OnFightStart;
     public event Action OnTurnStart;
-    public Action<CharacterSelected> OnCharSelceted;
+    public Action<CharacterSelected> OnActingCharSelceted;
+    public Action<bool> OnTargetFinded;
     public event Action OnTurnFinish;
 
     public event Action OnActingStart;
     public event Action OnSkillFinished;
     public event Action OnActingFinished;
-
-    public Transform ourRange;
-    public Transform enemyRange;
 
     [Header("UI")]
     public GameObject fightP;

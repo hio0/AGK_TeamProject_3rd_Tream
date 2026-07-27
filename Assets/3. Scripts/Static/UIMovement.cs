@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public static class UIMovement
 {
@@ -27,6 +28,11 @@ public static class UIMovement
     public static void DoSizeMove(RectTransform rect, Vector2 targetSize, float time)
     {
         rect.DOSizeDelta(targetSize, time);
+    }
+
+    public static void DoRotation(RectTransform rect, Vector3 spinPos, float time)
+    {
+        rect.DORotate(spinPos, time);
     }
 
     public static void DOFade(CanvasGroup what, float howmuch, float time)

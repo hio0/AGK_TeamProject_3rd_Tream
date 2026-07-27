@@ -9,5 +9,6 @@ public abstract class ActionObject : MonoBehaviour
     private void Awake()
     {
         can = GetComponent<CanvasGroup>();
+        can.alpha = 0f;
     }
 }

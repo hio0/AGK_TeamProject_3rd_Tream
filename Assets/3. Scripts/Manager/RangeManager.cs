@@ -93,6 +93,6 @@ public class RangeManager : MonoBehaviour
             selectedCharacter = nowSelectedChar
         };
 
-        FightManager.Instance.OnCharSelceted?.Invoke(characterSelected);
+        FightManager.Instance.OnActingCharSelceted?.Invoke(characterSelected);
     }
 }

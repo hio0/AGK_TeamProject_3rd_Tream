@@ -10,7 +10,6 @@ public class Select_UI : ActionObject
     // Start is called before the first frame update
     void Start()
     {
-        can.alpha = 0f;
         mychar = GetComponentInParent<Character>();
 
         Action<CharacterSelected> find = (charselect) =>
@@ -25,7 +24,7 @@ public class Select_UI : ActionObject
             }
         };
 
-        FightManager.Instance.OnCharSelceted -= find;
-        FightManager.Instance.OnCharSelceted += find;
+        FightManager.Instance.OnActingCharSelceted -= find;
+        FightManager.Instance.OnActingCharSelceted += find;
     }
 }

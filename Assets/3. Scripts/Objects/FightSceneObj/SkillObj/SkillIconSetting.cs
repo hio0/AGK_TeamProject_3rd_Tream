@@ -11,12 +11,12 @@ public class SkillIconSetting : MonoBehaviour
 
     private void OnEnable()
     {
-        FightManager.Instance.OnCharSelceted += SkillIconSet;
+        FightManager.Instance.OnActingCharSelceted += SkillIconSet;
     }
 
     private void OnDisable()
     {
-        FightManager.Instance.OnCharSelceted -= SkillIconSet;
+        FightManager.Instance.OnActingCharSelceted -= SkillIconSet;
     }
 
     void SkillIconSet(CharacterSelected nowSelectedChar) // 스껄

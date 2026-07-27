@@ -65,6 +65,7 @@ public class SkillIcon : MonoBehaviour
     void OnClick(PointerEventData data)
     {
         SkillExplanation();
+        FightManager.Instance.OnTargetFinded?.Invoke(true);
     }
 
     void OnEnter(PointerEventData data)
