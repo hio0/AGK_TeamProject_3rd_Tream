@@ -7,7 +7,7 @@ public abstract class Character : MonoBehaviour
 {
     [Header("기본 정보")]
     public string characterName;
-    public List<Skill> skillList = new();
+    public List<SkillData> skillList = new();
     
     public int hp;
     public int speed;

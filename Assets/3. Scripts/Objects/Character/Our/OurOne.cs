@@ -9,7 +9,5 @@ public class OurOne : Character
         characterName = "요이";
         hp = 10;
         minSpeed = 3;
-
-        skillList.Add(new Slash());
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slash : Skill, IAttackSkill
+public class Slash : SkillData, IAttackSkill
 {
     public int damage { get; set; }
 
@@ -12,8 +12,10 @@ public class Slash : Skill, IAttackSkill
         damage = 5;
     }
 
-    public override void Effect(Character user, Character target)
+    /*
+    public override void Effect(SkillContext skillContext)
     {
 
     }
+    */
 }

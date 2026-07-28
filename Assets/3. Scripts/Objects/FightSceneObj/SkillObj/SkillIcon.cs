@@ -8,13 +8,13 @@ using UnityEngine.UI;
 
 public class SkillIcon : MonoBehaviour
 {
-    Skill myskill;
+    SkillData myskill;
     SkillExplanation skillExplanation;
 
     Image image;
     EventTrigger trigger;
 
-    public void Initialize(Skill skill, SkillExplanation skillExplan)
+    public void Initialize(SkillData skill, SkillExplanation skillExplan)
     {
         myskill = skill;
         skillExplanation = skillExplan;

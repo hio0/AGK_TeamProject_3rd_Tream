@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class SkillExplanation : MonoBehaviour
 {
-    Skill myskill;
+    SkillData myskill;
 
     [SerializeField] TMP_Text skillNameT;
     [SerializeField] ScrollView skillExplanationScroll;
@@ -15,7 +15,7 @@ public class SkillExplanation : MonoBehaviour
     RectTransform rect;
     [SerializeField] Vector2 targetPos = new Vector2(-700, -415);
 
-    public void Initialize(Skill skill)
+    public void Initialize(SkillData skill)
     {
         myskill = skill;
     }

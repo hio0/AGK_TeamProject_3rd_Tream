@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillIconSetting : MonoBehaviour
 {
-    public List<Skill> mySkillList;
+    public List<SkillData> mySkillList;
 
     [SerializeField] SkillIcon pre_skillIcon;
     [SerializeField] SkillExplanation skillExplanation;
@@ -30,7 +30,7 @@ public class SkillIconSetting : MonoBehaviour
             mySkillList = nowSelectedChar.selectedCharacter.skillList;
         }
 
-        foreach(Skill skill in mySkillList)
+        foreach(SkillData skill in mySkillList)
         {
             SkillIcon skillIcon = Instantiate(pre_skillIcon, transform);
             

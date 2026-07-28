@@ -15,6 +15,13 @@ public class FindTarget
     public Skill selectedSkill;
 }
 
+public class SkillContext
+{
+    public Character user;
+    public Skill useSkill;
+    public Character[] targets;
+}
+
 public class FightManager : MonoBehaviour
 {
     [Header("╫ц╫╨еш")]
