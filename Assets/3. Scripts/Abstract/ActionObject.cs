@@ -11,4 +11,24 @@ public abstract class ActionObject : MonoBehaviour
         can = GetComponent<CanvasGroup>();
         can.alpha = 0f;
     }
+
+    protected void UIObject()
+    {
+        void ReflectAlpha()
+        {
+            if (can.alpha == 1)
+            {
+                can.alpha = 0;
+            }
+            else
+            {
+                can.alpha = 1;
+            }
+        }
+        FightManager.Instance.OnTurnStart -= ReflectAlpha;
+        FightManager.Instance.OnTurnStart += ReflectAlpha;
+
+        FightManager.Instance.OnTurnFinish -= ReflectAlpha;
+        FightManager.Instance.OnTurnFinish += ReflectAlpha;
+    } 
 }

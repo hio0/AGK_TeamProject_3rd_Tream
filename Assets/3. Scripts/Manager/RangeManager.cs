@@ -66,7 +66,6 @@ public class RangeManager : MonoBehaviour
                     minSpeed = actingCharacterList.Count - 1;
                 }
 
-                Debug.Log($"{i}, {minSpeed}");
                 SwapTwoCollectionValue(actingCharacterList, i, minSpeed);
             }
         }
@@ -89,10 +88,11 @@ public class RangeManager : MonoBehaviour
 
         CharacterSelected characterSelected = new CharacterSelected
         {
-            selectedNum = nowSelectedNum,
             selectedCharacter = nowSelectedChar
         };
 
-        FightManager.Instance.OnActingCharSelceted?.Invoke(characterSelected);
+        FightManager.Instance.WhatSelcetedActingChar?.Invoke(characterSelected);
+        FightManager.Instance.OnActingCharSelceted?.Invoke();
+        GameEvent.OnNoticedSomething($"{nowSelectedChar.characterName}의 차례!");
     }
 }

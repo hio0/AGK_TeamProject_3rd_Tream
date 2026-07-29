@@ -15,7 +15,6 @@ public class Skill
     {
         skillName = skillData.skillName;
         skillIcon = skillData.skillIcon;
-
         skillExplanation = skillData.skillExplanation;
     }
 

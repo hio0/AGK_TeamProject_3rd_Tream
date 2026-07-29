@@ -21,7 +21,6 @@ public class MainCamera : MonoBehaviour
         cam = GetComponent<Camera>();
         cameraObj = gameObject;
         cameraTransform = gameObject.transform;
-        Debug.Log("maca");
     }
 
     // Start is called before the first frame update

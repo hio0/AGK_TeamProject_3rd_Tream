@@ -8,16 +8,9 @@ public class Targeting_UI : ActionObject
     // Start is called before the first frame update
     void Start()
     {
-        Action<bool> action = (icanTargeted) =>
+        Action action = () =>
         {
-            if(icanTargeted)
-            {
-                can.alpha = 1f;
-            }
-            else
-            {
-                can.alpha = 0f;
-            }
+            can.alpha = 1f;
         };
 
         FightManager.Instance.OnTargetFinded -= action;

@@ -6,10 +6,15 @@ using UnityEngine;
 [Serializable]
 public class DamageEffect : SkillEffect
 {
-    public int damage;
+    int damage { get; set; }
+
+    public int minDamage;
+    public int maxDamage;
 
     public override void Effect(SkillContext skillContext)
     {
-        Debug.Log("dammage");
+        int currentDamage = UnityEngine.Random.Range(minDamage, maxDamage + 1);
+
+        Debug.Log($"dammage: {damage}");
     }
 }

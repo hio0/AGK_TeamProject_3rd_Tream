@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public abstract class Character : MonoBehaviour
 {
@@ -16,18 +19,32 @@ public abstract class Character : MonoBehaviour
     [Header("시스템")]
     public int nowPosition;
 
+    [Header("컴포넌트")]
+    public Image characterImage;
+    public EventTrigger characterTrigger;
+
     private void Start()
     {
-        DeffultSetting();
+        ReturnToBasic();
+
+        FightManager.Instance.WhatSelcetedActingChar += AnotherSelected;
+        FightManager.Instance.OnTargetFinded += ReturnToBasic;
     }
 
-    void CheckMyPosition()
+    void AnotherSelected(CharacterSelected selectedChar)
     {
-        nowPosition = transform.GetSiblingIndex(); // 자신의 부모 오브젝트 자식 중에서 내가 몇번째인지 구함
+        if(selectedChar.selectedCharacter.speed == speed)
+        {
+            return;
+        }
+
+        characterImage.color = new Color32(116, 116, 116, 200);
+        characterTrigger.enabled = false;
     }
 
-    void DeffultSetting()
+    void ReturnToBasic()
     {
-        CheckMyPosition();
+        characterImage.color = new Color32(255, 255, 255, 255);
+        characterTrigger.enabled = true;
     }
 }

@@ -3,10 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CharacterSelected
 {
-    public int selectedNum;
     public Character selectedCharacter;
 }
 
@@ -31,8 +31,10 @@ public class FightManager : MonoBehaviour
     // 전투 순서: 전투 시작 -> 턴 시작 -> 캐릭터 선택 -> 행동 시작 -> 스킬 시작 -> 스킬 종료 -> 행동 종료 -> (반복) -> 턴 종료 -> (반복) - > 전투 종료
     public event Action OnFightStart;
     public event Action OnTurnStart;
-    public Action<CharacterSelected> OnActingCharSelceted;
-    public Action<bool> OnTargetFinded;
+    public Action OnActingCharSelceted;
+    public Action<CharacterSelected> WhatSelcetedActingChar; // 값 전달용 액션
+    public Action OnTargetFinding;
+    public Action OnTargetFinded;
     public event Action OnTurnFinish;
 
     public event Action OnActingStart;
