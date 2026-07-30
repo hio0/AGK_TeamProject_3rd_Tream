@@ -592,13 +592,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14148e4f955133644a683fa84e1ba6f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterData: {fileID: 11400000, guid: ad3983a80e4961f4e99070a1d700793c, type: 2}
   characterName: "\uAE30\uBCF8 \uCE90\uB9AD"
   skillList:
   - {fileID: 11400000, guid: 58366abd8fc771448ac709a3ae0f17de, type: 2}
   hp: 100
+  maxHp: 0
   speed: 0
   minSpeed: 3
   nowPosition: 0
+  iOurUnit: 0
   characterImage: {fileID: 4407241722764843891}
   characterTrigger: {fileID: 2850969894860240710}
 --- !u!1001 &5115157370689649543

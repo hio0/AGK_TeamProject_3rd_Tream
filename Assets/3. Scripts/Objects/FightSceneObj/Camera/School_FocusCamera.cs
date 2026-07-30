@@ -14,9 +14,21 @@ public class School_FocusCamera : VirtualCamera
 
         FightManager.Instance.OnFightStart += iBangJong;
 
-        Action<CharacterSelected> targetFind = (selectedChar) => SetTarget(selectedChar.selectedCharacter.gameObject);
+        Action<CharacterSelected> targetFind = (selectedChar) =>
+        {
+            bool enable = false;
+           
+            if (selectedChar.selectedCharacter.iOurUnit)
+            {
+                enable = true;
+            }
+
+            LockMovingCamera(enable);
+            SetTarget(selectedChar.selectedCharacter.gameObject);
+        };
         FightManager.Instance.WhatSelcetedActingChar += targetFind;
         FightManager.Instance.OnActingCharSelceted += iLive;
+
 
         FightManager.Instance.OnTargetFinding += iBangJong;
     }

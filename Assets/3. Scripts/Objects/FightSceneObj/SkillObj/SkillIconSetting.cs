@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillIconSetting : MonoBehaviour
 {
-    public List<SkillData> mySkillList;
+    public List<Skill> mySkillList;
 
     [SerializeField] SkillIcon pre_skillIcon;
     [SerializeField] SkillExplanation skillExplanation;
@@ -21,7 +21,7 @@ public class SkillIconSetting : MonoBehaviour
 
     void SkillIconSet(CharacterSelected nowSelectedChar) // 스껄
     {
-        if (nowSelectedChar.selectedCharacter.skillList == null)
+        if (nowSelectedChar.selectedCharacter.skillList == null || !nowSelectedChar.selectedCharacter.iOurUnit)
         {
             return;
         }
@@ -30,7 +30,7 @@ public class SkillIconSetting : MonoBehaviour
             mySkillList = nowSelectedChar.selectedCharacter.skillList;
         }
 
-        foreach(SkillData skill in mySkillList)
+        foreach(Skill skill in mySkillList)
         {
             SkillIcon skillIcon = Instantiate(pre_skillIcon, transform);
             

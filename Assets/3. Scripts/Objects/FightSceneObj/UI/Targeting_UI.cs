@@ -13,7 +13,7 @@ public class Targeting_UI : ActionObject
             can.alpha = 1f;
         };
 
-        FightManager.Instance.OnTargetFinded -= action;
-        FightManager.Instance.OnTargetFinded += action;
+        FightManager.Instance.OnTargetFinding -= action;
+        FightManager.Instance.OnTargetFinding += action;
     }
 }

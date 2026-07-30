@@ -27,6 +27,7 @@ public class FightManager : MonoBehaviour
     [Header("시스템")]
     public static FightManager Instance;
 
+    // 이벤트 버스: 이벤트 선언자에 대한 의존성만 강화, 이외 객체들간 의존성은 대폭 감소.
     // NOTICE
     // 전투 순서: 전투 시작 -> 턴 시작 -> 캐릭터 선택 -> 행동 시작 -> 스킬 시작 -> 스킬 종료 -> 행동 종료 -> (반복) -> 턴 종료 -> (반복) - > 전투 종료
     public event Action OnFightStart;

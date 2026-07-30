@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class VirtualCamera : MonoBehaviour
 {
-    CinemachineCamera cam;
+    protected CinemachineCamera cam;
 
     private void Awake()
     {
@@ -22,5 +22,13 @@ public abstract class VirtualCamera : MonoBehaviour
         Transform targetTransform = target.transform;
 
         cam.Target.TrackingTarget = targetTransform;
+    }
+
+    protected virtual void LockMovingCamera(bool enabled)
+    {
+        TryGetComponent<CinemachineInputAxisController>(out CinemachineInputAxisController axisController);
+
+        axisController.Controllers[0].Enabled = enabled;
+        axisController.Controllers[1].Enabled = enabled;
     }
 }

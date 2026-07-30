@@ -8,13 +8,13 @@ using UnityEngine.UI;
 
 public class SkillIcon : MonoBehaviour
 {
-    SkillData myskill;
+    Skill myskill;
     SkillExplanation skillExplanation;
 
     Image image;
     EventTrigger trigger;
 
-    public void Initialize(SkillData skill, SkillExplanation skillExplan)
+    public void Initialize(Skill skill, SkillExplanation skillExplan)
     {
         myskill = skill;
         skillExplanation = skillExplan;
@@ -65,7 +65,9 @@ public class SkillIcon : MonoBehaviour
     void OnClick(PointerEventData data)
     {
         SkillExplanation();
-        FightManager.Instance.OnTargetFinded?.Invoke();
+
+        FightManager.Instance.OnTargetFinding?.Invoke();
+        GameEvent.OnNoticedSomething("타겟을 정하자!");
     }
 
     void OnEnter(PointerEventData data)

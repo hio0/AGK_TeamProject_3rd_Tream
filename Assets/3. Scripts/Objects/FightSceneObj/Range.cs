@@ -6,6 +6,8 @@ using UnityEngine.TextCore.Text;
 
 public class Range : MonoBehaviour
 {
+    public bool isOur;
+
     public List<Character> GetCharacter()
     {
         List<Character> list = new List<Character>();
@@ -15,6 +17,10 @@ public class Range : MonoBehaviour
             Character character = transform.GetChild(i).GetComponent<Character>();
 
             list.Add(character);
+            if(isOur)
+            {
+                character.iOurUnit = true;
+            }
         }
 
         return list;
