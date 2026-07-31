@@ -18,6 +18,9 @@ public class Hp_UI : ActionObject
         myChar = GetComponentInParent<Character>();
 
         SetValue();
+
+        myChar.OnDamaged -= SetValue;
+        myChar.OnDamaged += SetValue;
     }
 
     // Update is called once per frame

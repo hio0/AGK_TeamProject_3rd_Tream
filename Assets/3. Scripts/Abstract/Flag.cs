@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IAttackSkill
+public class Flag : ScriptableObject
 {
-    int damage { get; set; }
+    
 }

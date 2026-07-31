@@ -33,8 +33,8 @@ public class SkillIconSetting : MonoBehaviour
         foreach(Skill skill in mySkillList)
         {
             SkillIcon skillIcon = Instantiate(pre_skillIcon, transform);
-            
-            skillIcon.Initialize(skill, skillExplanation);
+
+            skillIcon.Initialize(skill, skillExplanation, nowSelectedChar.selectedCharacter);
         }
     }
 }

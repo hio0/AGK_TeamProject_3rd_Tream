@@ -10,14 +10,16 @@ public class SkillIcon : MonoBehaviour
 {
     Skill myskill;
     SkillExplanation skillExplanation;
+    Character user;
 
     Image image;
     EventTrigger trigger;
 
-    public void Initialize(Skill skill, SkillExplanation skillExplan)
+    public void Initialize(Skill skill, SkillExplanation skillExplan, Character user)
     {
         myskill = skill;
         skillExplanation = skillExplan;
+        this.user = user;
     }
 
     // Start is called before the first frame update
@@ -28,9 +30,9 @@ public class SkillIcon : MonoBehaviour
 
         SetIcon();
 
-        AddEvent(trigger, EventTriggerType.PointerClick, OnClick);
-        AddEvent(trigger, EventTriggerType.PointerEnter, OnEnter);
-        AddEvent(trigger, EventTriggerType.PointerExit, OnExit);
+        Templet.AddEvent(trigger, EventTriggerType.PointerClick, OnClick);
+        Templet.AddEvent(trigger, EventTriggerType.PointerEnter, OnEnter);
+        Templet.AddEvent(trigger, EventTriggerType.PointerExit, OnExit);
     }
 
     public void SetIcon()
@@ -38,23 +40,6 @@ public class SkillIcon : MonoBehaviour
         image.sprite = myskill.skillIcon;
     }
 
-    void AddEvent(EventTrigger trigger, EventTriggerType type, Action<PointerEventData> action)
-    {
-        if (trigger.triggers == null)
-        {
-            trigger.triggers = new List<EventTrigger.Entry>();
-        }
-
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = type;
-
-        entry.callback.AddListener((data) =>
-        {
-            action((PointerEventData)data);
-        });
-
-        trigger.triggers.Add(entry);
-    }
 
     void SkillExplanation()
     {
@@ -66,6 +51,7 @@ public class SkillIcon : MonoBehaviour
     {
         SkillExplanation();
 
+        FightManager.Instance.WhatUserAndSelectedSkill?.Invoke(user, myskill);
         FightManager.Instance.OnTargetFinding?.Invoke();
         GameEvent.OnNoticedSomething("타겟을 정하자!");
     }

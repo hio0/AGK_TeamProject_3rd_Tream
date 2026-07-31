@@ -35,7 +35,8 @@ public class FightManager : MonoBehaviour
     public Action OnActingCharSelceted;
     public Action<CharacterSelected> WhatSelcetedActingChar; // 값 전달용 액션
     public Action OnTargetFinding;
-    public Action OnTargetFinded;
+    public Action<Character, Skill> WhatUserAndSelectedSkill;
+    public Action<Character[]> OnTargetFinded;
     public event Action OnTurnFinish;
 
     public event Action OnActingStart;
@@ -63,7 +64,6 @@ public class FightManager : MonoBehaviour
     }
     
     // 시스템
-
     public void FightStart()
     {
         IEnumerator FightStartCor()

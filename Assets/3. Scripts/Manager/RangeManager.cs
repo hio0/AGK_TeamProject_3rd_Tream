@@ -16,12 +16,14 @@ public class RangeManager : MonoBehaviour
     {
         FightManager.Instance.OnTurnStart += FightTurnSetting;
         FightManager.Instance.OnActingFinished += SelectActer;
+        FightManager.Instance.WhatUserAndSelectedSkill += SetTargetingChar;
     }
 
     private void OnDisable()
     {
         FightManager.Instance.OnTurnStart -= FightTurnSetting;
         FightManager.Instance.OnActingFinished -= SelectActer;
+        FightManager.Instance.WhatUserAndSelectedSkill -= SetTargetingChar;
     }
 
     void FightTurnSetting()
@@ -94,5 +96,33 @@ public class RangeManager : MonoBehaviour
         FightManager.Instance.WhatSelcetedActingChar?.Invoke(characterSelected);
         FightManager.Instance.OnActingCharSelceted?.Invoke();
         GameEvent.OnNoticedSomething($"{nowSelectedChar.characterName}의 차례!");
+    }
+
+    void SetTargetingChar(Character user, Skill skill)
+    {
+        foreach(Character character in actingCharacterList)
+        {
+            switch(skill)
+            {
+                case ITargetedOurSkill ourTarget:
+                    if(user.speed == character.speed)
+                    {
+                        character.iTargeting = skill.CanCharacterTargeting(character);
+                    }
+                    break;
+                case ITargetedEnemySkill enemyTarget:
+                    if(!character.iOurUnit)
+                    {
+                        character.iTargeting = skill.CanCharacterTargeting(character);
+                    }
+                    break;
+                case ITargetedMeSkill meSkill:
+                    if(character.iOurUnit)
+                    {
+                        character.iTargeting = skill.CanCharacterTargeting(character);
+                    }
+                    break;
+            }
+        }
     }
 }
