@@ -23,4 +23,11 @@ public static class Templet
 
         trigger.triggers.Add(entry);
     }
+
+    public static void SwapTwoCollectionValue<T>(List<T> list, int i, int j)
+    {
+        T temp = list[i];
+        list[i] = list[j];
+        list[j] = temp;
+    }
 }

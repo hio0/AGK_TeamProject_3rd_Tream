@@ -12,18 +12,26 @@ public class RangeManager : MonoBehaviour
     int nowSelectedNum;
     Character nowSelectedChar;
 
+    Character user;
+    Skill useSkill;
+    List<Character> targets;
+
     private void OnEnable()
     {
         FightManager.Instance.OnTurnStart += FightTurnSetting;
         FightManager.Instance.OnActingFinished += SelectActer;
         FightManager.Instance.WhatUserAndSelectedSkill += SetTargetingChar;
+        FightManager.Instance.WhatTargetEntering += MultifulTargeting;
+        FightManager.Instance.OnTargetFinded += MakeSkillContext;
     }
 
-    private void OnDisable()
+    private void OnDisable() // SetActive되는 옵젝이 아니면 이렇게 안해도 되긴 함.
     {
         FightManager.Instance.OnTurnStart -= FightTurnSetting;
         FightManager.Instance.OnActingFinished -= SelectActer;
         FightManager.Instance.WhatUserAndSelectedSkill -= SetTargetingChar;
+        FightManager.Instance.WhatTargetEntering -= MultifulTargeting;
+        FightManager.Instance.OnTargetFinded -= MakeSkillContext;
     }
 
     void FightTurnSetting()
@@ -39,20 +47,13 @@ public class RangeManager : MonoBehaviour
 
     void SetActingCharacter()
     {
-        void SwapTwoCollectionValue<T>(List<T> list, int i, int j)
-        {
-            T temp = list[i];
-            list[i] = list[j];
-            list[j] = temp;
-        }
-
         // 순서 배정 전 랜덤 섞기
         for (int i = 0; i < actingCharacterList.Count; i++)
         {
             int r1 = Random.Range(0, actingCharacterList.Count);
             int r2 = Random.Range(0, actingCharacterList.Count);
 
-            SwapTwoCollectionValue(actingCharacterList, r1, r2);
+            Templet.SwapTwoCollectionValue(actingCharacterList, r1, r2);
         }
 
         // 순서 정하기 ( 배열 정리 )
@@ -68,7 +69,7 @@ public class RangeManager : MonoBehaviour
                     minSpeed = actingCharacterList.Count - 1;
                 }
 
-                SwapTwoCollectionValue(actingCharacterList, i, minSpeed);
+                Templet.SwapTwoCollectionValue(actingCharacterList, i, minSpeed);
             }
         }
 
@@ -105,7 +106,7 @@ public class RangeManager : MonoBehaviour
             switch(skill)
             {
                 case ITargetedOurSkill ourTarget:
-                    if(user.speed == character.speed)
+                    if(character.iOurUnit)
                     {
                         character.iTargeting = skill.CanCharacterTargeting(character);
                     }
@@ -117,12 +118,66 @@ public class RangeManager : MonoBehaviour
                     }
                     break;
                 case ITargetedMeSkill meSkill:
-                    if(character.iOurUnit)
+                    if(user.speed == character.speed)
                     {
                         character.iTargeting = skill.CanCharacterTargeting(character);
                     }
                     break;
             }
         }
+
+        this.user = user;
+        useSkill = skill;
+    }
+
+    void MultifulTargeting(Character eneteringCharacter)
+    {
+        if(useSkill.skillTargetCount <= 1)
+        {
+            eneteringCharacter.iSelecting = true;
+            return;
+        }
+
+        List<Character> targetingList = new();
+
+        foreach(Character character in actingCharacterList)
+        {
+            if(character.iTargeting)
+            {
+                targetingList.Add(character);
+            }
+        }
+
+        int loopNum = targetingList.Count - useSkill.skillTargetCount;
+        if(loopNum < 0)
+        {
+            loopNum = 0;
+        }
+
+        for(int i = 0; i < loopNum; i++)
+        {
+            int r = Random.Range(0, targetingList.Count);
+
+            targetingList.RemoveAt(r);
+        }
+        
+        foreach(Character character in targetingList)
+        {
+            character.iSelecting = true;
+        }
+
+        targets = targetingList;
+    }
+
+    SkillContext MakeSkillContext()
+    {
+        SkillContext context = new SkillContext
+        {
+            user = this.user,
+            useSkill = this.useSkill,
+            targets = this.targets
+        };
+
+        return context;
     }
 }

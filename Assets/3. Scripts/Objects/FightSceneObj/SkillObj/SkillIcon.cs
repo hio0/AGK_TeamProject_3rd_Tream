@@ -15,7 +15,7 @@ public class SkillIcon : MonoBehaviour
     Image image;
     EventTrigger trigger;
 
-    public void Initialize(Skill skill, SkillExplanation skillExplan, Character user)
+    public void Initialize(Skill skill, SkillExplanation skillExplan, Character user) // 사실 이렇게 하기 보단 이벤트로 값 넘겨 받는게 맞긴 하다 ㅇㅇ,,,
     {
         myskill = skill;
         skillExplanation = skillExplan;

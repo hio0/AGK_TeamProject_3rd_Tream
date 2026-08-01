@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,4 +32,10 @@ public abstract class ActionObject : MonoBehaviour
         FightManager.Instance.OnTurnFinish -= ReflectAlpha;
         FightManager.Instance.OnTurnFinish += ReflectAlpha;
     } 
+
+    protected void SubscribeAction(Action targetAction, Action currentAction)
+    {
+        targetAction -= currentAction;
+        targetAction += currentAction;
+    }
 }

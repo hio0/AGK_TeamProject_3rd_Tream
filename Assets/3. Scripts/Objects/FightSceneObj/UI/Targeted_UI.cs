@@ -14,7 +14,7 @@ public class Targeted_UI : ActionObject
 
         Action enter = () =>
         {
-            if (mychar.iTargeting)
+            if (mychar.iSelecting)
             {
                 can.alpha = 1f;
             }
@@ -31,6 +31,12 @@ public class Targeted_UI : ActionObject
 
         mychar.OnTriggerEnter -= enter;
         mychar.OnTriggerEnter += enter;
+
+        FightManager.Instance.OnTargetEntering -= enter;
+        FightManager.Instance.OnTargetEntering += enter;
+
+        FightManager.Instance.OnTargetExiting -= exit;
+        FightManager.Instance.OnTargetExiting += exit;
 
         mychar.OnTriggerExit -= exit;
         mychar.OnTriggerExit += exit;

@@ -19,15 +19,15 @@ public class SkillContext
 {
     public Character user;
     public Skill useSkill;
-    public Character[] targets;
+    public List<Character> targets;
 }
 
 public class FightManager : MonoBehaviour
 {
     [Header("시스템")]
-    public static FightManager Instance;
+    public static FightManager Instance; // 정적 클래스로 만들어도 되지만, 메모리 누수 때문에...
 
-    // 이벤트 버스: 이벤트 선언자에 대한 의존성만 강화, 이외 객체들간 의존성은 대폭 감소.
+    // 이벤트 버스: 이벤트 선언자에 대한 의존성만 강화, 이외 객체들간 의존성은 대폭 감소. 외부 값 변경이 아닌 이벤트만으로 정보를 공유하기에 캡슐화에 용이. ( 난 캡슐화하기 위해 이벤트 버스 사용. 캡슐화되는 방법이면 이벤트 사용 X )
     // NOTICE
     // 전투 순서: 전투 시작 -> 턴 시작 -> 캐릭터 선택 -> 행동 시작 -> 스킬 시작 -> 스킬 종료 -> 행동 종료 -> (반복) -> 턴 종료 -> (반복) - > 전투 종료
     public event Action OnFightStart;
@@ -36,7 +36,11 @@ public class FightManager : MonoBehaviour
     public Action<CharacterSelected> WhatSelcetedActingChar; // 값 전달용 액션
     public Action OnTargetFinding;
     public Action<Character, Skill> WhatUserAndSelectedSkill;
-    public Action<Character[]> OnTargetFinded;
+    public Action OnTargetEntering;
+    public Action<Character> WhatTargetEntering;
+    public Action OnTargetExiting;
+    public Action OnTargetClicked;
+    public Func<SkillContext> OnTargetFinded;
     public event Action OnTurnFinish;
 
     public event Action OnActingStart;

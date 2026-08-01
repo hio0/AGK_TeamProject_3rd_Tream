@@ -24,6 +24,7 @@ public abstract class Character : MonoBehaviour
     public int nowPosition;
     public bool iOurUnit;
     public bool iTargeting;
+    public bool iSelecting; // 이건 이벤트버스로 해도 되긴하는데,,,어차피 이거 관여하는 쪽에서 이미 날 알고 있어서, 모르는 채로 정보 교환이라는 이벤트 버스 방식일 필요가 없어서,,,
 
     public event Action OnTriggerEnter;
     public event Action OnTriggerClick;
@@ -41,8 +42,8 @@ public abstract class Character : MonoBehaviour
         ReturnToBasic();
 
         FightManager.Instance.WhatSelcetedActingChar += AnotherSelected;
-        FightManager.Instance.WhatUserAndSelectedSkill += SetTriggerTargeting;
         FightManager.Instance.OnActingFinished += ReturnToBasic;
+        FightManager.Instance.OnTargetFinding += SetTriggerTargeting;
     }
 
     // 시스템
@@ -61,7 +62,7 @@ public abstract class Character : MonoBehaviour
         characterImage.color = new Color32(255, 255, 255, 255);
     }
 
-    void SetTriggerTargeting(Character user, Skill skill)
+    void SetTriggerTargeting()
     {
         if(!iTargeting)
         {
@@ -72,16 +73,23 @@ public abstract class Character : MonoBehaviour
 
         Action<PointerEventData> onEnter = (pointEventData) =>
         {
+            FightManager.Instance.WhatTargetEntering?.Invoke(this);
+
+            FightManager.Instance.OnTargetEntering?.Invoke();
             OnTriggerEnter?.Invoke();
         };
 
         Action<PointerEventData> onClick = (pointEventData) =>
         {
+            FightManager.Instance.OnTargetClicked?.Invoke();
             OnTriggerClick?.Invoke();
         };
 
         Action<PointerEventData> onExit = (pointEventData) =>
         {
+            iSelecting = false;
+
+            FightManager.Instance.OnTargetExiting?.Invoke();
             OnTriggerExit?.Invoke();
         };
 
