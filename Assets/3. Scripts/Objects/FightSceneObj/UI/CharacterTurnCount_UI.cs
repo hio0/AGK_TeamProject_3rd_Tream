@@ -29,9 +29,9 @@ public class CharacterTurnCount_UI : ActionObject
         FightManager.Instance.OnTurnStart -= setNum;
         FightManager.Instance.OnTurnStart += setNum;
 
-        Action<CharacterSelected> act = (selectedChar) =>
+        Action<Character> act = (selectedChar) =>
         {
-            if(selectedChar.selectedCharacter.speed > mychar.speed)
+            if(selectedChar.speed > mychar.speed)
             {
                 numText.color = new Color32(102, 102, 102, 255);
             }

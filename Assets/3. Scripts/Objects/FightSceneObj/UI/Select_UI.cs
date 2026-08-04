@@ -21,12 +21,12 @@ public class Select_UI : ActionObject
 
         UIObject();
 
-        Action<CharacterSelected> find = (charselect) =>
+        Action<Character> find = (charselect) =>
         {
             Color32 col = new();
             float size = 0f;
 
-            if (mychar.speed == charselect.selectedCharacter.speed)
+            if (mychar.speed == charselect.speed)
             {
                 col = new Color32(46, 46, 46, 255);
                 size = 45f;

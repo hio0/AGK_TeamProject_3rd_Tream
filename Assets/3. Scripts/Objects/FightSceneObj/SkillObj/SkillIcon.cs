@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static System.Collections.Specialized.BitVector32;
 
 public class SkillIcon : MonoBehaviour
 {
@@ -35,6 +37,26 @@ public class SkillIcon : MonoBehaviour
         Templet.AddEvent(trigger, EventTriggerType.PointerExit, OnExit);
     }
 
+    void OnEnable()
+    {
+        FightManager.Instance.OnActingStart += DeleteEvent;
+    }
+
+    private void OnDisable()
+    {
+        FightManager.Instance.OnActingStart -= DeleteEvent;
+    }
+
+    Skill ReturnSkill()
+    {
+        return myskill;
+    }
+
+    void DeleteEvent()
+    {
+        FightManager.Instance.GetNowSkill -= ReturnSkill;
+    }
+
     public void SetIcon()
     {
         image.sprite = myskill.skillIcon;
@@ -51,9 +73,14 @@ public class SkillIcon : MonoBehaviour
     {
         SkillExplanation();
 
+        FightManager.Instance.GetNowSkill -= ReturnSkill;
+        FightManager.Instance.GetNowSkill += ReturnSkill;
+
         FightManager.Instance.WhatUserAndSelectedSkill?.Invoke(user, myskill);
         FightManager.Instance.OnTargetFinding?.Invoke();
+
         GameEvent.OnNoticedSomething("타겟을 정하자!");
+        School_FocusCamera.Instance.Live(0);
     }
 
     void OnEnter(PointerEventData data)

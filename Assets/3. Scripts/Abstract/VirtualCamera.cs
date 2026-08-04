@@ -7,24 +7,33 @@ public abstract class VirtualCamera : MonoBehaviour
 {
     protected CinemachineCamera cam;
 
-    private void Awake()
+    protected virtual void Awake()
     {
        cam = GetComponent<CinemachineCamera>();
     }
-
-    protected virtual void Live(int priority)
+    // 간편 기능
+    public void LivingAndTargeting(Character target)
     {
-        cam.Priority = priority;
+        SetTarget(target);
+        Live(100); // 고정으로 보이게
     }
 
-    protected virtual void SetTarget(GameObject target)
+
+    // 기능
+    public virtual void Live(int priority)
     {
-        Transform targetTransform = target.transform;
+        cam.Priority = priority;
+        Debug.Log($"Lived: {priority}");
+    }
+
+    public virtual void SetTarget(Character target)
+    {
+        Transform targetTransform = target.gameObject.transform;
 
         cam.Target.TrackingTarget = targetTransform;
     }
 
-    protected virtual void LockMovingCamera(bool enabled)
+    public virtual void LockingMovingCamera(bool enabled)
     {
         TryGetComponent<CinemachineInputAxisController>(out CinemachineInputAxisController axisController);
 

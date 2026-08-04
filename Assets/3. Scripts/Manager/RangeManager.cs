@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
-public class RangeManager : MonoBehaviour
+public class RangeManager : MonoBehaviour // Range 데이터를 가지는 매니져(였던 것...)
 {
     public List<Character> actingCharacterList = new();
 
@@ -12,26 +14,17 @@ public class RangeManager : MonoBehaviour
     int nowSelectedNum;
     Character nowSelectedChar;
 
-    Character user;
-    Skill useSkill;
-    List<Character> targets;
-
     private void OnEnable()
     {
         FightManager.Instance.OnTurnStart += FightTurnSetting;
-        FightManager.Instance.OnActingFinished += SelectActer;
-        FightManager.Instance.WhatUserAndSelectedSkill += SetTargetingChar;
-        FightManager.Instance.WhatTargetEntering += MultifulTargeting;
-        FightManager.Instance.OnTargetFinded += MakeSkillContext;
+        FightManager.Instance.OnActingStart += SelectActer;
+        FightManager.Instance.GetRangeData += ReturnRangeData;
     }
 
     private void OnDisable() // SetActive되는 옵젝이 아니면 이렇게 안해도 되긴 함.
     {
         FightManager.Instance.OnTurnStart -= FightTurnSetting;
-        FightManager.Instance.OnActingFinished -= SelectActer;
-        FightManager.Instance.WhatUserAndSelectedSkill -= SetTargetingChar;
-        FightManager.Instance.WhatTargetEntering -= MultifulTargeting;
-        FightManager.Instance.OnTargetFinded -= MakeSkillContext;
+        FightManager.Instance.OnActingStart -= SelectActer;
     }
 
     void FightTurnSetting()
@@ -43,6 +36,20 @@ public class RangeManager : MonoBehaviour
         actingCharacterList.AddRange(enemyRange.GetCharacter());
 
         SetActingCharacter();
+    }
+
+    CharacterRangeData ReturnRangeData()
+    {
+        CharacterRangeData rangeData = new CharacterRangeData
+        {
+            nowSelectedChar = this.nowSelectedChar,
+            nowSelectedNum = this.nowSelectedNum,
+            allCharacterList = actingCharacterList,
+            ourRangeChar = ourRange.GetCharacter(),
+            enemyRangeChar = enemyRange.GetCharacter()
+        };
+
+        return rangeData;
     }
 
     void SetActingCharacter()
@@ -80,8 +87,6 @@ public class RangeManager : MonoBehaviour
 
             actingCharacterList[i].speed = giveSpeed;
         }
-
-        SelectActer();
     }
 
     void SelectActer()
@@ -89,95 +94,11 @@ public class RangeManager : MonoBehaviour
         nowSelectedChar = actingCharacterList[nowSelectedNum];
         nowSelectedNum++;
 
-        CharacterSelected characterSelected = new CharacterSelected
-        {
-            selectedCharacter = nowSelectedChar
-        };
-
-        FightManager.Instance.WhatSelcetedActingChar?.Invoke(characterSelected);
-        FightManager.Instance.OnActingCharSelceted?.Invoke();
         GameEvent.OnNoticedSomething($"{nowSelectedChar.characterName}의 차례!");
-    }
 
-    void SetTargetingChar(Character user, Skill skill)
-    {
-        foreach(Character character in actingCharacterList)
-        {
-            switch(skill)
-            {
-                case ITargetedOurSkill ourTarget:
-                    if(character.iOurUnit)
-                    {
-                        character.iTargeting = skill.CanCharacterTargeting(character);
-                    }
-                    break;
-                case ITargetedEnemySkill enemyTarget:
-                    if(!character.iOurUnit)
-                    {
-                        character.iTargeting = skill.CanCharacterTargeting(character);
-                    }
-                    break;
-                case ITargetedMeSkill meSkill:
-                    if(user.speed == character.speed)
-                    {
-                        character.iTargeting = skill.CanCharacterTargeting(character);
-                    }
-                    break;
-            }
-        }
+        School_FocusCamera.Instance.LivingAndTargeting(nowSelectedChar);
 
-        this.user = user;
-        useSkill = skill;
-    }
-
-    void MultifulTargeting(Character eneteringCharacter)
-    {
-        if(useSkill.skillTargetCount <= 1)
-        {
-            eneteringCharacter.iSelecting = true;
-            return;
-        }
-
-        List<Character> targetingList = new();
-
-        foreach(Character character in actingCharacterList)
-        {
-            if(character.iTargeting)
-            {
-                targetingList.Add(character);
-            }
-        }
-
-        int loopNum = targetingList.Count - useSkill.skillTargetCount;
-        if(loopNum < 0)
-        {
-            loopNum = 0;
-        }
-
-        for(int i = 0; i < loopNum; i++)
-        {
-            int r = Random.Range(0, targetingList.Count);
-
-            targetingList.RemoveAt(r);
-        }
-        
-        foreach(Character character in targetingList)
-        {
-            character.iSelecting = true;
-        }
-
-        targets = targetingList;
-    }
-
-    SkillContext MakeSkillContext()
-    {
-        SkillContext context = new SkillContext
-        {
-            user = this.user,
-            useSkill = this.useSkill,
-            targets = this.targets
-        };
-
-        return context;
+        FightManager.Instance.WhatSelcetedActingChar?.Invoke(nowSelectedChar);
+        FightManager.Instance.OnActingCharSelceted?.Invoke();
     }
 }

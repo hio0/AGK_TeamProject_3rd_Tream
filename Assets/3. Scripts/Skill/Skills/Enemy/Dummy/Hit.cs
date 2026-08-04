@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Skils/BatHitting")]
-public class Bat_Hitting : Skill, ITargetedEnemySkill, IAttackSkill
+[CreateAssetMenu(menuName = "Skils/Hit")]
+public class Hit : Skill, ITargetedEnemySkill, IAttackSkill
 {
     public int minDamage;
     public int maxDamage;
@@ -27,6 +27,5 @@ public class Bat_Hitting : Skill, ITargetedEnemySkill, IAttackSkill
         OnSkillFinish?.Invoke();
 
         FightManager.Instance.OnActingFinished?.Invoke();
-        School_FocusCamera.Instance.Live(0);
     }
 }

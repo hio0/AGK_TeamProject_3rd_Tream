@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ca1f70ee1cd8b24c9c6187f8e7aa642, type: 3}
-  m_Name: Friend
+  m_Name: Dummy
   m_EditorClassIdentifier: 
-  defaultCharacterName: "\uAE30\uBCF8 \uCE90\uB9AD"
+  defaultCharacterName: "\uB364\uBBF8\u3163\u3163"
   defaultSkillList:
-  - {fileID: 11400000, guid: d08ca102faf68454f85c96a740bffa4b, type: 2}
-  defaultHp: 100
-  defaultMinSpeed: 1
+  - {fileID: 11400000, guid: e481976807510e84d833bbf1543a9372, type: 2}
+  defaultHp: 120
+  defaultMinSpeed: 10

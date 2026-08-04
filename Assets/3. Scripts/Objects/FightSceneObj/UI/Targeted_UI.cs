@@ -29,16 +29,9 @@ public class Targeted_UI : ActionObject
             can.alpha = 0f;
         };
 
-        mychar.OnTriggerEnter -= enter;
         mychar.OnTriggerEnter += enter;
-
-        FightManager.Instance.OnTargetEntering -= enter;
-        FightManager.Instance.OnTargetEntering += enter;
-
-        FightManager.Instance.OnTargetExiting -= exit;
-        FightManager.Instance.OnTargetExiting += exit;
-
-        mychar.OnTriggerExit -= exit;
         mychar.OnTriggerExit += exit;
+
+        FightManager.Instance.OnActingFinished += exit;
     }
 }

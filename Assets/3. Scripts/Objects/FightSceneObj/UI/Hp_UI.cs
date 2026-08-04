@@ -32,6 +32,6 @@ public class Hp_UI : ActionObject
     void SetValue()
     {
         hpText.text = $"{myChar.hp} / {myChar.maxHp}";
-        hpFillImage.fillAmount = myChar.hp / myChar.maxHp;
+        hpFillImage.fillAmount = (float)myChar.hp / (float)myChar.maxHp;
     }
 }

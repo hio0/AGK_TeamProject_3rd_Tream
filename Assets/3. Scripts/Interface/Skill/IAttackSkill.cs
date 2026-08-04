@@ -5,20 +5,8 @@ using UnityEngine;
 
 public interface IAttackSkill
 {
-    int damage { get; set; }
+    int MinDamage { get; }
+    int MaxDamage { get; }
 
     event Action OnAttack;
-
-    public void Attack(int damage, SkillContext skillContext)
-    {
-        foreach(Character target in skillContext.targets)
-        {
-            Action attackEffect = () =>
-            {
-                target.hp -= damage;
-            };
-
-            target.Damaged(attackEffect);
-        }
-    }
 }
