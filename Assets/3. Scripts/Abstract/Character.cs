@@ -15,6 +15,7 @@ public abstract class Character : MonoBehaviour
     public string characterName;
     public List<Skill> skillList = new();
 
+    public int level;
     public int hp;
     public int speed;
     public List<Flag> flaglist = new();
@@ -30,6 +31,7 @@ public abstract class Character : MonoBehaviour
     public List<Character> selectingTargets = new();
 
     public Action OnActingStart;
+    public Action OnCanITargeted;
     public Action<Character> OnTargetFinding;
     public Action OnTriggerEnter;
     public Action OnTriggerClick;
@@ -47,23 +49,23 @@ public abstract class Character : MonoBehaviour
         ReturnToBasic();
 
         FightManager.Instance.OnActingStart += TurnStartedSet;
-        FightManager.Instance.WhatSelcetedActingChar += AnotherSelected;
-        FightManager.Instance.WhatUserAndSelectedSkill += CanITargeted;
+        FightManager.Instance.OnActingStart += AnotherSelected;
+        FightManager.Instance.OnTargetFinding += CanITargeted;
         FightManager.Instance.OnTargetFinding += Targeting;
         FightManager.Instance.OnTargetFinded += Act;
         FightManager.Instance.OnTurnFinish += ReturnToBasic;
     }
 
     // 시스템
-    void AnotherSelected(Character selectedChar)
+    void AnotherSelected()
     {
+        Character selectedChar = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
         if (selectedChar.speed != speed)
         {
             characterImage.color = new Color32(116, 116, 116, 200);
             return;
         }
 
-        Debug.Log("anoter");
         ReturnToBasic();
         OnActingStart?.Invoke();
     }
@@ -73,10 +75,9 @@ public abstract class Character : MonoBehaviour
         characterImage.color = new Color32(255, 255, 255, 255);
     }
 
-    public void CanITargeted(Character user, Skill skill)
+    void CanITargeted()
     {
-        iTargeting = skill.CanCharacterTargeting(user, this);
-        Debug.Log("camsfn");
+        OnCanITargeted?.Invoke();
     }
 
     void Targeting()

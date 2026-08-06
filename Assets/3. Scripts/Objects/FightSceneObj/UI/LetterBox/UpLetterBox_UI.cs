@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class UpLetterBox_UI : LetterBox
 {
-    [SerializeField] TMP_Text narrationT;
-    [SerializeField] CanvasGroup narrationT_CnGr;
-    [SerializeField] float watingTime;
+    public TMP_Text narrationT;
+    public CanvasGroup narrationT_CnGr;
+    public float watingTime;
     float timer;
 
     private void OnEnable()
@@ -18,12 +18,12 @@ public class UpLetterBox_UI : LetterBox
         animationSpeed = 5f;
         watingTime = 4f;
 
-        GameEvent.OnNoticedSomething += MyMovingTime;
+        SchoolManager.instance.GetLetterBox += ReturnData;
     }
 
     private void OnDisable()
     {
-        GameEvent.OnNoticedSomething -= MyMovingTime;
+        SchoolManager.instance.OnNoticedSomething -= MyMovingTime;
     }
 
     // Update is called once per frame

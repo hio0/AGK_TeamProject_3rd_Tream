@@ -13,6 +13,7 @@ public abstract class CharacterTeam : MonoBehaviour
         ResetTeamEvent();
 
         mychar.OnActingStart += ActingStart;
+        mychar.OnCanITargeted += CanITargeting;
         mychar.OnTargetFinding += TargetFinding;
     }
 
@@ -96,5 +97,8 @@ public abstract class CharacterTeam : MonoBehaviour
     }
 
     protected abstract void ActingStart(); // 어떤 방식으로 스킬을 결정하나 및 어떻게 타깃을 구하나 -> character의 iTargeting을 true
+
+    protected abstract void CanITargeting();
+
     protected abstract void TargetFinding(Character character); // 어떻게 타겟을 선택하나
 }

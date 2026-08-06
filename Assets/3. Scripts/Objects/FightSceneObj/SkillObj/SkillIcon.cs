@@ -76,11 +76,10 @@ public class SkillIcon : MonoBehaviour
         FightManager.Instance.GetNowSkill -= ReturnSkill;
         FightManager.Instance.GetNowSkill += ReturnSkill;
 
-        FightManager.Instance.WhatUserAndSelectedSkill?.Invoke(user, myskill);
         FightManager.Instance.OnTargetFinding?.Invoke();
 
-        GameEvent.OnNoticedSomething("타겟을 정하자!");
-        School_FocusCamera.Instance.Live(0);
+        SchoolManager.instance.OnNoticedSomething("타겟을 정하자!");
+        FocusCamera.Instance.Live(0);
     }
 
     void OnEnter(PointerEventData data)

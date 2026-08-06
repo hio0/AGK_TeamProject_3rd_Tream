@@ -27,6 +27,6 @@ public class Bat_Hitting : Skill, ITargetedEnemySkill, IAttackSkill
         OnSkillFinish?.Invoke();
 
         FightManager.Instance.OnActingFinished?.Invoke();
-        School_FocusCamera.Instance.Live(0);
+        FocusCamera.Instance.Live(0);
     }
 }

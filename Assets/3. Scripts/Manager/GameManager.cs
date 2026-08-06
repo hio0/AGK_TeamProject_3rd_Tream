@@ -6,8 +6,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public GameObject pre_debug;
-
     private void Awake()
     {
         if(Instance == null)
@@ -24,7 +22,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //InputManager.Instance.OnPressSemicolon +=
+        
     }
 
     // Update is called once per frame

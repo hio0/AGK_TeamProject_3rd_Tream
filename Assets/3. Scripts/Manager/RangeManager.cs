@@ -94,11 +94,9 @@ public class RangeManager : MonoBehaviour // Range 데이터를 가지는 매니
         nowSelectedChar = actingCharacterList[nowSelectedNum];
         nowSelectedNum++;
 
-        GameEvent.OnNoticedSomething($"{nowSelectedChar.characterName}의 차례!");
+        SchoolManager.instance.OnNoticedSomething($"{nowSelectedChar.characterName}의 차례!");
 
-        School_FocusCamera.Instance.LivingAndTargeting(nowSelectedChar);
-
-        FightManager.Instance.WhatSelcetedActingChar?.Invoke(nowSelectedChar);
-        FightManager.Instance.OnActingCharSelceted?.Invoke();
+        FocusCamera.Instance.LivingAndTargeting(nowSelectedChar);
+        FightManager.Instance.OnActingStart?.Invoke();
     }
 }

@@ -10,8 +10,15 @@ public class OurCharacter : CharacterTeam
 {
     protected override void ActingStart()
     {
-        School_FocusCamera.Instance.LockingMovingCamera(true);
-        FightManager.Instance.SetSkillIcon?.Invoke(mychar);
+        FocusCamera.Instance.LockingMovingCamera(true);
+    }
+
+    protected override void CanITargeting()
+    {
+        Character user = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
+        Skill skill = FightManager.Instance.GetNowSkill?.Invoke();
+
+        mychar.iTargeting = skill.CanCharacterTargeting(user, mychar);
     }
 
     protected override void TargetFinding(Character mainchar)

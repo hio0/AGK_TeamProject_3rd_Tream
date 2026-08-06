@@ -11,18 +11,19 @@ public class SkillIconSetting : MonoBehaviour
 
     private void OnEnable()
     {
-        FightManager.Instance.SetSkillIcon += SkillIconSet;
+        FightManager.Instance.OnActingStart += SkillIconSet;
         FightManager.Instance.OnActingFinished += ResetInfo;
     }
 
     private void OnDisable()
     {
-        FightManager.Instance.SetSkillIcon -= SkillIconSet;
+        FightManager.Instance.OnActingStart -= SkillIconSet;
         FightManager.Instance.OnActingFinished += ResetInfo;
     }
 
-    void SkillIconSet(Character nowSelectedChar) // 스껄
+    void SkillIconSet() // 스껄
     {
+        Character nowSelectedChar = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
         mySkillList = nowSelectedChar.skillList;
 
         foreach (Skill skill in mySkillList)

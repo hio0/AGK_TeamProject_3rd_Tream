@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class LetterBox : MonoBehaviour
 {
-    protected RectTransform rect;
-    [SerializeField] protected Vector2 deffultTargetingPos;
-    [SerializeField] protected float animationSpeed;
-    protected bool isIn;
+    public RectTransform rect;
+    public Vector2 deffultTargetingPos;
+    public float animationSpeed;
+    public bool isIn;
 
     private void Awake()
     {
@@ -15,9 +15,16 @@ public abstract class LetterBox : MonoBehaviour
 
         rect.sizeDelta = new Vector2(0, 0);
         isIn = false;
+
+        SchoolManager.instance.GetLetterBox += ReturnData;
     }
 
-    protected void Move()
+    public LetterBox ReturnData()
+    {
+        return this;
+    }
+
+    public void Move()
     {
         StopAllCoroutines();
 

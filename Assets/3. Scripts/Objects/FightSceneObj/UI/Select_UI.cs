@@ -21,27 +21,24 @@ public class Select_UI : ActionObject
 
         UIObject();
 
-        Action<Character> find = (charselect) =>
+        Character charselect = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
+        Action find = () =>
         {
-            Color32 col = new();
             float size = 0f;
 
             if (mychar.speed == charselect.speed)
             {
-                col = new Color32(46, 46, 46, 255);
                 size = 45f;
             }
             else
             {
-                col = new Color32(46, 46, 46, 255);
                 size = 30f;
             }
 
-            image.color = col;
             rect.sizeDelta = new Vector2(size, size);
         };
 
-        FightManager.Instance.WhatSelcetedActingChar -= find;
-        FightManager.Instance.WhatSelcetedActingChar += find;
+        FightManager.Instance.OnActingStart -= find;
+        FightManager.Instance.OnActingStart += find;
     }
 }

@@ -7,13 +7,18 @@ public class EnemyCharacter : CharacterTeam
 {
     protected override void ActingStart()
     {
-        Skill myskill = mychar.SkillSetPattern();
+        FocusCamera.Instance.Live(0);
+        FocusCamera.Instance.LockingMovingCamera(false);
 
-        School_FocusCamera.Instance.Live(0);
-        School_FocusCamera.Instance.LockingMovingCamera(false);
-
-        FightManager.Instance.WhatUserAndSelectedSkill?.Invoke(mychar, myskill);
         FightManager.Instance.OnTargetFinding?.Invoke();
+    }
+
+    protected override void CanITargeting()
+    {
+        Character user = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
+        Skill skill = mychar.SkillSetPattern();
+
+        mychar.iTargeting = skill.CanCharacterTargeting(user, mychar);
     }
 
     protected override void TargetFinding(Character targetchar)

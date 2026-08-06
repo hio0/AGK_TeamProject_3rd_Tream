@@ -7,14 +7,13 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
 
-    public event Action OnPressA;
-    public event Action OnPressD;
-    public event Action OnPressSemicolon;
+    public event Action OnPressingA;
+    public event Action OnPressingD;
+    public event Action OnPressTab;
 
     private void Awake()
     {
         Instance = this;
-        ClearEvent();
     }
 
     // Start is called before the first frame update
@@ -26,24 +25,18 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKey(KeyCode.A))
         {
-            OnPressA?.Invoke();
+            OnPressingA?.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
-            OnPressD?.Invoke();
+            OnPressingD?.Invoke();
         }
-        if(Input.GetKeyDown(KeyCode.Semicolon))
-        {
-            OnPressSemicolon?.Invoke();
-            GameEvent.OnNoticedSomething?.Invoke("이재용은(는) 유니티의 공격에 몹시 화난 듯 하다.");
-        }
-    }
 
-    public void ClearEvent()
-    {
-        OnPressA = null;
-        OnPressD = null;
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            OnPressTab?.Invoke();
+        }
     }
 }

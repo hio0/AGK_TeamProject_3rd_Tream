@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class School_FocusCamera : VirtualCamera
+public class FocusCamera : VirtualCamera
 {
-    public static School_FocusCamera Instance;
+    public static FocusCamera Instance;
 
     protected override void Awake()
     {

@@ -9,6 +9,20 @@ public class CharacterData : ScriptableObject
     public string defaultCharacterName;
     public List<Skill> defaultSkillList = new();
 
+    public Sprite iconImage;
+
     public int defaultHp;
     public int defaultMinSpeed;
+
+    [Header("현재 정보")]
+    public int nowLevel;
+
+    public int nowHp;
+    public int nowMaxHp;
+
+    public CharacterData()
+    {
+        nowHp = defaultHp;
+        nowMaxHp = defaultHp;
+    }
 }
