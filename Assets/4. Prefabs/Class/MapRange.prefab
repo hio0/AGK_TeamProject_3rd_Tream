@@ -202,6 +202,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorT: {fileID: 5120164097595253526}
+  pre_mapIcon: {fileID: -740389580942204420, guid: 64f407e7be279d64684bcae2a9943800, type: 3}
+  parent_mapIcon: {fileID: 1838532671201590396}
 --- !u!1 &8487764616912253108
 GameObject:
   m_ObjectHideFlags: 0

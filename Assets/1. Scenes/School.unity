@@ -3153,8 +3153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba1732f8a67395540aa6232ebb037615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hallways: []
-  rooms: []
+  hallways:
+  - {fileID: 7582195395663692217, guid: d11815190bda6ea42a11ed680e421b21, type: 3}
+  rooms:
+  - {fileID: 7582195395663692217, guid: d11815190bda6ea42a11ed680e421b21, type: 3}
   nowRoomNum: 0
   nowRoom: {fileID: 0}
   nowFloor: 0

@@ -13,11 +13,24 @@ public class MapMenu : MonoBehaviour
     void Start()
     {
         RoomData data = SchoolManager.instance.GetRoomData?.Invoke();
+        Debug.Log(data.floorCount);
 
-        for (int i = 0; i < data.nowFloor; i++)
+        for (int i = 0; i < data.floorCount; i++)
         {
             GameObject range = Instantiate(pre_map.gameObject, parent_transform);
-            range.GetComponent<MapRange>().Initialize(i + 1, data);
+
+            if(mapData.ContainsKey(i))
+            {
+                List<GameObject> list = new();
+                list = mapData[i];
+
+                range.GetComponent<MapRange>().Initialize(i, data, list);
+            }
+            else
+            {
+                range.GetComponent<MapRange>().Initialize(i, data, null);
+            }
+            
         }
     }
 
@@ -29,7 +42,16 @@ public class MapMenu : MonoBehaviour
         {
             List<GameObject> list = parent_transform.GetChild(i).GetComponent<MapRange>().MyData();
             
-            //if()
+            if(mapData.ContainsKey(data.nowFloor))
+            {
+                mapData[data.nowFloor] = list;
+            }
+            else
+            {
+                mapData.Add(data.nowFloor, list);
+            }
+
+            Destroy(parent_transform.GetChild(i).gameObject);
         }
     }
 }

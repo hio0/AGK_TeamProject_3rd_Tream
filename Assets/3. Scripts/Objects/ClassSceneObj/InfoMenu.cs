@@ -34,6 +34,7 @@ public class InfoMenu : MonoBehaviour
         if(isIn)
         {
             UIMovement.DoAnchorMove(rect, closePos, 0.3f);
+            Clear();
         }
         else
         {
@@ -45,12 +46,17 @@ public class InfoMenu : MonoBehaviour
     }
 
     public void OnClickToggle(GameObject gameObject)
+    { 
+        gameObject.SetActive(true);
+    }
+
+    void Clear()
     {
         for (int i = 0; i < parent_objects.childCount; i++)
         {
             parent_objects.GetChild(i).gameObject.SetActive(false);
         }
 
-        gameObject.SetActive(true);
     }
+
 }

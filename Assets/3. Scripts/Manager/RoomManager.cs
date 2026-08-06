@@ -54,7 +54,9 @@ public class RoomManager : MonoBehaviour
     {
         RoomData data = new RoomData
         {
-            nowFloor = nowFloor
+            nowFloor = nowFloor,
+            floorCount = floorCount,
+            floorRoomList = floorRoomList
         };
 
         return data;
@@ -83,8 +85,8 @@ public class RoomManager : MonoBehaviour
             plusFloor++;
         }
         plusFloor = ImportantData.dayCount / 3;
-        int floorCount = 1 + plusFloor;
-        Debug.Log(floorCount);
+        
+        floorCount = 1 + plusFloor;
     }
 
     /// <summary>

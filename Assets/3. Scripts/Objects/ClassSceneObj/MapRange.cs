@@ -14,10 +14,11 @@ public class MapRange : MonoBehaviour
     RoomData data;
     int myfloor;
 
-    public void Initialize(int myfloor, RoomData data)
+    public void Initialize(int myfloor, RoomData data, List<GameObject> list)
     {
         this.myfloor = myfloor;
         this.data = data;
+        mapShape = list;
     }
 
     public List<GameObject> MyData()
@@ -28,18 +29,32 @@ public class MapRange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        floorT.text = $"{myfloor}층";
+        floorT.text = $"{myfloor + 1}층";
 
-        int num = 0;
-        foreach (KeyValuePair<int, List<GameObject>> room in data.floorRoomList)
+        if(mapShape != null)
         {
-            if (room.Key == myfloor)
+            Debug.Log("unnull");
+            foreach(GameObject go in mapShape)
             {
-                MapIcon icon = Instantiate(pre_mapIcon, parent_mapIcon);
-                //icon.Initialize(room.);
-                mapShape.Add(icon.gameObject);
+                Instantiate(go, parent_mapIcon);
+            }
+        }
+        else
+        {
+            mapShape = new();
+            int num = 0;
+            foreach (KeyValuePair<int, List<GameObject>> room in data.floorRoomList)
+            {
+                if (room.Key == myfloor)
+                {
+                    MapIcon icon = Instantiate(pre_mapIcon, parent_mapIcon);
+                    List<GameObject> list = room.Value;
 
-                num++;
+                    icon.Initialize(list[num].GetComponent<Room>());
+                    mapShape.Add(icon.gameObject);
+
+                    num++;
+                }
             }
         }
     }
