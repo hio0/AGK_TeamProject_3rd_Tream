@@ -16,13 +16,15 @@ public abstract class LetterBox : MonoBehaviour
         rect.sizeDelta = new Vector2(0, 0);
         isIn = false;
 
-        SchoolManager.instance.GetLetterBox += ReturnData;
+        SetStatic();
     }
 
     public LetterBox ReturnData()
     {
         return this;
     }
+
+    protected abstract void SetStatic(); 
 
     public void Move()
     {

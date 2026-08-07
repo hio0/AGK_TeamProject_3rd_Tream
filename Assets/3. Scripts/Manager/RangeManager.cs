@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-public class RangeManager : MonoBehaviour // Range 데이터를 가지는 매니져(였던 것...)
+public class RangeManager : MonoBehaviour
 {
     public List<Character> actingCharacterList = new();
 
@@ -16,6 +16,9 @@ public class RangeManager : MonoBehaviour // Range 데이터를 가지는 매니
 
     private void OnEnable()
     {
+        SchoolManager.instance.OnStarted += SetOurRange;
+
+        FightManager.Instance.OnFighting += SetEnemyRange;
         FightManager.Instance.OnTurnStart += FightTurnSetting;
         FightManager.Instance.OnActingStart += SelectActer;
         FightManager.Instance.GetRangeData += ReturnRangeData;
@@ -23,8 +26,40 @@ public class RangeManager : MonoBehaviour // Range 데이터를 가지는 매니
 
     private void OnDisable() // SetActive되는 옵젝이 아니면 이렇게 안해도 되긴 함.
     {
+        SchoolManager.instance.OnStarted -= SetOurRange;
+
         FightManager.Instance.OnTurnStart -= FightTurnSetting;
         FightManager.Instance.OnActingStart -= SelectActer;
+    }
+
+    void SetOurRange()
+    {
+        foreach(Character data in ImportantData.usedStudents)
+        {
+            Instantiate(data, ourRange.transform);
+        }
+    }
+
+    void SetEnemyRange()
+    {
+        List<EnemyWave> list = SchoolManager.instance.GetRoomData?.Invoke().nowRoom.enemyWaves;
+
+        while(true)
+        {
+            int r1 = Random.Range(0, list.Count);
+            EnemyWave enemys = list[r1];
+
+            int r2 = Random.Range(1, 101);
+            if(r2 <= enemys.wavePersent)
+            {
+                foreach(Character character in enemys.enemyList)
+                {
+                    Instantiate(character, enemyRange.transform);
+                }
+
+                break;
+            }
+        }
     }
 
     void FightTurnSetting()
@@ -97,6 +132,5 @@ public class RangeManager : MonoBehaviour // Range 데이터를 가지는 매니
         SchoolManager.instance.OnNoticedSomething($"{nowSelectedChar.characterName}의 차례!");
 
         FocusCamera.Instance.LivingAndTargeting(nowSelectedChar);
-        FightManager.Instance.OnActingStart?.Invoke();
     }
 }

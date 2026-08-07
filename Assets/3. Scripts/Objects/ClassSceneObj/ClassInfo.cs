@@ -12,7 +12,6 @@ public class ClassInfo : MonoBehaviour
     public TMP_Text timerT;
     public TMP_Text classT;
 
-
     // Start is called before the first frame update
     void Start()
     {

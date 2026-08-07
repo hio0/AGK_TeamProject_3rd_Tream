@@ -15,38 +15,61 @@ public class Room : MonoBehaviour
     public Image wall;
     public Image ground;
 
-    public List<Transform> objectTransform;
+    public List<RectTransform> objectTransform;
     public List<RoomObject> objects;
-    public List<Character> enemyWaves;
+    public List<EnemyWave> enemyWaves;
 
     Rigidbody2D rb;
-
-    public int multiLine;
-
-    public void Initialize(int  muliLine)
-    {
-        multiLine = muliLine;
-    }
+    public int footstep;
 
     private void OnEnable()
+    {
+        PlusEvent();
+
+        FightManager.Instance.OnFighting += RemoveEvent;
+        FightManager.Instance.OnFightFinish += PlusEvent;
+    }
+    private void OnDisable()
+    {
+        RemoveEvent();
+
+        FightManager.Instance.OnFighting -= RemoveEvent;
+        FightManager.Instance.OnFightFinish -= PlusEvent;
+    }
+
+    private void Start()
+    {
+        rb = bg.GetComponent<Rigidbody2D>();
+    }
+
+    void PlusEvent()
     {
         InputManager.Instance.OnPressingA += StageBackMove;
         InputManager.Instance.OnPressingD += StageFowardMove;
     }
-    private void OnDisable()
+
+    void RemoveEvent()
     {
         InputManager.Instance.OnPressingA -= StageBackMove;
         InputManager.Instance.OnPressingD -= StageFowardMove;
     }
 
-    private void Start()
-    {
-        bg.GetComponent<Rigidbody2D>();
-    }
-
     void StageFowardMove()
     {
         StageMove(true);
+
+        footstep++;
+        if (footstep >= 200)
+        {
+            footstep = 0;
+            int r = Random.Range(1, 101);
+
+            if(r <= 20)
+            {
+                FightManager.Instance.OnFighting?.Invoke();
+                footstep = 0;
+            }
+        }
     }
 
     void StageBackMove()

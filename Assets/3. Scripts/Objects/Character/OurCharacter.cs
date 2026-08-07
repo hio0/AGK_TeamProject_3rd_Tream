@@ -15,54 +15,56 @@ public class OurCharacter : CharacterTeam
 
     protected override void CanITargeting()
     {
-        Character user = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
+        targetCharList.Clear();
         Skill skill = FightManager.Instance.GetNowSkill?.Invoke();
 
-        mychar.iTargeting = skill.CanCharacterTargeting(user, mychar);
+        CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
+
+        foreach (Character targetchar in rangeData.allCharacterList)
+        {
+            targetchar.iTargeting = skill.CanCharacterTargeting(mychar, targetchar);
+
+            if(targetchar.iTargeting)
+            {
+                targetCharList.Add(targetchar);
+            }
+        }
     }
 
-    protected override void TargetFinding(Character mainchar)
+    protected override void TargetFinding()
     {
-        CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
-        if (rangeData.nowSelectedChar.speed != mainchar.speed)
-        {
-            return;
-        }
         Skill myskill = FightManager.Instance.GetNowSkill?.Invoke();
 
-        foreach(Character targetchar in rangeData.allCharacterList)
+        foreach (Character targetchar in targetCharList)
         {
-            if (targetchar.iTargeting)
+            targetchar.ReturnToBasic();
+
+            Action<PointerEventData> onEnter = (pointEventData) =>
             {
-                targetchar.ReturnToBasic();
+                targetchar.selectingTargets = MultifulTargeting(targetchar, myskill);
 
-                Action<PointerEventData> onEnter = (pointEventData) =>
-                {
-                    targetchar.selectingTargets = MultifulTargeting(targetchar, myskill);
+                targetchar.OnTriggerEnter?.Invoke();
+            };
 
-                    targetchar.OnTriggerEnter?.Invoke();
-                };
+            Action<PointerEventData> onClick = (pointEventData) =>
+            {
+                skillContext = MakeSkillContext(myskill, targetchar.selectingTargets);
+                FightManager.Instance.OnTargetFinded?.Invoke();
 
-                Action<PointerEventData> onClick = (pointEventData) =>
-                {
-                    SkillContext context = MakeSkillContext(myskill, targetchar.selectingTargets);
-                    FightManager.Instance.OnTargetFinded?.Invoke(context);
 
-  
-                    targetchar.OnTriggerClick?.Invoke();
-                };
+                targetchar.OnTriggerClick?.Invoke();
+            };
 
-                Action<PointerEventData> onExit = (pointEventData) =>
-                {
-                    targetchar.iSelecting = false;
-  
-                    targetchar.OnTriggerExit?.Invoke();
-                };
+            Action<PointerEventData> onExit = (pointEventData) =>
+            {
+                targetchar.iSelecting = false;
 
-                Templet.AddEvent(targetchar.characterTrigger, EventTriggerType.PointerEnter, onEnter);
-                Templet.AddEvent(targetchar.characterTrigger, EventTriggerType.PointerClick, onClick);
-                Templet.AddEvent(targetchar.characterTrigger, EventTriggerType.PointerExit, onExit);
-            }
+                targetchar.OnTriggerExit?.Invoke();
+            };
+
+            Templet.AddEvent(targetchar.characterTrigger, EventTriggerType.PointerEnter, onEnter);
+            Templet.AddEvent(targetchar.characterTrigger, EventTriggerType.PointerClick, onClick);
+            Templet.AddEvent(targetchar.characterTrigger, EventTriggerType.PointerExit, onExit);
         }
     }
 }

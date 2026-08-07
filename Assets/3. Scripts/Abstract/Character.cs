@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public abstract class Character : MonoBehaviour
 {
@@ -25,6 +24,7 @@ public abstract class Character : MonoBehaviour
 
     [Header("시스템")]
     public int nowPosition;
+    public bool iActChar;
     public bool iOurUnit;
     public bool iTargeting;
     public bool iSelecting; // 이건 이벤트버스로 해도 되긴하는데,,,어차피 이거 관여하는 쪽에서 이미 날 알고 있어서, 모르는 채로 정보 교환이라는 이벤트 버스 방식일 필요가 없어서,,,
@@ -32,7 +32,7 @@ public abstract class Character : MonoBehaviour
 
     public Action OnActingStart;
     public Action OnCanITargeted;
-    public Action<Character> OnTargetFinding;
+    public Action OnTargetFinding;
     public Action OnTriggerEnter;
     public Action OnTriggerClick;
     public Action OnTriggerExit;
@@ -42,6 +42,8 @@ public abstract class Character : MonoBehaviour
     [Header("컴포넌트")]
     public Image characterImage;
     public EventTrigger characterTrigger;
+
+    public CharacterTeam characterTeam;
 
     private void OnEnable()
     {
@@ -67,6 +69,7 @@ public abstract class Character : MonoBehaviour
         }
 
         ReturnToBasic();
+        iActChar = true;
         OnActingStart?.Invoke();
     }
 
@@ -77,12 +80,18 @@ public abstract class Character : MonoBehaviour
 
     void CanITargeted()
     {
-        OnCanITargeted?.Invoke();
+        if (iActChar)
+        {
+            OnCanITargeted?.Invoke();
+        }
     }
 
     void Targeting()
     {
-        OnTargetFinding?.Invoke(this);
+        if (iActChar)
+        {
+            OnTargetFinding?.Invoke();
+        }
     }
 
     void DefaultSet()
@@ -96,10 +105,12 @@ public abstract class Character : MonoBehaviour
 
     void TurnStartedSet()
     {
+        characterTeam = GetComponent<CharacterTeam>();
         selectingTargets.Clear();
 
         iTargeting = false;
         iSelecting = false;
+        iActChar = false;
     }
 
     // 자식꺼
@@ -110,14 +121,15 @@ public abstract class Character : MonoBehaviour
         return skillList[r];
     }
 
-    public virtual void Act(SkillContext skillContext) // 스킬컨텍스트 받고 계산은 스킬 쪽에서 다함 ㅇ
+    public virtual void Act() // 스킬컨텍스트 받고 계산은 스킬 쪽에서 다함 ㅇ
     {
-        if(skillContext.user.speed != speed)
+        SkillContext skillContext = characterTeam.RetrunContext();
+
+        if (skillContext.user.speed != speed)
         {
             return;
         }
 
-        Debug.Log("act");
         StartCoroutine(skillContext.useSkill.Effected(skillContext));
         OnAction?.Invoke();
     }

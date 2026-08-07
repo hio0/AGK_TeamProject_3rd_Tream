@@ -21,24 +21,29 @@ public class Select_UI : ActionObject
 
         UIObject();
 
+        mychar.OnActingStart -= Find;
+        mychar.OnActingStart += Find;
+    }
+
+    void Find()
+    {
         Character charselect = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
-        Action find = () =>
+        float size = 0f;
+
+        if (mychar.speed == charselect.speed)
         {
-            float size = 0f;
+            size = 45f;
+        }
+        else
+        {
+            size = 30f;
+        }
 
-            if (mychar.speed == charselect.speed)
-            {
-                size = 45f;
-            }
-            else
-            {
-                size = 30f;
-            }
+        rect.sizeDelta = new Vector2(size, size);
+    }
 
-            rect.sizeDelta = new Vector2(size, size);
-        };
-
-        FightManager.Instance.OnActingStart -= find;
-        FightManager.Instance.OnActingStart += find;
+    private void OnDisable()
+    {
+        mychar.OnActingStart -= Find;
     }
 }

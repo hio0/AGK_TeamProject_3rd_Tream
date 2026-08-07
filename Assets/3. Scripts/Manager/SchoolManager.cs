@@ -11,16 +11,13 @@ public class SchoolManager : MonoBehaviour
     public event Action OnFinished;
 
     public event Action OnNextClass;
-    public  Action<Room> OnNextRoom;
+    public  Action OnNextRoom;
     public event Action OnNextFloor;
 
     public Action<string> OnNoticedSomething; // 나레이션할만한 행동 일어남
 
-    public Func<LetterBox> GetLetterBox;
+    public Func<int> GetMapIcon;
     public Func<RoomData> GetRoomData;
-
-    public float timer;
-    public int classCount;
 
     private void Awake()
     {
@@ -36,18 +33,11 @@ public class SchoolManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if(timer >= 90)
-        {
-            classCount++;
-            timer = 0;
-        }
+
     }
 
     void Started()
     {
-        timer = 0;
-        classCount = 0;
         FocusCamera.Instance.LockingMovingCamera(false);
 
         OnStarted?.Invoke();

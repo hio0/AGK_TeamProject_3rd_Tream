@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class DownLetterBox_UI : LetterBox
 {
-    private void OnEnable()
+    public static DownLetterBox_UI Instance;
+
+    protected override void SetStatic()
     {
-        deffultTargetingPos = new Vector2(0, 240f);
-        animationSpeed = 3f;
+        Instance = this;
     }
 }

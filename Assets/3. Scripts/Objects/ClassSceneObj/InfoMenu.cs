@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,13 @@ public class InfoMenu : MonoBehaviour
     {
         rect = GetComponent<RectTransform>();
         InputManager.Instance.OnPressTab += Move;
+
+        Action act = () =>
+        {
+            isIn = true;
+            Move();
+        };
+        FightManager.Instance.OnActingStart += act;
 
         isIn = false;
         exit.SetActive(false);

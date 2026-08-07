@@ -10,10 +10,10 @@ public class StudentMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach(CharacterData characterData in ImportantData.canUsedStudents)
+        foreach(Character character in ImportantData.canUsedStudents)
         {
             StudentInfo stuInfo = Instantiate(pre_studentInfo, parent_studentInfo);
-            stuInfo.Initialize(characterData);
+            stuInfo.Initialize(character);
         }
     }
 }

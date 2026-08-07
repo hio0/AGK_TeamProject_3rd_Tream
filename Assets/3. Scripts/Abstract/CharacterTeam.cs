@@ -6,6 +6,8 @@ using UnityEngine;
 public abstract class CharacterTeam : MonoBehaviour
 {
     protected Character mychar;
+    protected List<Character> targetCharList = new();
+    protected SkillContext skillContext;
 
     private void Awake()
     {
@@ -15,6 +17,11 @@ public abstract class CharacterTeam : MonoBehaviour
         mychar.OnActingStart += ActingStart;
         mychar.OnCanITargeted += CanITargeting;
         mychar.OnTargetFinding += TargetFinding;
+    }
+
+    public SkillContext RetrunContext()
+    {
+        return skillContext;
     }
 
     protected List<Character> MultifulTargeting(Character mainTarget, Skill useSkill) // 타겟 후보들 중 진짜 타겟 정하기
@@ -100,5 +107,5 @@ public abstract class CharacterTeam : MonoBehaviour
 
     protected abstract void CanITargeting();
 
-    protected abstract void TargetFinding(Character character); // 어떻게 타겟을 선택하나
+    protected abstract void TargetFinding(); // 어떻게 타겟을 선택하나
 }

@@ -6,6 +6,6 @@ public static class ImportantData
 {
     public static int dayCount;
 
-    public static List<CharacterData> canUsedStudents = new(); 
-    public static List<CharacterData> usedStudents = new();
+    public static List<Character> canUsedStudents = new(); 
+    public static List<Character> usedStudents = new();
 }

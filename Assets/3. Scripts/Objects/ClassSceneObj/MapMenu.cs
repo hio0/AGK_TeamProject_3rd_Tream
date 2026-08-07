@@ -7,51 +7,54 @@ public class MapMenu : MonoBehaviour
     public MapRange pre_map;
     public Transform parent_transform;
 
-    public Dictionary<int, List<GameObject>> mapData = new();
+    private void Awake()
+    {
+        SchoolManager.instance.OnStarted += MakeMap;
+    }
+
+    private void OnEnable()
+    {
+        SchoolManager.instance.OnStarted -= MakeMap;
+    }
+
+    private void OnDisable()
+    {
+        SchoolManager.instance.OnStarted -= MakeMap;
+
+        SaveData();
+    }
+
+    void MakeMap()
+    {
+
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         RoomData data = SchoolManager.instance.GetRoomData?.Invoke();
-        Debug.Log(data.floorCount);
 
         for (int i = 0; i < data.floorCount; i++)
         {
-            GameObject range = Instantiate(pre_map.gameObject, parent_transform);
-
-            if(mapData.ContainsKey(i))
-            {
-                List<GameObject> list = new();
-                list = mapData[i];
-
-                range.GetComponent<MapRange>().Initialize(i, data, list);
-            }
-            else
-            {
-                range.GetComponent<MapRange>().Initialize(i, data, null);
-            }
+            MapRange range = Instantiate(pre_map, parent_transform);
             
+            range.Initialize(i, data, data.floorRoomList[i]);
+
         }
     }
 
-    private void OnDisable()
+    void SaveData()
     {
         RoomData data = SchoolManager.instance.GetRoomData?.Invoke();
 
         for (int i = 0; i < parent_transform.childCount; i++)
         {
-            List<GameObject> list = parent_transform.GetChild(i).GetComponent<MapRange>().MyData();
-            
-            if(mapData.ContainsKey(data.nowFloor))
-            {
-                mapData[data.nowFloor] = list;
-            }
-            else
-            {
-                mapData.Add(data.nowFloor, list);
-            }
+            GameObject map = new();
 
-            Destroy(parent_transform.GetChild(i).gameObject);
+            MapRange range = parent_transform.GetChild(i).GetComponent<MapRange>();
+            map = range.MyData();
+
+            data.floorRoomList[i] = map;
         }
     }
 }

@@ -23,7 +23,6 @@ public abstract class VirtualCamera : MonoBehaviour
     public virtual void Live(int priority)
     {
         cam.Priority = priority;
-        Debug.Log($"Lived: {priority}");
     }
 
     public virtual void SetTarget(Character target)

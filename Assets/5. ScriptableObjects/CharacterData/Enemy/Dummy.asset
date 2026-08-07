@@ -15,5 +15,10 @@ MonoBehaviour:
   defaultCharacterName: "\uB364\uBBF8\u3163\u3163"
   defaultSkillList:
   - {fileID: 11400000, guid: e481976807510e84d833bbf1543a9372, type: 2}
+  - {fileID: 11400000, guid: d08ca102faf68454f85c96a740bffa4b, type: 2}
+  iconImage: {fileID: 0}
   defaultHp: 120
   defaultMinSpeed: 10
+  nowLevel: 0
+  nowHp: 0
+  nowMaxHp: 0

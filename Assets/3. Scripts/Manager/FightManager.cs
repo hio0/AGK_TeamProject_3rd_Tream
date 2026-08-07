@@ -37,6 +37,7 @@ public class FightManager : MonoBehaviour
     // 이벤트 버스: 이벤트 선언자에 대한 의존성만 강화, 이외 객체들간 의존성은 대폭 감소. 외부 값 변경이 아닌 이벤트만으로 정보를 공유하기에 캡슐화에 용이. ( 난 캡슐화하기 위해 이벤트 버스 사용. 캡슐화되는 방법이면 이벤트 사용 X )
     // * 중간에 변경. 본래 객체들끼리 완전 고립, 이벤트로만 값을 주고받고자 하였으나 객체들끼리 데이터를 주고 받지 않고 데이터 열람권을 주고받아 직접 참조하도록 변경. 정해진 데이터만 주고받던 기존에 비해 고립성을 줄인 대신 상호작용 증가.
 
+    public Action OnFighting;
     public event Action OnFightStart;
     public event Action OnTurnStart;
     public event Action OnTurnFinish;
@@ -46,7 +47,7 @@ public class FightManager : MonoBehaviour
     public Action OnActingFinished;
 
     public Action OnTargetFinding;
-    public Action<SkillContext> OnTargetFinded;
+    public Action OnTargetFinded;
 
     public Func<CharacterRangeData> GetRangeData;
     public Func<Skill> GetNowSkill;
@@ -62,7 +63,7 @@ public class FightManager : MonoBehaviour
     // Start is called before the first frame update 
     void Start()
     {
-
+        OnFighting += FightStart;
     }
 
     // Update is called once per frame
@@ -78,6 +79,7 @@ public class FightManager : MonoBehaviour
         {
             fightP.SetActive(false);
             FocusCamera.Instance.Live(0);
+            DownLetterBox_UI.Instance.Move();
 
             yield return new WaitForSeconds(1.5f); // 전투 시작 연출
 

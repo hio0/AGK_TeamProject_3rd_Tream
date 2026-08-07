@@ -14,8 +14,8 @@ public class SkillIcon : MonoBehaviour
     SkillExplanation skillExplanation;
     Character user;
 
-    Image image;
-    EventTrigger trigger;
+    public Image image;
+    public EventTrigger trigger;
 
     public void Initialize(Skill skill, SkillExplanation skillExplan, Character user) // 사실 이렇게 하기 보단 이벤트로 값 넘겨 받는게 맞긴 하다 ㅇㅇ,,,
     {
@@ -27,9 +27,6 @@ public class SkillIcon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        image = GetComponent<Image>();
-        trigger = GetComponent<EventTrigger>();
-
         SetIcon();
 
         Templet.AddEvent(trigger, EventTriggerType.PointerClick, OnClick);

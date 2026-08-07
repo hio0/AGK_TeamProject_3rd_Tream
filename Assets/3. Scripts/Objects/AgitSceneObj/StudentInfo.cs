@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class StudentInfo : MonoBehaviour
 {
-    public CharacterData mychar;
+    public Character mychar;
     public Image icon;
 
     public TMP_Text characterNameT;
@@ -22,11 +22,11 @@ public class StudentInfo : MonoBehaviour
     public Transform parent_acrtifectIcon;
 
     public EventTrigger trigger;
-    CharacterData dragObject;
+    Character dragObject;
     BasicIcon basicIcon;
     public BasicIcon pre_basicIcon;
 
-    public void Initialize(CharacterData character)
+    public void Initialize(Character character)
     {
         mychar = character;
     }
@@ -34,13 +34,13 @@ public class StudentInfo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        icon.sprite = mychar.iconImage;
+        icon.sprite = mychar.characterData.iconImage;
 
-        characterNameT.text = mychar.defaultCharacterName;
-        LevelT.text = $"Lv.<size=35>{mychar.nowLevel}</size>";
-        hpT.text = $"{mychar.nowHp} / {mychar.nowMaxHp}";
+        characterNameT.text = mychar.characterData.defaultCharacterName;
+        LevelT.text = $"Lv.<size=35>{mychar.characterData.nowLevel}</size>";
+        hpT.text = $"{mychar.characterData.nowHp} / {mychar.characterData.nowMaxHp}";
 
-        hpFillImage.fillAmount = (float)mychar.nowHp / (float)mychar.nowMaxHp;
+        hpFillImage.fillAmount = (float)mychar.characterData.nowHp / (float)mychar.characterData.nowMaxHp;
 
         Templet.AddEvent(trigger, EventTriggerType.BeginDrag, OnBeginDrag);
         Templet.AddEvent(trigger, EventTriggerType.Drag, OnDrag);
@@ -58,7 +58,7 @@ public class StudentInfo : MonoBehaviour
         BasicIconData basicIconData = basicIcon.ReturnImage();
 
         basicIconData.spriteImage.color = new Color32(255, 255, 255, 255);
-        basicIconData.spriteImage.sprite = mychar.iconImage;
+        basicIconData.spriteImage.sprite = mychar.characterData.iconImage;
 
         basicIconData.canvasGroup.blocksRaycasts = false;
     }

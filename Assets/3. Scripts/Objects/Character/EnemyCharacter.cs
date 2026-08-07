@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class EnemyCharacter : CharacterTeam
 {
+    Skill usedSkill;
+
     protected override void ActingStart()
     {
         FocusCamera.Instance.Live(0);
@@ -15,42 +17,39 @@ public class EnemyCharacter : CharacterTeam
 
     protected override void CanITargeting()
     {
-        Character user = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
-        Skill skill = mychar.SkillSetPattern();
+        targetCharList.Clear();
+        usedSkill = null;
 
-        mychar.iTargeting = skill.CanCharacterTargeting(user, mychar);
+        Skill skill = mychar.SkillSetPattern();
+        usedSkill = skill;
+
+        CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
+
+        foreach (Character targetchar in rangeData.allCharacterList)
+        {
+            targetchar.iTargeting = skill.CanCharacterTargeting(mychar, targetchar);
+
+            if (targetchar.iTargeting)
+            {
+                targetCharList.Add(targetchar);
+            }
+        }
     }
 
-    protected override void TargetFinding(Character targetchar)
+    protected override void TargetFinding()
     {
-        CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
-        if(rangeData.nowSelectedChar.speed != targetchar.speed)
-        {
-            return;
-        }
-        Skill myskill = mychar.SkillSetPattern();
-
         IEnumerator Wait()
         {
             yield return new WaitForSeconds(1f);
 
-            Debug.Log("waitEnd");
-            bool iFindTarget = false;
-            while (!iFindTarget)
-            {
-                int r = Random.Range(0, rangeData.allCharacterList.Count);
+            int r = Random.Range(0, targetCharList.Count);
 
-                if (rangeData.allCharacterList[r].iTargeting)
-                {
-                    mychar.selectingTargets = MultifulTargeting(rangeData.allCharacterList[r], myskill);
-                    iFindTarget = true;
-                }
+            targetCharList[r].selectingTargets = MultifulTargeting(targetCharList[r], usedSkill);
 
-                yield return null;
-            }
+            skillContext = MakeSkillContext(usedSkill, targetCharList[r].selectingTargets);
 
-            SkillContext context = MakeSkillContext(myskill, mychar.selectingTargets);
-            FightManager.Instance.OnTargetFinded?.Invoke(context);
+            FightManager.Instance.OnTargetFinded?.Invoke();
+            targetCharList[r].OnTriggerEnter?.Invoke();
         }
         StartCoroutine(Wait());
     }

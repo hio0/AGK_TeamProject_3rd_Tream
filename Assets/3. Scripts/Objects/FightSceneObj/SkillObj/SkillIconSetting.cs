@@ -9,9 +9,15 @@ public class SkillIconSetting : MonoBehaviour
     [SerializeField] SkillIcon pre_skillIcon;
     [SerializeField] SkillExplanation skillExplanation;
 
-    private void OnEnable()
+    private void Start()
     {
-        FightManager.Instance.OnActingStart += SkillIconSet;
+        List<Character> list = FightManager.Instance.GetRangeData?.Invoke().ourRangeChar;
+        foreach (Character character in list)
+        {
+            character.OnActingStart -= SkillIconSet;
+            character.OnActingStart += SkillIconSet;
+        }
+
         FightManager.Instance.OnActingFinished += ResetInfo;
     }
 
