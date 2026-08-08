@@ -7,7 +7,7 @@ public class FocusBox_UI : MonoBehaviour
     bool isIn;
 
     RectTransform rect;
-    public float maxHeight;
+    public float maxWidth;
     public float speed;
 
     // Start is called before the first frame update
@@ -24,19 +24,20 @@ public class FocusBox_UI : MonoBehaviour
 
     void Move()
     {
-        float height = 0;
+        StopAllCoroutines();
+
+        float width = 0;
 
         if(isIn)
         {
-            height = 0;
+            width = 0;
         }
         else
         {
-            height = maxHeight;
+            width = maxWidth;
         }
 
         isIn = !isIn;
-        UIMovement.DoSizeMove(rect, new Vector2(rect.sizeDelta.x, height), speed);
-
+        StartCoroutine(UIMovement.SizeSetAnimation(rect, new Vector2(width, rect.sizeDelta.y), speed));                                                                          
     }
 }

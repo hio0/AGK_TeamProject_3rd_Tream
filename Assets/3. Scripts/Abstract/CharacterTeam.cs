@@ -77,6 +77,8 @@ public abstract class CharacterTeam : MonoBehaviour
             foreach (Character character in list)
             {
                 character.iSelecting = true;
+                character.OnTriggerEnter?.Invoke();
+                character.ReturnToBasic();
             }
         }
     }
@@ -84,6 +86,9 @@ public abstract class CharacterTeam : MonoBehaviour
     protected SkillContext MakeSkillContext(Skill skill, List<Character> targets)
     {
         CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
+
+        Debug.Log(targets.Count);
+        Debug.Log(skill.skillExplanation);
 
         SkillContext context = new SkillContext
         {

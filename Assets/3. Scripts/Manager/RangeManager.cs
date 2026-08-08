@@ -126,6 +126,7 @@ public class RangeManager : MonoBehaviour
 
     void SelectActer()
     {
+        Debug.Log("setacter");
         nowSelectedChar = actingCharacterList[nowSelectedNum];
         nowSelectedNum++;
 

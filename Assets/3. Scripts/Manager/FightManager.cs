@@ -64,6 +64,12 @@ public class FightManager : MonoBehaviour
     void Start()
     {
         OnFighting += FightStart;
+        Action debug = () =>
+        {
+            Debug.Log("½ºÅ¸Æ®");
+        };
+        OnActingStart += debug;
+        OnActingFinished += ActingFinish;
     }
 
     // Update is called once per frame
@@ -109,6 +115,7 @@ public class FightManager : MonoBehaviour
 
             OnActingStart?.Invoke();
         }
+        Debug.Log("AcitngFinish");
 
         StartCoroutine(ActFinish());
     }

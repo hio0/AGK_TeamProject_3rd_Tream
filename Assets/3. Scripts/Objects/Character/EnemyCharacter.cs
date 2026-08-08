@@ -38,19 +38,15 @@ public class EnemyCharacter : CharacterTeam
 
     protected override void TargetFinding()
     {
-        IEnumerator Wait()
-        {
-            yield return new WaitForSeconds(1f);
+        Debug.Log("타겟 파인딩");
+        int r = Random.Range(0, targetCharList.Count);
+        Character mainTarget = null;
 
-            int r = Random.Range(0, targetCharList.Count);
+        mainTarget = targetCharList[r];
 
-            targetCharList[r].selectingTargets = MultifulTargeting(targetCharList[r], usedSkill);
+        mainTarget.selectingTargets = MultifulTargeting(mainTarget, usedSkill);
 
-            skillContext = MakeSkillContext(usedSkill, targetCharList[r].selectingTargets);
-
-            FightManager.Instance.OnTargetFinded?.Invoke();
-            targetCharList[r].OnTriggerEnter?.Invoke();
-        }
-        StartCoroutine(Wait());
+        skillContext = MakeSkillContext(usedSkill, mainTarget.selectingTargets);
+        FightManager.Instance.OnTargetFinded?.Invoke();
     }
 }

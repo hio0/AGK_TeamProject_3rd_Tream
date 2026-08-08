@@ -123,15 +123,14 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Act() // 스킬컨텍스트 받고 계산은 스킬 쪽에서 다함 ㅇ
     {
-        SkillContext skillContext = characterTeam.RetrunContext();
-
-        if (skillContext.user.speed != speed)
+        if (iActChar) // 턴이 시작되면 모든 캐릭터 기본적ㅇ로 초기화 -> 전에 누가 때려ㅕㅆ다고 나는 안됨 ??
         {
-            return;
-        }
+            Debug.Log("act");
+            SkillContext skillContext = characterTeam.RetrunContext();
 
-        StartCoroutine(skillContext.useSkill.Effected(skillContext));
-        OnAction?.Invoke();
+            StartCoroutine(skillContext.useSkill.Effected(skillContext));
+            OnAction?.Invoke();
+        }
     }
 
     public virtual void Damaged(Action skillEffect)

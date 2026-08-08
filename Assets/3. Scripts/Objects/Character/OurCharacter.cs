@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static Unity.Collections.AllocatorManager;
 
 public class OurCharacter : CharacterTeam
 {
@@ -22,6 +23,7 @@ public class OurCharacter : CharacterTeam
 
         foreach (Character targetchar in rangeData.allCharacterList)
         {
+            targetchar.selectingTargets.Clear();
             targetchar.iTargeting = skill.CanCharacterTargeting(mychar, targetchar);
 
             if(targetchar.iTargeting)
@@ -35,36 +37,33 @@ public class OurCharacter : CharacterTeam
     {
         Skill myskill = FightManager.Instance.GetNowSkill?.Invoke();
 
-        foreach (Character targetchar in targetCharList)
+        foreach (Character target in targetCharList)
         {
-            targetchar.ReturnToBasic();
+            target.ReturnToBasic();
 
-            Action<PointerEventData> onEnter = (pointEventData) =>
+            void OnEnter(Character targetchar)
             {
                 targetchar.selectingTargets = MultifulTargeting(targetchar, myskill);
+            }
 
-                targetchar.OnTriggerEnter?.Invoke();
-            };
-
-            Action<PointerEventData> onClick = (pointEventData) =>
+            void OnClick(Character targetchar)
             {
                 skillContext = MakeSkillContext(myskill, targetchar.selectingTargets);
+
                 FightManager.Instance.OnTargetFinded?.Invoke();
-
-
                 targetchar.OnTriggerClick?.Invoke();
-            };
+            }
 
-            Action<PointerEventData> onExit = (pointEventData) =>
+            void OnExit(Character targetchar)
             {
                 targetchar.iSelecting = false;
 
                 targetchar.OnTriggerExit?.Invoke();
-            };
+            }
 
-            Templet.AddEvent(targetchar.characterTrigger, EventTriggerType.PointerEnter, onEnter);
-            Templet.AddEvent(targetchar.characterTrigger, EventTriggerType.PointerClick, onClick);
-            Templet.AddEvent(targetchar.characterTrigger, EventTriggerType.PointerExit, onExit);
+            Templet.AddEvent(target.characterTrigger, EventTriggerType.PointerEnter, _ => OnEnter(target)); // 매.변. 사용 안할거다 ㅇㅇ
+            Templet.AddEvent(target.characterTrigger, EventTriggerType.PointerClick, _ => OnClick(target));
+            Templet.AddEvent(target.characterTrigger, EventTriggerType.PointerExit, _ => OnExit(target));
         }
     }
 }

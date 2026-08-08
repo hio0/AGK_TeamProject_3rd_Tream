@@ -26,7 +26,6 @@ public abstract class Skill : ScriptableObject
     {
         DeffultTargetSeting(user, target);
 
-        Debug.Log(canTarget);
         return canTarget;
     }
 

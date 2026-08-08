@@ -17,6 +17,8 @@ public class SkillIcon : MonoBehaviour
     public Image image;
     public EventTrigger trigger;
 
+    public static event Action OnClicked;
+
     public void Initialize(Skill skill, SkillExplanation skillExplan, Character user) // 사실 이렇게 하기 보단 이벤트로 값 넘겨 받는게 맞긴 하다 ㅇㅇ,,,
     {
         myskill = skill;
@@ -32,16 +34,13 @@ public class SkillIcon : MonoBehaviour
         Templet.AddEvent(trigger, EventTriggerType.PointerClick, OnClick);
         Templet.AddEvent(trigger, EventTriggerType.PointerEnter, OnEnter);
         Templet.AddEvent(trigger, EventTriggerType.PointerExit, OnExit);
-    }
 
-    void OnEnable()
-    {
-        FightManager.Instance.OnActingStart += DeleteEvent;
+        OnClicked += DeleteEvent;
     }
 
     private void OnDisable()
     {
-        FightManager.Instance.OnActingStart -= DeleteEvent;
+        OnClicked -= DeleteEvent;
     }
 
     Skill ReturnSkill()
@@ -69,10 +68,10 @@ public class SkillIcon : MonoBehaviour
     void OnClick(PointerEventData data)
     {
         SkillExplanation();
+        OnClicked?.Invoke();
 
-        FightManager.Instance.GetNowSkill -= ReturnSkill;
+        Debug.Log("OnClick");
         FightManager.Instance.GetNowSkill += ReturnSkill;
-
         FightManager.Instance.OnTargetFinding?.Invoke();
 
         SchoolManager.instance.OnNoticedSomething("타겟을 정하자!");
