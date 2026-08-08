@@ -115,7 +115,6 @@ public class FightManager : MonoBehaviour
 
             OnActingStart?.Invoke();
         }
-        Debug.Log("AcitngFinish");
 
         StartCoroutine(ActFinish());
     }

@@ -38,7 +38,6 @@ public class EnemyCharacter : CharacterTeam
 
     protected override void TargetFinding()
     {
-        Debug.Log("타겟 파인딩");
         int r = Random.Range(0, targetCharList.Count);
         Character mainTarget = null;
 
