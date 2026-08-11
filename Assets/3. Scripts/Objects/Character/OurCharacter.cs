@@ -16,7 +16,6 @@ public class OurCharacter : CharacterTeam
 
     protected override void CanITargeting()
     {
-        targetCharList.Clear();
         Skill skill = FightManager.Instance.GetNowSkill?.Invoke();
 
         CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
@@ -25,17 +24,21 @@ public class OurCharacter : CharacterTeam
         {
             targetchar.selectingTargets.Clear();
             targetchar.iTargeting = skill.CanCharacterTargeting(mychar, targetchar);
-
-            if(targetchar.iTargeting)
-            {
-                targetCharList.Add(targetchar);
-            }
         }
     }
 
     protected override void TargetFinding()
     {
         Skill myskill = FightManager.Instance.GetNowSkill?.Invoke();
+        List<Character> targetCharList = new();
+        CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
+        foreach (Character targetchar in rangeData.allCharacterList)
+        {
+            if(targetchar.iTargeting)
+            {
+                targetCharList.Add(targetchar);
+            }
+        }
 
         foreach (Character target in targetCharList)
         {
@@ -61,11 +64,14 @@ public class OurCharacter : CharacterTeam
                 targetchar.OnTriggerExit?.Invoke();
             }
 
-            target.characterTrigger.triggers.Clear();
-
             Templet.AddEvent(target.characterTrigger, EventTriggerType.PointerEnter, _ => OnEnter(target)); // 매.변. 사용 안할거다 ㅇㅇ
             Templet.AddEvent(target.characterTrigger, EventTriggerType.PointerClick, _ => OnClick(target));
             Templet.AddEvent(target.characterTrigger, EventTriggerType.PointerExit, _ => OnExit(target));
         }
+    }
+
+    protected override void Dying()
+    {
+        
     }
 }

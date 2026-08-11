@@ -10,6 +10,7 @@ public class Hp_UI : ActionObject
 
     [SerializeField] TMP_Text hpText;
     [SerializeField] Image hpFillImage; // iIIiIiIIi
+    [SerializeField] Image hpFillBg;
 
     // Start is called before the first frame update
     void Start()
@@ -19,14 +20,39 @@ public class Hp_UI : ActionObject
 
         SetValue();
 
-        myChar.OnDamaged -= SetValue;
-        myChar.OnDamaged += SetValue;
+        myChar.OnDamaged -= Damaged;
+        myChar.OnDamaged += Damaged;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void Damaged()
+    {
+        SetValue();
+
+        IEnumerator HpBgFill()
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            while (true)
+            {
+                hpFillBg.fillAmount -= 0.05f;
+
+                if (hpFillBg.fillAmount <= hpFillImage.fillAmount)
+                {
+                    hpFillBg.fillAmount = hpFillImage.fillAmount;
+                    break;
+                }
+
+                yield return null;
+            }
+        }
+
+        StartCoroutine(HpBgFill());
     }
 
     void SetValue()

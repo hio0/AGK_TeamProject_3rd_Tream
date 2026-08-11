@@ -27,6 +27,7 @@ public class Select_UI : ActionObject
 
     void Find()
     {
+        /*
         Character charselect = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
         float size = 0f;
 
@@ -40,6 +41,7 @@ public class Select_UI : ActionObject
         }
 
         rect.sizeDelta = new Vector2(size, size);
+        */
     }
 
     private void OnDisable()

@@ -18,6 +18,8 @@ public class MapIcon : MonoBehaviour
     public Toggle toggle;
     public EventTrigger trigger;
 
+    public bool elevatiorB;
+
     public void Initialize(int num, int nowfloor, MapData p)
     {
         roomNum = num;
@@ -71,6 +73,13 @@ public class MapIcon : MonoBehaviour
 
         if (data.nowFloor == floorNum)
         {
+            if(elevatiorB)
+            {
+                Select();
+
+                SceneMoveManager.Instance.FadeSceneLoad("Elevator", 1f);
+            }
+
             if (nowIcons.Contains(gameObject))
             {
                 Select();

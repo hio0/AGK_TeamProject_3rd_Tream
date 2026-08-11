@@ -12,26 +12,32 @@ public class Targeted_UI : ActionObject
     {
         mychar = GetComponentInParent<Character>();
 
-        Action enter = () =>
-        {
-            if (mychar.iSelecting)
-            {
-                can.alpha = 1f;
-            }
-            else
-            {
-                can.alpha = 0f;
-            }
-        };
+        mychar.OnTriggerEnter += Enter;
+        mychar.OnTriggerExit += Exit;
 
-        Action exit = () =>
+        FightManager.Instance.OnActingFinished += Exit;
+    }
+
+    private void OnDestroy()
+    {
+        mychar.OnTriggerEnter -= Enter;
+        FightManager.Instance.OnActingFinished -= Exit;
+    }
+
+    void Enter()
+    {
+        if (mychar.iSelecting)
+        {
+            can.alpha = 1f;
+        }
+        else
         {
             can.alpha = 0f;
-        };
+        }
+    }
 
-        mychar.OnTriggerEnter += enter;
-        mychar.OnTriggerExit += exit;
-
-        FightManager.Instance.OnActingFinished += exit;
+    void Exit()
+    {
+        can.alpha = 0f;
     }
 }

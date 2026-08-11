@@ -15,7 +15,8 @@ MonoBehaviour:
   skillName: "\uBC30\uD2B8\uCE58\uAE30"
   skillIcon: {fileID: 21300000, guid: f67d3f026459dff4eb8f6ea276b73c97, type: 3}
   skillTargetCount: 1
-  skillExplanation: "\uB514\uBC84\uADF8\uB514\uBC84\uADF8"
+  skillExplanation: "<color=#2E2E40>[ \uC801 \uD0C0\uAC9F\uD305 ]</color>\n<color=#E57878>\uD53C\uD574:
+    </color>6 - 18\n<color=#D49541>\uACF5\uACA9 \uBC94\uC704: </color>1\uCE78"
   canTarget: 1
   minDamage: 6
   maxDamage: 18

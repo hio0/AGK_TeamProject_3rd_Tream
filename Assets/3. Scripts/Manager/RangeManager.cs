@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -21,6 +22,7 @@ public class RangeManager : MonoBehaviour
         FightManager.Instance.OnFighting += SetEnemyRange;
         FightManager.Instance.OnTurnStart += FightTurnSetting;
         FightManager.Instance.OnActingStart += SelectActer;
+        FightManager.Instance.OnDyingSomeOne += DiedChar;
         FightManager.Instance.GetRangeData += ReturnRangeData;
     }
 
@@ -99,7 +101,7 @@ public class RangeManager : MonoBehaviour
         }
 
         // 순서 정하기 ( 배열 정리 )
-        for (int i = 0; i < actingCharacterList.Count; i++)
+        for (int i = 0; i < actingCharacterList.Count; i++) // 속도값 << - 이거를 랜덤성
         {
             int giveSpeed = i + 1;
 
@@ -125,13 +127,39 @@ public class RangeManager : MonoBehaviour
     }
 
     void SelectActer()
-    {
-        
+    {        
         nowSelectedChar = actingCharacterList[nowSelectedNum];
         nowSelectedNum++;
 
         SchoolManager.instance.OnNoticedSomething($"{nowSelectedChar.characterName}의 차례!");
 
         FocusCamera.Instance.LivingAndTargeting(nowSelectedChar);
+    }
+
+    void DiedChar(Character dyingChar)
+    {
+        bool isTurnDeath = false;
+        if(dyingChar.speed == nowSelectedChar.speed)
+        {
+            isTurnDeath = true;
+        }
+
+        int destroySpeed = dyingChar.speed;
+        actingCharacterList.RemoveAt(dyingChar.speed - 1);
+        Destroy(dyingChar.gameObject);
+
+        foreach (Character character in actingCharacterList)
+        {
+            if(character.speed > destroySpeed)
+            {
+                int x = character.speed - destroySpeed;
+                character.speed -= x;
+            }
+        }
+
+        if(isTurnDeath)
+        {
+            FightManager.Instance.OnActingFinished?.Invoke();
+        }
     }
 }

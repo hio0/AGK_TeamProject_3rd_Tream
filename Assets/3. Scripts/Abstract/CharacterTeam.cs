@@ -6,7 +6,6 @@ using UnityEngine;
 public abstract class CharacterTeam : MonoBehaviour
 {
     protected Character mychar;
-    protected List<Character> targetCharList = new();
     protected SkillContext skillContext;
 
     private void Awake()
@@ -17,6 +16,7 @@ public abstract class CharacterTeam : MonoBehaviour
         mychar.OnActingStart += ActingStart;
         mychar.OnCanITargeted += CanITargeting;
         mychar.OnTargetFinding += TargetFinding;
+        mychar.OnDied += Dying;
     }
 
     public SkillContext RetrunContext()
@@ -87,9 +87,6 @@ public abstract class CharacterTeam : MonoBehaviour
     {
         CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
 
-        Debug.Log(targets.Count);
-        Debug.Log(skill.skillExplanation);
-
         SkillContext context = new SkillContext
         {
             user = rangeData.nowSelectedChar,
@@ -105,6 +102,7 @@ public abstract class CharacterTeam : MonoBehaviour
     protected virtual void ResetTeamEvent()
     {
         mychar.OnActingStart = null;
+        mychar.OnCanITargeted = null;
         mychar.OnTargetFinding = null;
     }
 
@@ -113,4 +111,6 @@ public abstract class CharacterTeam : MonoBehaviour
     protected abstract void CanITargeting();
 
     protected abstract void TargetFinding(); // 어떻게 타겟을 선택하나
+
+    protected abstract void Dying(); // 죽을 때 어캐하냐 ( 죽음 극복 같은 패시브 있는 놈들 있으면 여기보단 character들 있는데에서 하는게 맞지만 귀찮 )
 }

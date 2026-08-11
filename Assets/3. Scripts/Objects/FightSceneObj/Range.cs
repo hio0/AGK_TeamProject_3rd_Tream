@@ -13,6 +13,11 @@ public class Range : MonoBehaviour
     {
         List<Character> list = new List<Character>();
 
+        if(transform.childCount == 0)
+        {
+            return null;
+        }
+
         for (int i = 0; i < transform.childCount; i++)
         {
             Character character = transform.GetChild(i).GetComponent<Character>();

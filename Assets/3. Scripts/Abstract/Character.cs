@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using static System.Collections.Specialized.BitVector32;
 
 public abstract class Character : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public abstract class Character : MonoBehaviour
     public Action OnActingStart;
     public Action OnCanITargeted;
     public Action OnTargetFinding;
+    public Action OnDied;
+
     public Action OnTriggerEnter;
     public Action OnTriggerClick;
     public Action OnTriggerExit;
@@ -50,7 +53,6 @@ public abstract class Character : MonoBehaviour
         DefaultSet();
         ReturnToBasic();
 
-        FightManager.Instance.OnActingStart += TurnStartedSet;
         FightManager.Instance.OnActingStart += AnotherSelected;
         FightManager.Instance.OnTargetFinding += CanITargeted;
         FightManager.Instance.OnTargetFinding += Targeting;
@@ -58,19 +60,36 @@ public abstract class Character : MonoBehaviour
         FightManager.Instance.OnTurnFinish += ReturnToBasic;
     }
 
+    private void OnDisable()
+    {
+        if (FightManager.Instance == null)
+            return;
+
+        FightManager.Instance.OnActingStart -= AnotherSelected;
+        FightManager.Instance.OnTargetFinding -= CanITargeted;
+        FightManager.Instance.OnTargetFinding -= Targeting;
+        FightManager.Instance.OnTargetFinded -= Act;
+        FightManager.Instance.OnTurnFinish -= ReturnToBasic;
+    }
+
+
     // 시스템
     void AnotherSelected()
     {
+        TurnStartedSet();
+
         Character selectedChar = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
         if (selectedChar.speed != speed)
         {
             characterImage.color = new Color32(116, 116, 116, 200);
             return;
         }
-
-        ReturnToBasic();
-        iActChar = true;
-        OnActingStart?.Invoke();
+        else
+        {
+            ReturnToBasic();
+            iActChar = true;
+            OnActingStart?.Invoke();
+        }
     }
 
     public void ReturnToBasic()
@@ -106,6 +125,7 @@ public abstract class Character : MonoBehaviour
     void TurnStartedSet()
     {
         characterTeam = GetComponent<CharacterTeam>();
+        characterTrigger.triggers.Clear();
         selectingTargets.Clear();
 
         iTargeting = false;
@@ -125,11 +145,11 @@ public abstract class Character : MonoBehaviour
     {
         if (iActChar) 
         {
-            Debug.Log("act");
             SkillContext skillContext = characterTeam.RetrunContext();
 
             StartCoroutine(skillContext.useSkill.Effected(skillContext));
             OnAction?.Invoke();
+            iActChar = false;
         }
     }
 
@@ -137,5 +157,15 @@ public abstract class Character : MonoBehaviour
     {
         skillEffect?.Invoke();
         OnDamaged?.Invoke();
+
+        HpToZero();
+    }
+
+    public virtual void HpToZero()
+    {
+        if (hp <= 0)
+        {
+            OnDied?.Invoke();
+        }
     }
 }

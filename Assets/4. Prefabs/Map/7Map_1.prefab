@@ -462,6 +462,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1250461911356820685}
     - target: {fileID: -740389580942204420, guid: 64f407e7be279d64684bcae2a9943800, type: 3}
+      propertyPath: elevatiorB
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -740389580942204420, guid: 64f407e7be279d64684bcae2a9943800, type: 3}
       propertyPath: conectIcons.Array.data[0]
       value: 
       objectReference: {fileID: 6595885449941394317}

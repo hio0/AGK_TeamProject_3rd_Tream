@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/1. Scenes/Loading.unity
     guid: 99c2df3f9cf477141ab496f381a209f6
+  - enabled: 1
+    path: Assets/1. Scenes/Elevator.unity
+    guid: 531229c2021e479479efd398e4a5fcc7
+  - enabled: 1
+    path: Assets/1. Scenes/Main.unity
+    guid: 1d58d4ebfa0877d46965e1576bc731b8
   m_configObjects: {}

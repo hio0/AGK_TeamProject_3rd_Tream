@@ -20,21 +20,18 @@ public class CharacterTurnCount_UI : ActionObject
 
         UIObject();
 
-        Action setNum = () =>
-        {
-            numText.text = mychar.speed.ToString();
-            numText.color = new Color32(171, 171, 171, 255);
-        };
+        FightManager.Instance.OnActingStart -= SetNum;
+        FightManager.Instance.OnActingStart += SetNum;
+    }
 
-        FightManager.Instance.OnTurnStart -= setNum;
-        FightManager.Instance.OnTurnStart += setNum;
+    private void OnDisable()
+    {
+        FightManager.Instance.OnActingStart -= SetNum;
+    }
 
-        Action<Character> act = (selectedChar) =>
-        {
-            if(selectedChar.speed > mychar.speed)
-            {
-                numText.color = new Color32(102, 102, 102, 255);
-            }
-        };
+    void SetNum()
+    {
+        numText.text = mychar.speed.ToString();
+        numText.color = new Color32(171, 171, 171, 255);
     }
 }

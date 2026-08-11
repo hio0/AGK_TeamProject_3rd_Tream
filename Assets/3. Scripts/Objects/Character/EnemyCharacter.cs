@@ -17,7 +17,6 @@ public class EnemyCharacter : CharacterTeam
 
     protected override void CanITargeting()
     {
-        targetCharList.Clear();
         usedSkill = null;
 
         Skill skill = mychar.SkillSetPattern();
@@ -28,16 +27,21 @@ public class EnemyCharacter : CharacterTeam
         foreach (Character targetchar in rangeData.allCharacterList)
         {
             targetchar.iTargeting = skill.CanCharacterTargeting(mychar, targetchar);
-
-            if (targetchar.iTargeting)
-            {
-                targetCharList.Add(targetchar);
-            }
         }
     }
 
     protected override void TargetFinding()
     {
+        List<Character> targetCharList = new();
+        CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
+        foreach (Character targetchar in rangeData.allCharacterList)
+        {
+            if (targetchar.iTargeting)
+            {
+                targetCharList.Add(targetchar);
+            }
+        }
+
         int r = Random.Range(0, targetCharList.Count);
         Character mainTarget = null;
 
@@ -47,5 +51,10 @@ public class EnemyCharacter : CharacterTeam
 
         skillContext = MakeSkillContext(usedSkill, mainTarget.selectingTargets);
         FightManager.Instance.OnTargetFinded?.Invoke();
+    }
+
+    protected override void Dying()
+    {
+        FightManager.Instance.OnDyingSomeOne?.Invoke(mychar);
     }
 }

@@ -15,27 +15,37 @@ public abstract class ActionObject : MonoBehaviour
 
     protected void UIObject()
     {
-        void ReflectAlpha()
-        {
-            if (can.alpha == 1)
-            {
-                can.alpha = 0;
-            }
-            else
-            {
-                can.alpha = 1;
-            }
-        }
         FightManager.Instance.OnTurnStart -= ReflectAlpha;
         FightManager.Instance.OnTurnStart += ReflectAlpha;
 
         FightManager.Instance.OnTurnFinish -= ReflectAlpha;
         FightManager.Instance.OnTurnFinish += ReflectAlpha;
-    } 
 
-    protected void SubscribeAction(Action targetAction, Action currentAction)
+        FightManager.Instance.OnFightFinish -= SetAlphaToZero;
+        FightManager.Instance.OnFightFinish += SetAlphaToZero;
+    }
+
+    private void OnDestroy()
     {
-        targetAction -= currentAction;
-        targetAction += currentAction;
+        FightManager.Instance.OnTurnStart -= ReflectAlpha;
+        FightManager.Instance.OnTurnFinish -= ReflectAlpha;
+        FightManager.Instance.OnFightFinish -= SetAlphaToZero;
+    }
+
+    void ReflectAlpha()
+    {
+        if (can.alpha == 1)
+        {
+            can.alpha = 0;
+        }
+        else
+        {
+            can.alpha = 1;
+        }
+    }
+
+    void SetAlphaToZero()
+    {
+        can.alpha = 0;
     }
 }

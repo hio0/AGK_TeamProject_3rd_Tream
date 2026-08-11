@@ -20,6 +20,7 @@ public class Room : MonoBehaviour
     public List<EnemyWave> enemyWaves;
 
     Rigidbody2D rb;
+    RectTransform rect;
     public int footstep;
 
     private void OnEnable()
@@ -40,6 +41,7 @@ public class Room : MonoBehaviour
     private void Start()
     {
         rb = bg.GetComponent<Rigidbody2D>();
+        rect = bg.GetComponent<RectTransform>();
     }
 
     void PlusEvent()
@@ -59,7 +61,7 @@ public class Room : MonoBehaviour
         StageMove(true);
 
         footstep++;
-        if (footstep >= 200)
+        if (footstep >= 200 && rect.anchoredPosition.x >= -1330)
         {
             footstep = 0;
             int r = Random.Range(1, 101);
@@ -77,14 +79,15 @@ public class Room : MonoBehaviour
         StageMove(false);
     }
 
-    void StageMove(bool isfoward)
+    void StageMove(bool isForward)
     {
-        Vector2 targetPos = Vector2.right;
-        if(isfoward)
-        {
-            targetPos = Vector2.left;
-        }
+        float direction = isForward ? -1f : 1f;
 
-        rb.velocity += targetPos * 8f * Time.deltaTime;
+        Vector2 pos = bg.anchoredPosition;
+        pos.x += direction * 300f * Time.deltaTime;
+
+        pos.x = Mathf.Clamp(pos.x, -1330f, 0f);
+
+        bg.anchoredPosition = pos;
     }
 }

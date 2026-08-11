@@ -18,17 +18,19 @@ public class SkillIconSetting : MonoBehaviour
             character.OnActingStart += SkillIconSet;
         }
 
-        FightManager.Instance.OnActingFinished += ResetInfo;
+        FightManager.Instance.OnTargetFinded += ResetInfo;
     }
 
     private void OnDisable()
     {
         FightManager.Instance.OnActingStart -= SkillIconSet;
-        FightManager.Instance.OnActingFinished += ResetInfo;
+        FightManager.Instance.OnTargetFinded -= ResetInfo;
     }
 
     void SkillIconSet() // 스껄
     {
+        ResetInfo();
+
         Character nowSelectedChar = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
         mySkillList = nowSelectedChar.skillList;
 

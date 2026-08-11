@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Skils/Hit")]
-public class Hit : Skill, ITargetedEnemySkill, IAttackSkill
+[CreateAssetMenu(menuName = "Skils/TEamKill")]
+public class Team_Kill : Skill, ITargetedOurSkill, IAttackSkill
 {
     public int minDamage;
     public int maxDamage;
@@ -16,7 +16,7 @@ public class Hit : Skill, ITargetedEnemySkill, IAttackSkill
 
     public override IEnumerator Effected(SkillContext skillContext)
     {
-        Debug.Log($"{skillContext.user}: Hit");
+        Debug.Log($"{skillContext.user}: Team_Kill");
         OnSkillStart?.Invoke();
         yield return new WaitForSeconds(1f);
 
@@ -28,5 +28,6 @@ public class Hit : Skill, ITargetedEnemySkill, IAttackSkill
         OnSkillFinish?.Invoke();
 
         FightManager.Instance.OnActingFinished?.Invoke();
+        FocusCamera.Instance.Live(0);
     }
 }

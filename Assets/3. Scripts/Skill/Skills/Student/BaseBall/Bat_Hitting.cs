@@ -16,6 +16,7 @@ public class Bat_Hitting : Skill, ITargetedEnemySkill, IAttackSkill
 
     public override IEnumerator Effected(SkillContext skillContext)
     {
+        Debug.Log($"{skillContext.user}: Bat");
         OnSkillStart?.Invoke();
         yield return new WaitForSeconds(1f);
 
