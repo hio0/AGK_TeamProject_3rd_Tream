@@ -15,7 +15,7 @@ public class MapRange : MonoBehaviour
 
     public void Initialize(int myfloor, RoomData data, GameObject map)
     {
-        this.myfloor = myfloor;
+        this.myfloor = myfloor + 1;
         this.data = data;
         this.map = map;
     }
@@ -28,7 +28,7 @@ public class MapRange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        floorT.text = $"{myfloor + 1}층";
+        floorT.text = $"{myfloor}층";
 
         GameObject obj = Instantiate(map, parent_mapIcon);
         obj.GetComponent<MapData>().Initialize(data.roomList[myfloor]);

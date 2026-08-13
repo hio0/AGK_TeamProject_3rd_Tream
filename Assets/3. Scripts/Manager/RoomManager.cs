@@ -4,6 +4,7 @@ using System.Runtime.Serialization.Formatters;
 using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class RoomData
@@ -34,13 +35,14 @@ public class RoomManager : MonoBehaviour
     public List<GameObject> mapDatas;
     public Dictionary<int, List<Room>> roomList = new();
 
-    private void OnEnable()
+    // Start is called before the first frame update
+    void OnEnable()
     {
         SchoolManager.instance.GetRoomData += ReturnData;
 
         SchoolManager.instance.OnStarted += MakeSchool;
-        SchoolManager.instance.OnNextFloor += SelectFloor;
         SchoolManager.instance.OnNextRoom += SelectRoom;
+        SchoolManager.instance.OnNextFloor += NextFloor;
     }
 
     private void OnDisable()
@@ -48,13 +50,8 @@ public class RoomManager : MonoBehaviour
         SchoolManager.instance.GetRoomData -= ReturnData;
 
         SchoolManager.instance.OnStarted -= MakeSchool;
-        SchoolManager.instance.OnNextFloor -= SelectFloor;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        nowFloor = 0;
+        SchoolManager.instance.OnNextRoom -= SelectRoom;
+        SchoolManager.instance.OnNextFloor -= NextFloor;
     }
 
     // Update is called once per frame
@@ -82,6 +79,7 @@ public class RoomManager : MonoBehaviour
         SetFloorCount();
         SetRoomCount();
 
+        FloorSet();
         RoomSet(0);
     }
 
@@ -95,11 +93,11 @@ public class RoomManager : MonoBehaviour
     void SetFloorCount()
     {
         int plusFloor = 0;
+        plusFloor = ImportantData.dayCount / 4;
         if (ImportantData.dayCount >= 5)
         {
             plusFloor++;
         }
-        plusFloor = ImportantData.dayCount / 4;
 
         floorCount = 1 + plusFloor;
     }
@@ -145,7 +143,7 @@ public class RoomManager : MonoBehaviour
                 roooomlist.Add(selectRoom);
             }
 
-            roomList.Add(i, roooomlist);
+            roomList.Add(i + 1, roooomlist);
         }
 
         List<GameObject> list = new();
@@ -163,14 +161,10 @@ public class RoomManager : MonoBehaviour
         floorRoomList.Add(nowFloor, list[ran]);
     }
 
-    void SelectFloor()
+    void FloorSet()
     {
-        if (floorRoomList.Count <= 0)
-        {
-
-        }
-
-        floorCount++;
+        nowFloor = ImportantData.nowFloorCount;
+        Debug.Log($"floorset: {nowFloor} / {ImportantData.nowFloorCount}");
     }
 
     void SelectRoom()
@@ -183,6 +177,7 @@ public class RoomManager : MonoBehaviour
     void RoomSet(int num)
     {
         nowRoomNum = num;
+        Debug.Log($"floorset: {nowFloor}");
         nowRoom = roomList[nowFloor][nowRoomNum];
 
         for (int i = 0; i < transform.childCount; i++)
@@ -190,6 +185,31 @@ public class RoomManager : MonoBehaviour
             Destroy(transform.GetChild(i).gameObject);
         }
 
-        Instantiate(nowRoom, transform);
+        Room room = Instantiate(nowRoom, transform);
+
+        int r = Random.Range(0, 3);
+        for(int i = 0; i < r; i++)
+        {
+            int trsR = Random.Range(0, room.objectTransform.Count);
+            int objR = Random.Range(0, room.objects.Count);
+
+            if (room.objectTransform[trsR].childCount != 0)
+            {
+                i--;
+                continue;
+            }
+
+            if(trsR != 0 && objR != 0)
+            {
+                Instantiate(room.objects[objR], room.objectTransform[trsR]);
+            }
+        }
+    }
+
+    void NextFloor()
+    {
+        ImportantData.maxFloorCount = floorCount;
+        ImportantData.nowFloorCount = nowFloor + 1;
+        ImportantData.floorRoomsList = floorRoomList;
     }
 }

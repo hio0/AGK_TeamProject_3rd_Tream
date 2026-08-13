@@ -12,7 +12,7 @@ public class SchoolManager : MonoBehaviour
 
     public event Action OnNextClass;
     public  Action OnNextRoom;
-    public event Action OnNextFloor;
+    public Action OnNextFloor;
 
     public Action<string> OnNoticedSomething; // 나레이션할만한 행동 일어남
 
@@ -22,12 +22,14 @@ public class SchoolManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        StartSetting();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Started();
+        OnStarted?.Invoke();
     }
 
     // Update is called once per frame
@@ -36,10 +38,11 @@ public class SchoolManager : MonoBehaviour
 
     }
 
-    void Started()
+    void StartSetting()
     {
-        FocusCamera.Instance.LockingMovingCamera(false);
+        ImportantData.SetDefultValue();
 
-        OnStarted?.Invoke();
+        ImportantData.dayCount = 1;
+        ImportantData.nowFloorCount = 1;
     }
 }

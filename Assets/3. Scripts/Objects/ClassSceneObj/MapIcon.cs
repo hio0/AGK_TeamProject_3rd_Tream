@@ -78,6 +78,7 @@ public class MapIcon : MonoBehaviour
                 Select();
 
                 SceneMoveManager.Instance.FadeSceneLoad("Elevator", 1f);
+                SchoolManager.instance.OnNextFloor?.Invoke();
             }
 
             if (nowIcons.Contains(gameObject))

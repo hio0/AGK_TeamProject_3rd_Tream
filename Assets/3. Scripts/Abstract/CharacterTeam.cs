@@ -101,9 +101,10 @@ public abstract class CharacterTeam : MonoBehaviour
 
     protected virtual void ResetTeamEvent()
     {
-        mychar.OnActingStart = null;
-        mychar.OnCanITargeted = null;
-        mychar.OnTargetFinding = null;
+        mychar.OnActingStart -= ActingStart;
+        mychar.OnCanITargeted -= CanITargeting;
+        mychar.OnTargetFinding -= TargetFinding;
+        mychar.OnDied -= Dying;
     }
 
     protected abstract void ActingStart(); // 어떤 방식으로 스킬을 결정하나 및 어떻게 타깃을 구하나 -> character의 iTargeting을 true

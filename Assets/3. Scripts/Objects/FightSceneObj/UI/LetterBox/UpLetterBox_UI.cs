@@ -54,8 +54,15 @@ public class UpLetterBox_UI : LetterBox
         {
             Move();
         }
-        
+
         SetNarrationText(narration);
+    }
+
+    public void MoveTo(bool lin)
+    {
+        timer = 0;
+        isIn = lin;
+        Move();
     }
 
     void TimerReset()

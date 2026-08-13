@@ -12,11 +12,6 @@ public class EnemyCharacter : CharacterTeam
         FocusCamera.Instance.Live(0);
         FocusCamera.Instance.LockingMovingCamera(false);
 
-        FightManager.Instance.OnTargetFinding?.Invoke();
-    }
-
-    protected override void CanITargeting()
-    {
         usedSkill = null;
 
         Skill skill = mychar.SkillSetPattern();
@@ -28,33 +23,49 @@ public class EnemyCharacter : CharacterTeam
         {
             targetchar.iTargeting = skill.CanCharacterTargeting(mychar, targetchar);
         }
+
+        FightManager.Instance.OnTargetFinding?.Invoke();
+    }
+
+    protected override void CanITargeting()
+    {
+        
     }
 
     protected override void TargetFinding()
     {
-        List<Character> targetCharList = new();
-        CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
-        foreach (Character targetchar in rangeData.allCharacterList)
+        IEnumerator TargetFind()
         {
-            if (targetchar.iTargeting)
+            List<Character> targetCharList = new();
+            CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
+            foreach (Character targetchar in rangeData.allCharacterList)
             {
-                targetCharList.Add(targetchar);
+                if (targetchar.iTargeting)
+                {
+                    targetCharList.Add(targetchar);
+                }
+
+                yield return null;
             }
+
+            int r = Random.Range(0, targetCharList.Count);
+            Character mainTarget = null;
+
+            mainTarget = targetCharList[r];
+            mainTarget.selectingTargets = MultifulTargeting(mainTarget, usedSkill);
+            SchoolManager.instance.OnNoticedSomething($"{mychar.characterName}의 {usedSkill.skillName}!");
+
+            yield return new WaitForSeconds(1f);
+
+            skillContext = MakeSkillContext(usedSkill, mainTarget.selectingTargets);
+            FightManager.Instance.OnTargetFinded?.Invoke();
         }
 
-        int r = Random.Range(0, targetCharList.Count);
-        Character mainTarget = null;
-
-        mainTarget = targetCharList[r];
-
-        mainTarget.selectingTargets = MultifulTargeting(mainTarget, usedSkill);
-
-        skillContext = MakeSkillContext(usedSkill, mainTarget.selectingTargets);
-        FightManager.Instance.OnTargetFinded?.Invoke();
+        StartCoroutine(TargetFind());
     }
 
     protected override void Dying()
     {
-        FightManager.Instance.OnDyingSomeOne?.Invoke(mychar);
+        FightManager.Instance.OnDyingSomeOne?.Invoke(mychar.gameObject);
     }
 }

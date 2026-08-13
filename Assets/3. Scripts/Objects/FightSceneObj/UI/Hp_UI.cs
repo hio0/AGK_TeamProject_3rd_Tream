@@ -30,6 +30,11 @@ public class Hp_UI : ActionObject
         
     }
 
+    private void OnDestroy()
+    {
+        myChar.OnDamaged -= Damaged;
+    }
+
     void Damaged()
     {
         SetValue();
@@ -40,7 +45,7 @@ public class Hp_UI : ActionObject
 
             while (true)
             {
-                hpFillBg.fillAmount -= 0.05f;
+                hpFillBg.fillAmount -= 0.03f;
 
                 if (hpFillBg.fillAmount <= hpFillImage.fillAmount)
                 {

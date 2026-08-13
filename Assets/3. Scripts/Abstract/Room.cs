@@ -61,7 +61,7 @@ public class Room : MonoBehaviour
         StageMove(true);
 
         footstep++;
-        if (footstep >= 200 && rect.anchoredPosition.x >= -1330)
+        if (footstep >= 200 && rect.anchoredPosition.x > -1330)
         {
             footstep = 0;
             int r = Random.Range(1, 101);

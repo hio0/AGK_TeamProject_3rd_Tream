@@ -58,18 +58,29 @@ public abstract class Character : MonoBehaviour
         FightManager.Instance.OnTargetFinding += Targeting;
         FightManager.Instance.OnTargetFinded += Act;
         FightManager.Instance.OnTurnFinish += ReturnToBasic;
+        FightManager.Instance.OnFightFinish += ReturnToBasic;
     }
 
     private void OnDisable()
     {
-        if (FightManager.Instance == null)
-            return;
-
         FightManager.Instance.OnActingStart -= AnotherSelected;
         FightManager.Instance.OnTargetFinding -= CanITargeted;
         FightManager.Instance.OnTargetFinding -= Targeting;
         FightManager.Instance.OnTargetFinded -= Act;
         FightManager.Instance.OnTurnFinish -= ReturnToBasic;
+        FightManager.Instance.OnFightFinish -= ReturnToBasic;
+
+        OnActingStart = null;
+        OnCanITargeted = null;
+        OnTargetFinding = null;
+        OnDied = null;
+
+        OnTriggerEnter = null;
+        OnTriggerClick = null;
+        OnTriggerExit = null;
+
+        OnAction = null;
+        OnDamaged = null;
     }
 
 
@@ -143,7 +154,7 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Act() // 스킬컨텍스트 받고 계산은 스킬 쪽에서 다함 ㅇ
     {
-        if (iActChar) 
+        if (iActChar)
         {
             SkillContext skillContext = characterTeam.RetrunContext();
 
@@ -156,9 +167,9 @@ public abstract class Character : MonoBehaviour
     public virtual void Damaged(Action skillEffect)
     {
         skillEffect?.Invoke();
-        OnDamaged?.Invoke();
-
         HpToZero();
+
+        OnDamaged?.Invoke();
     }
 
     public virtual void HpToZero()

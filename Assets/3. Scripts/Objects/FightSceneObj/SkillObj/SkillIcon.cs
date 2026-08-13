@@ -17,7 +17,7 @@ public class SkillIcon : MonoBehaviour
     public Image image;
     public EventTrigger trigger;
 
-    public static event Action OnClicked;
+    static Action OnClicked;
 
     public void Initialize(Skill skill, SkillExplanation skillExplan, Character user) // 사실 이렇게 하기 보단 이벤트로 값 넘겨 받는게 맞긴 하다 ㅇㅇ,,,
     {
@@ -70,7 +70,6 @@ public class SkillIcon : MonoBehaviour
         SkillExplanation();
         OnClicked?.Invoke();
 
-        Debug.Log("OnClick");
         FightManager.Instance.GetNowSkill += ReturnSkill;
         FightManager.Instance.OnTargetFinding?.Invoke();
 

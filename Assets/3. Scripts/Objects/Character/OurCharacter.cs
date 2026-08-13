@@ -11,6 +11,7 @@ public class OurCharacter : CharacterTeam
 {
     protected override void ActingStart()
     {
+        SchoolManager.instance.OnNoticedSomething($"{mychar.characterName}의 차례!");
         FocusCamera.Instance.LockingMovingCamera(true);
     }
 
@@ -43,6 +44,7 @@ public class OurCharacter : CharacterTeam
         foreach (Character target in targetCharList)
         {
             target.ReturnToBasic();
+            target.characterTrigger.triggers.Clear();
 
             void OnEnter(Character targetchar)
             {
@@ -54,7 +56,10 @@ public class OurCharacter : CharacterTeam
                 skillContext = MakeSkillContext(myskill, targetchar.selectingTargets);
 
                 FightManager.Instance.OnTargetFinded?.Invoke();
+                SchoolManager.instance.OnNoticedSomething($"{mychar.characterName}의 {myskill.skillName}!");
                 targetchar.OnTriggerClick?.Invoke();
+                
+                target.characterTrigger.triggers.Clear();
             }
 
             void OnExit(Character targetchar)

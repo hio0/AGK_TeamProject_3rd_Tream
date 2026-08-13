@@ -8,4 +8,15 @@ public static class ImportantData
 
     public static List<Character> canUsedStudents = new(); 
     public static List<Character> usedStudents = new();
+
+    public static int maxFloorCount;
+    public static int nowFloorCount;
+    public static Dictionary<int, GameObject> floorRoomsList = new();
+
+    public static void SetDefultValue()
+    {
+        maxFloorCount = 0;
+        nowFloorCount = 0;
+        floorRoomsList = null;
+    }
 }

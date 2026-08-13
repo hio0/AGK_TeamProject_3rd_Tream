@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -36,7 +37,7 @@ public class RangeManager : MonoBehaviour
 
     void SetOurRange()
     {
-        foreach(Character data in ImportantData.usedStudents)
+        foreach (Character data in ImportantData.usedStudents)
         {
             Instantiate(data, ourRange.transform);
         }
@@ -46,15 +47,15 @@ public class RangeManager : MonoBehaviour
     {
         List<EnemyWave> list = SchoolManager.instance.GetRoomData?.Invoke().nowRoom.enemyWaves;
 
-        while(true)
+        while (true)
         {
-            int r1 = Random.Range(0, list.Count);
+            int r1 = UnityEngine.Random.Range(0, list.Count);
             EnemyWave enemys = list[r1];
 
-            int r2 = Random.Range(1, 101);
-            if(r2 <= enemys.wavePersent)
+            int r2 = UnityEngine.Random.Range(1, 101);
+            if (r2 <= enemys.wavePersent)
             {
-                foreach(Character character in enemys.enemyList)
+                foreach (Character character in enemys.enemyList)
                 {
                     Instantiate(character, enemyRange.transform);
                 }
@@ -94,8 +95,8 @@ public class RangeManager : MonoBehaviour
         // 순서 배정 전 랜덤 섞기
         for (int i = 0; i < actingCharacterList.Count; i++)
         {
-            int r1 = Random.Range(0, actingCharacterList.Count);
-            int r2 = Random.Range(0, actingCharacterList.Count);
+            int r1 = UnityEngine.Random.Range(0, actingCharacterList.Count);
+            int r2 = UnityEngine.Random.Range(0, actingCharacterList.Count);
 
             Templet.SwapTwoCollectionValue(actingCharacterList, r1, r2);
         }
@@ -127,39 +128,40 @@ public class RangeManager : MonoBehaviour
     }
 
     void SelectActer()
-    {        
+    {
         nowSelectedChar = actingCharacterList[nowSelectedNum];
         nowSelectedNum++;
-
-        SchoolManager.instance.OnNoticedSomething($"{nowSelectedChar.characterName}의 차례!");
 
         FocusCamera.Instance.LivingAndTargeting(nowSelectedChar);
     }
 
-    void DiedChar(Character dyingChar)
+    void DiedChar(GameObject dyingChar)
     {
-        bool isTurnDeath = false;
-        if(dyingChar.speed == nowSelectedChar.speed)
+        int targetNum = 0;
+        Action act = () =>
         {
-            isTurnDeath = true;
-        }
 
-        int destroySpeed = dyingChar.speed;
-        actingCharacterList.RemoveAt(dyingChar.speed - 1);
-        Destroy(dyingChar.gameObject);
+        };
 
-        foreach (Character character in actingCharacterList)
+        for (int i = 0; i < actingCharacterList.Count; i++)
         {
-            if(character.speed > destroySpeed)
+            if (actingCharacterList[i].gameObject == dyingChar)
             {
-                int x = character.speed - destroySpeed;
-                character.speed -= x;
+                targetNum = i;
+
+                if(actingCharacterList[i].speed == nowSelectedNum)
+                {
+                    act = () =>
+                    {
+                        FightManager.Instance.OnActingFinished?.Invoke();
+                    };
+                }
+                break;
             }
         }
 
-        if(isTurnDeath)
-        {
-            FightManager.Instance.OnActingFinished?.Invoke();
-        }
+        actingCharacterList.RemoveAt(targetNum);
+        Destroy(dyingChar);
+        act?.Invoke();
     }
 }

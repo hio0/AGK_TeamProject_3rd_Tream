@@ -9,7 +9,19 @@ public class SkillIconSetting : MonoBehaviour
     [SerializeField] SkillIcon pre_skillIcon;
     [SerializeField] SkillExplanation skillExplanation;
 
-    private void Start()
+    private void OnEnable()
+    {
+        NeedIcon();
+
+        FightManager.Instance.OnTargetFinded += ResetInfo;
+    }
+
+    private void OnDisable()
+    {
+        FightManager.Instance.OnTargetFinded -= ResetInfo;
+    }
+
+    void NeedIcon()
     {
         List<Character> list = FightManager.Instance.GetRangeData?.Invoke().ourRangeChar;
         foreach (Character character in list)
@@ -17,14 +29,6 @@ public class SkillIconSetting : MonoBehaviour
             character.OnActingStart -= SkillIconSet;
             character.OnActingStart += SkillIconSet;
         }
-
-        FightManager.Instance.OnTargetFinded += ResetInfo;
-    }
-
-    private void OnDisable()
-    {
-        FightManager.Instance.OnActingStart -= SkillIconSet;
-        FightManager.Instance.OnTargetFinded -= ResetInfo;
     }
 
     void SkillIconSet() // 스껄
@@ -32,13 +36,17 @@ public class SkillIconSetting : MonoBehaviour
         ResetInfo();
 
         Character nowSelectedChar = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
-        mySkillList = nowSelectedChar.skillList;
 
-        foreach (Skill skill in mySkillList)
+        if(nowSelectedChar.iOurUnit)
         {
-            SkillIcon skillIcon = Instantiate(pre_skillIcon, transform);
+            mySkillList = nowSelectedChar.skillList;
 
-            skillIcon.Initialize(skill, skillExplanation, nowSelectedChar);
+            foreach (Skill skill in mySkillList)
+            {
+                SkillIcon skillIcon = Instantiate(pre_skillIcon, transform);
+
+                skillIcon.Initialize(skill, skillExplanation, nowSelectedChar);
+            }
         }
     }
 

@@ -12,24 +12,26 @@ public class CanTarget_UI : ActionObject
     {
         mychar = GetComponentInParent<Character>();
 
-        FightManager.Instance.OnTargetFinding -= Act;
-        FightManager.Instance.OnTargetFinding += Act;
+        FightManager.Instance.OnTargetFinding += Targeting;
+        FightManager.Instance.OnActingFinished += Act;
     }
 
     private void OnDisable()
     {
-        FightManager.Instance.OnTargetFinding -= Act;
+        FightManager.Instance.OnTargetFinding -= Targeting;
+        FightManager.Instance.OnActingFinished -= Act;
     }
 
-    void Act()
+    void Targeting()
     {
         if (mychar.iTargeting)
         {
             can.alpha = 1f;
         }
-        else
-        {
-            can.alpha = 0f;
-        }
+    }
+
+    void Act()
+    {
+        can.alpha = 0f;
     }
 }

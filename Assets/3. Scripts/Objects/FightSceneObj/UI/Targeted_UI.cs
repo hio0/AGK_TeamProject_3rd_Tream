@@ -6,6 +6,8 @@ using UnityEngine;
 public class Targeted_UI : ActionObject
 {
     Character mychar;
+     
+    static Action OnExit;
 
     // Start is called before the first frame update
     void Start()
@@ -15,13 +17,19 @@ public class Targeted_UI : ActionObject
         mychar.OnTriggerEnter += Enter;
         mychar.OnTriggerExit += Exit;
 
-        FightManager.Instance.OnActingFinished += Exit;
+        OnExit += ForceExit;
+
+        FightManager.Instance.OnActingFinished += ForceExit;
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
         mychar.OnTriggerEnter -= Enter;
-        FightManager.Instance.OnActingFinished -= Exit;
+        mychar.OnTriggerExit -= Exit;
+
+        OnExit -= ForceExit;
+
+        FightManager.Instance.OnActingFinished -= ForceExit;
     }
 
     void Enter()
@@ -37,6 +45,11 @@ public class Targeted_UI : ActionObject
     }
 
     void Exit()
+    {
+        OnExit?.Invoke();
+    }
+
+    void ForceExit()
     {
         can.alpha = 0f;
     }
