@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class IconContext
@@ -27,9 +28,12 @@ public abstract class Icon
 
         stack = 1;
         remainTime = data.limitTurn;
+
+        EffectTerms();
+        RemoveTerms();
     }
 
-    public void AddStack(int stack)
+    public void ChangeStack(int stack)
     {
         int plused = this.stack + stack;
 
@@ -42,15 +46,31 @@ public abstract class Icon
         remainTime = data.limitTurn;
     }
 
-    /*
+    // 자식꺼
+    protected virtual void Effect(SkillContext context)
+    { }
+    protected abstract void EffectTerms();
+    protected abstract void RemoveTerms();
+    protected abstract void RemoveEvent();
+
+    // 템플릿
+    protected void ActionEffect(IconContext context, Action<AttackSkillData> effect)
+    {
+        if (context.skill is IAttackSkill)
+        {
+            IAttackSkill atk = context.skill.GetComponent<IAttackSkill>();
+
+            atk.OnAttack += effect;
+        }
+    }
+
     public void IsRemoveIcon()
     {
         remainTime--;
 
         if(remainTime <= 0)
         {
-            user.RemoveIcon(this);
+            target.RemoveIcon(this);
         }
     }
-    */
 }

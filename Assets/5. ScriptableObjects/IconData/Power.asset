@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Power
   m_EditorClassIdentifier: 
   myIcon:
-    rid: 7406696606381637632
+    rid: 7406696610199240705
   iconName: "\uD798"
   iconImage: {fileID: 962977874, guid: 3ddbbf6f6ac9f3d40a2b406a5eb49384, type: 3}
   limitStack: 10
@@ -25,9 +25,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 7406696606381637632
+    - rid: 7406696610199240705
       type: {class: Power, ns: , asm: Assembly-CSharp}
       data:
-        user: {fileID: 0}
-        remainTime: 0
+        data: {fileID: 0}
+        target: {fileID: 0}
+        skill: {fileID: 0}
         stack: 0
+        remainTime: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "IconData")]
 public class IconData : ScriptableObject
 {
-    [SerializeReference, SubclassSelector] public readonly Icon myIcon;
+    [SerializeReference, SubclassSelector] public Icon myIcon;
     public string iconName;
     public Sprite iconImage;
 

@@ -3,40 +3,41 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 [Serializable]
 public class Power : Icon
 {
-    /*
-    public override void Subs(IconContext context)
+    protected override void EffectTerms()
     {
-        context.user.OnAction += ActionEffect;
+        target.OnAction += Effect;
+    }
 
-        void ActionEffect(SkillContext contexts)
+    protected override void Effect(SkillContext context)
+    {
+        if(context.useSkill is IAttackSkill)
         {
-            if (contexts.useSkill is IAttackSkill)
-            {
-                IAttackSkill atk = contexts.useSkill.GetComponent<IAttackSkill>();
+            IAttackSkill atk = (IAttackSkill)context.useSkill;
+            AttackSkillData data = new();
+            Action<AttackSkillData> act = (atkdata) => data = atkdata;
 
-                atk.OnAttack += Effect;
-            }
+            atk.OnAttack += act;
 
-            void Effect(AttackSkillData data)
-            {
-                float power = data.damage / 10 * context.stack;
-                data.damage *= power;
-            }
+            float power = data.damage / 10 * stack;
+            data.damage *= power;
+
+            atk.OnAttack -= act;
         }
     }
 
-    public override void RemoveIcon(IconContext context)
+    protected override void RemoveTerms()
     {
-        FightManager.Instance.OnTurnFinish += context.icon.IsRemoveIcon;
+        FightManager.Instance.OnTurnFinish += IsRemoveIcon;
     }
 
-    public override void RemoveEvent(IconContext context)
+    protected override void RemoveEvent()
     {
-        FightManager.Instance.OnTurnFinish -= context.icon.IsRemoveIcon;
+        FightManager.Instance.OnTurnFinish -= IsRemoveIcon;
+        target.OnAction -= Effect;
     }
-    */
 }

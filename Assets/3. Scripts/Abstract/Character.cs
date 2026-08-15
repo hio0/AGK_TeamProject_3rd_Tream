@@ -189,11 +189,11 @@ public abstract class Character : MonoBehaviour
     }
 
     
-    public virtual void AddIcon(IconData data, SkillContext context, int addStack)
+    public virtual void AddIcon(IconData data, SkillContext context, int changedStack)
     {
         if (iconlist.Count != 0 && iconlist.Contains(data.myIcon))
         {
-            iconlist.Find(x => x == data.myIcon).AddStack(addStack);
+            iconlist.Find(x => x == data.myIcon).ChangeStack(changedStack);
         }
         else
         {
@@ -207,7 +207,7 @@ public abstract class Character : MonoBehaviour
             icon.Initialize(iconContext);
 
             iconlist.Add(icon);
-            icon.AddStack(addStack);
+            icon.ChangeStack(changedStack);
 
             IconIcon iconImage = Instantiate(pre_icon, characterIcons);
             iconImage.Initialize(icon, this);
@@ -216,12 +216,13 @@ public abstract class Character : MonoBehaviour
         OnIconStackChange?.Invoke(data.myIcon);
     }
 
-    /*
+    
     public virtual void RemoveIcon(Icon icon)
     {
         iconlist.Remove(icon);
     }
 
+    /*
     public void RemoveIconList()
     {
         foreach(Icon icon in iconlist)
