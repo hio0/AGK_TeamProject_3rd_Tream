@@ -88,12 +88,16 @@ public class RoomManager : MonoBehaviour
     /// </summary>
     /// 
     // 일차 x 당 방 개수 1 추가 / x는 일차 3개 당 1 증가
-    // 3일차부터 층 1 추가 / 5일차에 1추가 / 그 이후로 일차 3개 당 1 증가
+    // 층 개수: 1개 기본 / 3일차에 1층 추가 / 5일차에 1층 추가 / 그 이후로 일차 4개 당 1 증가
 
     void SetFloorCount()
     {
         int plusFloor = 0;
         plusFloor = ImportantData.dayCount / 4;
+        if (ImportantData.dayCount >= 3)
+        {
+            plusFloor++;
+        }
         if (ImportantData.dayCount >= 5)
         {
             plusFloor++;
@@ -177,7 +181,6 @@ public class RoomManager : MonoBehaviour
     void RoomSet(int num)
     {
         nowRoomNum = num;
-        Debug.Log($"floorset: {nowFloor}");
         nowRoom = roomList[nowFloor][nowRoomNum];
 
         for (int i = 0; i < transform.childCount; i++)

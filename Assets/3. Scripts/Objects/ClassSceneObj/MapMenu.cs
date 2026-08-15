@@ -49,7 +49,7 @@ public class MapMenu : MonoBehaviour
 
         for (int i = 0; i < parent_transform.childCount; i++)
         {
-            GameObject map = new();
+            GameObject map;
 
             MapRange range = parent_transform.GetChild(i).GetComponent<MapRange>();
             map = range.MyData();

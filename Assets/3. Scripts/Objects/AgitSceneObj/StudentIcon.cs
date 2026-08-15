@@ -64,7 +64,7 @@ public class StudentIcon : MonoBehaviour
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        RectTransform rect = AgitManager.instance.GetUIRect?.Invoke();
+        RectTransform rect = GameManager.instance.GetUIRect?.Invoke();
         basicIcon = Instantiate(pre_basicIcon, rect);
         MoveWithMouse(eventData);
 
@@ -89,12 +89,18 @@ public class StudentIcon : MonoBehaviour
         Destroy(basicIcon.gameObject);
         basicIcon = null;
 
-        AgitManager.instance.OnDroped?.Invoke();
+        GameManager.instance.OnDroped?.Invoke();
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        dragObject = eventData.pointerDrag.GetComponent<StudentInfo>().mychar;
+        Character drag = eventData.pointerDrag.GetComponent<StudentInfo>().mychar;
+        SetIcon(drag);
+    }
+
+    public void SetIcon(Character drag)
+    {
+        dragObject = drag;
         BasicIcon basicIcon = GetComponent<BasicIcon>();
 
         BasicIconData basicIconData = basicIcon.ReturnImage();
@@ -102,12 +108,12 @@ public class StudentIcon : MonoBehaviour
         basicIconData.spriteImage.color = new Color32(255, 255, 255, 255);
         basicIconData.spriteImage.sprite = dragObject.characterData.iconImage;
 
-        AgitManager.instance.OnDroped?.Invoke();
+        GameManager.instance.OnDroped?.Invoke();
     }
 
     void MoveWithMouse(PointerEventData eventData)
     {
-        RectTransform rect = AgitManager.instance.GetUIRect?.Invoke();
+        RectTransform rect = GameManager.instance.GetUIRect?.Invoke();
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             rect,

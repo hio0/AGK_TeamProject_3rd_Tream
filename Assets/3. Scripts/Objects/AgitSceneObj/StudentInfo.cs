@@ -51,7 +51,7 @@ public class StudentInfo : MonoBehaviour
     {
         dragObject = eventData.pointerDrag.GetComponent<StudentInfo>().mychar;
 
-        RectTransform rect = AgitManager.instance.GetUIRect?.Invoke();
+        RectTransform rect = GameManager.instance.GetUIRect?.Invoke();
         basicIcon = Instantiate(pre_basicIcon, rect);
         MoveWithMouse(eventData);
 
@@ -78,7 +78,7 @@ public class StudentInfo : MonoBehaviour
 
     void MoveWithMouse(PointerEventData eventData)
     {
-        RectTransform rect = AgitManager.instance.GetUIRect?.Invoke();
+        RectTransform rect = GameManager.instance.GetUIRect?.Invoke();
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             rect,

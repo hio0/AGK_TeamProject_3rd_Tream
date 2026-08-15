@@ -9,9 +9,7 @@ public class AgitManager : MonoBehaviour
     public static AgitManager instance;
 
     public Action<string, GameObject> OnButtonClicked;
-    public Action OnDroped;
 
-    public Func<RectTransform> GetUIRect;
     public List<Character> dedugs;
 
     [SerializeField] float loadSceneTime;

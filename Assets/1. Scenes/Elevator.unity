@@ -2360,7 +2360,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1F \uC5D8\uB808\uBCA0\uC774\uD130 | \uC55E\uC73C\uB85C 0F"
+  m_text: "1F \uC5D8\uB9AC\uBCA0\uC774\uD130 | \uC55E\uC73C\uB85C 0F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 767e6d70af9f5f9418b020c1c180f38d, type: 2}
   m_sharedMaterial: {fileID: -7103141521710960898, guid: 767e6d70af9f5f9418b020c1c180f38d, type: 2}
@@ -5030,6 +5030,7 @@ GameObject:
   - component: {fileID: 1848874844}
   - component: {fileID: 1848874846}
   - component: {fileID: 1848874845}
+  - component: {fileID: 1848874847}
   m_Layer: 0
   m_Name: ManagerObject
   m_TagString: Untagged
@@ -5074,6 +5075,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c81691c69a14dd4b80bce9a5f08601c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1848874847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848874842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77f3bf295b3f9242b3e2f8fd5ad9c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1866533715

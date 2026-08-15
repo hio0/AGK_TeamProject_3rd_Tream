@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Skils/BatHitting")]
@@ -12,17 +13,19 @@ public class Bat_Hitting : Skill, ITargetedEnemySkill, IAttackSkill
     public int MinDamage => minDamage;
     public int MaxDamage => maxDamage;
 
-    public event Action OnAttack;
+    public Action<AttackSkillData> OnAttack { get; set; }
 
     public override IEnumerator Effected(SkillContext skillContext)
     {
-        Debug.Log($"{skillContext.user}: Bat");
+        OnSkillAction?.Invoke(ReturnData(this));
+
         OnSkillStart?.Invoke();
         yield return new WaitForSeconds(1f);
 
-        SkillTemplet.Attack(MinDamage, MaxDamage, skillContext);
+        SkillTemplet.Attack(this, MinDamage, MaxDamage, skillContext);
         OnSkillEffected?.Invoke();
-        OnAttack?.Invoke();
+
+        skillContext.user.AddIcon(SkillTemplet.FindIcon(skillIcons, typeof(Power)), skillContext, 3);
 
         yield return new WaitForSeconds(0.5f);
         OnSkillFinish?.Invoke();

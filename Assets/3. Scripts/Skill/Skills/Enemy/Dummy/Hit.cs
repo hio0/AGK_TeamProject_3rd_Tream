@@ -12,17 +12,17 @@ public class Hit : Skill, ITargetedEnemySkill, IAttackSkill
     public int MinDamage => minDamage;
     public int MaxDamage => maxDamage;
 
-    public event Action OnAttack;
+    public Action<AttackSkillData> OnAttack { get; set; }
 
     public override IEnumerator Effected(SkillContext skillContext)
     {
-        Debug.Log($"{skillContext.user}: Hit");
+        OnSkillAction?.Invoke(ReturnData(this));
+
         OnSkillStart?.Invoke();
         yield return new WaitForSeconds(1f);
 
-        SkillTemplet.Attack(MinDamage, MaxDamage, skillContext);
+        SkillTemplet.Attack(this, MinDamage, MaxDamage, skillContext);
         OnSkillEffected?.Invoke();
-        OnAttack?.Invoke();
 
         yield return new WaitForSeconds(0.5f);
         OnSkillFinish?.Invoke();

@@ -7,7 +7,7 @@ public class AgitUIPanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AgitManager.instance.GetUIRect += ReturnAgit;
+        GameManager.instance.GetUIRect += ReturnAgit;
     }
 
     // Update is called once per frame

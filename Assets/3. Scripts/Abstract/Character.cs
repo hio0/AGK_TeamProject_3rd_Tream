@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,7 +20,7 @@ public abstract class Character : MonoBehaviour
     public int level;
     public int hp;
     public int speed;
-    public List<Flag> flaglist = new();
+    public List<Icon> iconlist = new();
 
     public int maxHp;
     public int minSpeed;
@@ -39,7 +41,9 @@ public abstract class Character : MonoBehaviour
     public Action OnTriggerEnter;
     public Action OnTriggerClick;
     public Action OnTriggerExit;
-    public event Action OnAction;
+
+    public event Action<Icon> OnIconStackChange;
+    public event Action<SkillContext> OnAction;
     public event Action OnDamaged;
 
     [Header("컴포넌트")]
@@ -47,6 +51,8 @@ public abstract class Character : MonoBehaviour
     public EventTrigger characterTrigger;
 
     public CharacterTeam characterTeam;
+    public Transform characterIcons;
+    public IconIcon pre_icon;
 
     private void OnEnable()
     {
@@ -59,6 +65,7 @@ public abstract class Character : MonoBehaviour
         FightManager.Instance.OnTargetFinded += Act;
         FightManager.Instance.OnTurnFinish += ReturnToBasic;
         FightManager.Instance.OnFightFinish += ReturnToBasic;
+        //FightManager.Instance.OnFightFinish += RemoveIconList;
     }
 
     private void OnDisable()
@@ -69,6 +76,7 @@ public abstract class Character : MonoBehaviour
         FightManager.Instance.OnTargetFinded -= Act;
         FightManager.Instance.OnTurnFinish -= ReturnToBasic;
         FightManager.Instance.OnFightFinish -= ReturnToBasic;
+        //FightManager.Instance.OnFightFinish -= RemoveIconList;
 
         OnActingStart = null;
         OnCanITargeted = null;
@@ -158,8 +166,8 @@ public abstract class Character : MonoBehaviour
         {
             SkillContext skillContext = characterTeam.RetrunContext();
 
+            OnAction?.Invoke(skillContext);
             StartCoroutine(skillContext.useSkill.Effected(skillContext));
-            OnAction?.Invoke();
             iActChar = false;
         }
     }
@@ -179,4 +187,47 @@ public abstract class Character : MonoBehaviour
             OnDied?.Invoke();
         }
     }
+
+    
+    public virtual void AddIcon(IconData data, SkillContext context, int addStack)
+    {
+        if (iconlist.Count != 0 && iconlist.Contains(data.myIcon))
+        {
+            iconlist.Find(x => x == data.myIcon).AddStack(addStack);
+        }
+        else
+        {
+            Icon icon = data.myIcon;
+            IconContext iconContext = new IconContext
+            {
+                data = data,
+                target = this,
+                skill = context.useSkill
+            };
+            icon.Initialize(iconContext);
+
+            iconlist.Add(icon);
+            icon.AddStack(addStack);
+
+            IconIcon iconImage = Instantiate(pre_icon, characterIcons);
+            iconImage.Initialize(icon, this);
+        }
+
+        OnIconStackChange?.Invoke(data.myIcon);
+    }
+
+    /*
+    public virtual void RemoveIcon(Icon icon)
+    {
+        iconlist.Remove(icon);
+    }
+
+    public void RemoveIconList()
+    {
+        foreach(Icon icon in iconlist)
+        {
+            //icon.data.RemoveEvent();
+        }
+    }
+    */
 }

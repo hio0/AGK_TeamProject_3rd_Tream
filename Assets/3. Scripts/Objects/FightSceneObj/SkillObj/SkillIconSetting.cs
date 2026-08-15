@@ -12,7 +12,6 @@ public class SkillIconSetting : MonoBehaviour
     private void OnEnable()
     {
         NeedIcon();
-
         FightManager.Instance.OnTargetFinded += ResetInfo;
     }
 

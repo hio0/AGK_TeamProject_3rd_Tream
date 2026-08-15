@@ -6,7 +6,6 @@ using UnityEngine;
 public class ElevatorManager : MonoBehaviour
 {
     public static ElevatorManager Instance;
-    public Action OnDroped;
 
     private void Awake()
     {

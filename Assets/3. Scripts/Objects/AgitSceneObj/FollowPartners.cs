@@ -10,8 +10,7 @@ public class FollowPartners : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        AgitManager.instance.OnDroped += SetStart;
+        GameManager.instance.OnDroped += SetStart;
 
         SetStart();
     }
@@ -24,6 +23,14 @@ public class FollowPartners : MonoBehaviour
 
     void SetStart()
     {
+        if(ImportantData.usedStudents.Count != 0)
+        {
+           for(int i  = 0; i < icons.Count; i++)
+            {
+                icons[i].SetIcon(ImportantData.usedStudents[i]);
+            }
+        }
+
         bool isOk = true;
         foreach (StudentIcon icon in icons)
         {

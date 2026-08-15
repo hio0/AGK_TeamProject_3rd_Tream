@@ -13,6 +13,8 @@ public static class ImportantData
     public static int nowFloorCount;
     public static Dictionary<int, GameObject> floorRoomsList = new();
 
+    public static Dictionary<Item, int> gettingItemList = new();
+
     public static void SetDefultValue()
     {
         maxFloorCount = 0;
