@@ -9,6 +9,6 @@ public class MenuButton : MonoBehaviour
 
     public void OnClick()
     {
-        AgitManager.instance.OnButtonClicked?.Invoke(opendMenuName, opendTool);
+        GameManager.instance.OnButtonClicked?.Invoke(opendMenuName, opendTool);
     }
 }

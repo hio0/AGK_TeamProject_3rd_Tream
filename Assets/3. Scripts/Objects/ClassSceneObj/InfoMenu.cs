@@ -13,6 +13,7 @@ public class InfoMenu : MonoBehaviour
     public Vector2 openPos;
 
     RectTransform rect;
+    public MapMenu menu;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class InfoMenu : MonoBehaviour
             Move();
         };
         FightManager.Instance.OnActingStart += act;
+        SchoolManager.instance.OnNextFloor += act;
 
         isIn = false;
         exit.SetActive(false);
@@ -53,9 +55,9 @@ public class InfoMenu : MonoBehaviour
         exit.SetActive(isIn);
     }
 
-    public void OnClickToggle(GameObject gameObject)
+    public void OnClickToggle()
     { 
-        gameObject.SetActive(true);
+        menu.gameObject.SetActive(true);
     }
 
     void Clear()

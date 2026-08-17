@@ -13,6 +13,8 @@ public class IconText : MonoBehaviour
     Color32 color;
     Vector2 targetPos;
 
+    public float speed;
+
     public CanvasGroup can;
     public RectTransform rect;
 
@@ -37,14 +39,14 @@ public class IconText : MonoBehaviour
 
     void Animation()
     {
-        float speed = 0.5f;
+        can.alpha = 1f;
 
         IEnumerator Cor()
         {
-            StartCoroutine(UIMovement.MoveAnimation(rect, targetPos, speed));
-            StartCoroutine(UIMovement.LerpFade(rect, can, targetPos, speed));
+            UIMovement.DoAnchorMove(rect, targetPos, speed);
+            StartCoroutine(UIMovement.LerpFade(rect, can, targetPos));
 
-            yield return new WaitForSeconds(speed);
+            yield return new WaitForSeconds(speed + 0.1f);
 
             Destroy(gameObject);
         }

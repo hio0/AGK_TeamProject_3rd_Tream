@@ -16,20 +16,22 @@ MonoBehaviour:
     rid: 7406696610199240705
   iconName: "\uD798"
   iconImage: {fileID: 962977874, guid: 3ddbbf6f6ac9f3d40a2b406a5eb49384, type: 3}
-  limitStack: 10
+  limitStack: 20
   limitTurn: 3
   textColor:
     serializedVersion: 2
-    rgba: 8878843
-  iconExplanation: 
+    rgba: 4287068923
+  iconExplanation: "\uC911\uCCA9 \uB2F9 \uAC00\uD558\uB294 \uD53C\uD574 <color=#FB7A87>+10%</color>.
+    ( \uCD5C\uB300 200% )\n\uD53C\uACA9 \uC2DC \uC2A4\uD0DD \uC808\uBC18 \uAC10\uC18C.
+    \n\uD134 \uC885\uB8CC \uC2DC \uC911\uCCA9 1 \uAC10\uC18C. \n\uCCAB \uD68D\uB4DD
+    \uD6C4 3\uD134 \uB4A4 \uC81C\uAC70."
   references:
     version: 2
     RefIds:
     - rid: 7406696610199240705
       type: {class: Power, ns: , asm: Assembly-CSharp}
       data:
-        data: {fileID: 0}
+        data: {fileID: 11400000}
         target: {fileID: 0}
-        skill: {fileID: 0}
-        stack: 0
-        remainTime: 0
+        stack: 6
+        remainTime: 3

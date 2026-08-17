@@ -20,7 +20,7 @@ public class ItemIcon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        icon.spriteImage.sprite = myItem.itemImage;
+        icon.spriteImage.sprite = myItem.data.itemImage;
         countT.text = count.ToString();
     }
 }

@@ -35,7 +35,7 @@ public class Power : Icon
         FightManager.Instance.OnTurnFinish += IsRemoveIcon;
     }
 
-    protected override void RemoveEvent()
+    public override void RemoveEvent()
     {
         FightManager.Instance.OnTurnFinish -= IsRemoveIcon;
         target.OnAction -= Effect;

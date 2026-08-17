@@ -8,7 +8,6 @@ public class IconContext
 {
     public IconData data;
     public Character target;
-    public Skill skill;
 }
 
 [Serializable]
@@ -16,7 +15,6 @@ public abstract class Icon
 {
     public IconData data;
     public Character target;
-    public Skill skill;
     public int stack;
     public int remainTime;
 
@@ -24,16 +22,15 @@ public abstract class Icon
     {
         data = context.data;
         target = context.target;
-        skill = context.skill;
 
-        stack = 1;
+        stack = 0;
         remainTime = data.limitTurn;
 
         EffectTerms();
         RemoveTerms();
     }
 
-    public void ChangeStack(int stack)
+    public virtual void ChangeStack(int stack)
     {
         int plused = this.stack + stack;
 
@@ -51,14 +48,14 @@ public abstract class Icon
     { }
     protected abstract void EffectTerms();
     protected abstract void RemoveTerms();
-    protected abstract void RemoveEvent();
+    public abstract void RemoveEvent();
 
     // 템플릿
-    protected void ActionEffect(IconContext context, Action<AttackSkillData> effect)
+    protected void ActionEffect(Skill skill, Action<AttackSkillData> effect)
     {
-        if (context.skill is IAttackSkill)
+        if (skill is IAttackSkill)
         {
-            IAttackSkill atk = context.skill.GetComponent<IAttackSkill>();
+            IAttackSkill atk = skill.GetComponent<IAttackSkill>();
 
             atk.OnAttack += effect;
         }

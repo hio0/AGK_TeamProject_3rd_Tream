@@ -90,8 +90,13 @@ public class RangeManager : MonoBehaviour
         return rangeData;
     }
 
-    void SetActingCharacter()
+    void SetActingCharacter() // 로직: 캐릭마다 최소 - 최대 속도 중 랜덤 속도 결정 후, 리스트 섞음. 속도가 작은 순으로 배열 후, 가장 빠른 놈부터 선공권 부여. 
     {
+        foreach (Character character in actingCharacterList)
+        {
+            character.SetSpeed();
+        }
+
         // 순서 배정 전 랜덤 섞기
         for (int i = 0; i < actingCharacterList.Count; i++)
         {
@@ -102,28 +107,14 @@ public class RangeManager : MonoBehaviour
         }
 
         // 순서 정하기 ( 배열 정리 )
-        for (int i = 0; i < actingCharacterList.Count; i++) // 속도값 << - 이거를 랜덤성
-        {
-            int giveSpeed = i + 1;
-
-            if (actingCharacterList[i].minSpeed < giveSpeed)
-            {
-                int minSpeed = actingCharacterList[i].minSpeed;
-                if (minSpeed >= actingCharacterList.Count)
-                {
-                    minSpeed = actingCharacterList.Count - 1;
-                }
-
-                Templet.SwapTwoCollectionValue(actingCharacterList, i, minSpeed);
-            }
-        }
+        actingCharacterList.Sort((a, b) => b.speed.CompareTo(a.speed)); // 이런 간편한 정렬 기능이 있었다고 ????? ( b -> a 는 높은 순 정렬.)
 
         // 실제 순서 배정 ( 정리된 배열에 값 넣어주기 )
         for (int i = 0; i < actingCharacterList.Count; i++)
         {
-            int giveSpeed = i + 1;
+            int giveTurnCount = i + 1;
 
-            actingCharacterList[i].speed = giveSpeed;
+            actingCharacterList[i].nowTurnCount = giveTurnCount;
         }
     }
 
@@ -149,7 +140,7 @@ public class RangeManager : MonoBehaviour
             {
                 targetNum = i;
 
-                if(actingCharacterList[i].speed == nowSelectedNum)
+                if (actingCharacterList[i].speed == nowSelectedNum)
                 {
                     act = () =>
                     {

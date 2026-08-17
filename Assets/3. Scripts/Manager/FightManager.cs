@@ -177,6 +177,7 @@ public class FightManager : MonoBehaviour
 
             DownLetterBox_UI.Instance.Move();
             UpLetterBox_UI.Instance.MoveTo(true);
+            fightP.SetActive(false);
             OnFightFinish?.Invoke();
         }
 

@@ -8,8 +8,6 @@ public class AgitManager : MonoBehaviour
 {
     public static AgitManager instance;
 
-    public Action<string, GameObject> OnButtonClicked;
-
     public List<Character> dedugs;
 
     [SerializeField] float loadSceneTime;

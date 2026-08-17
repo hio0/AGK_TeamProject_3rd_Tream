@@ -35,6 +35,8 @@ public class RoomManager : MonoBehaviour
     public List<GameObject> mapDatas;
     public Dictionary<int, List<Room>> roomList = new();
 
+    public ItemBox pre_itemBox;
+
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -68,7 +70,8 @@ public class RoomManager : MonoBehaviour
             floorCount = floorCount,
             floorRoomList = floorRoomList,
             roomList = roomList,
-            nowRoom = nowRoom
+            nowRoom = nowRoom,
+            nowRoomNum = nowRoomNum
         };
 
         return data;
@@ -77,9 +80,9 @@ public class RoomManager : MonoBehaviour
     void MakeSchool()
     {
         SetFloorCount();
-        SetRoomCount();
-
         FloorSet();
+
+        SetRoomCount();
         RoomSet(0);
     }
 
@@ -103,7 +106,8 @@ public class RoomManager : MonoBehaviour
             plusFloor++;
         }
 
-        floorCount = 1 + plusFloor;
+        floorCount = 2 + plusFloor;
+        ImportantData.maxFloorCount = floorCount;
     }
 
     /// <summary>
@@ -150,25 +154,31 @@ public class RoomManager : MonoBehaviour
             roomList.Add(i + 1, roooomlist);
         }
 
-        List<GameObject> list = new();
-        foreach (GameObject go in mapDatas)
+        for (int i = 0; i < floorCount; i++)
         {
-            MapData mapData = go.GetComponent<MapData>();
-
-            if (mapData.mapCount == roomCount)
+            List<GameObject> list = new();
+            foreach (GameObject go in mapDatas)
             {
-                list.Add(go);
-            }
-        }
+                MapData mapData = go.GetComponent<MapData>();
 
-        int ran = Random.Range(0, list.Count);
-        floorRoomList.Add(nowFloor, list[ran]);
+                if (mapData.mapCount == roomCount)
+                {
+                    list.Add(go);
+                }
+            }
+
+            int ran = Random.Range(0, list.Count);
+            floorRoomList.Add(i + 1, list[ran]);
+        }
     }
 
     void FloorSet()
     {
         nowFloor = ImportantData.nowFloorCount;
-        Debug.Log($"floorset: {nowFloor} / {ImportantData.nowFloorCount}");
+        if(nowFloor < 0)
+        {
+            nowFloor = 1;
+        }
     }
 
     void SelectRoom()
@@ -190,29 +200,30 @@ public class RoomManager : MonoBehaviour
 
         Room room = Instantiate(nowRoom, transform);
 
-        int r = Random.Range(0, 3);
-        for(int i = 0; i < r; i++)
+        if(!room.ioneFoot)
         {
-            int trsR = Random.Range(0, room.objectTransform.Count);
-            int objR = Random.Range(0, room.objects.Count);
-
-            if (room.objectTransform[trsR].childCount != 0)
+            int r = Random.Range(2, 5);
+            for (int i = 0; i < r; i++)
             {
-                i--;
-                continue;
-            }
+                int trsR = Random.Range(0, room.objectTransform.Count);
+                Transform rect = room.objectTransform[trsR].transform;
 
-            if(trsR != 0 && objR != 0)
-            {
-                Instantiate(room.objects[objR], room.objectTransform[trsR]);
+                if (rect.childCount != 0)
+                {
+                    return;
+                }
+
+                ItemBox box = Instantiate(pre_itemBox, rect);
+                box.Initialize(room.objectTransform[trsR].size, room.objectTransform[trsR].color, room.items);
             }
         }
+
+        room.ioneFoot = true;
     }
 
     void NextFloor()
     {
-        ImportantData.maxFloorCount = floorCount;
-        ImportantData.nowFloorCount = nowFloor + 1;
+        ImportantData.nowFloorCount = nowFloor;
         ImportantData.floorRoomsList = floorRoomList;
     }
 }

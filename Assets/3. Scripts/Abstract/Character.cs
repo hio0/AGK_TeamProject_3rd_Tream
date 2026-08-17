@@ -24,9 +24,12 @@ public abstract class Character : MonoBehaviour
 
     public int maxHp;
     public int minSpeed;
+    public int maxSpeed;
 
     [Header("시스템")]
     public int nowPosition;
+    public int nowTurnCount;
+
     public bool iActChar;
     public bool iOurUnit;
     public bool iTargeting;
@@ -49,9 +52,13 @@ public abstract class Character : MonoBehaviour
     [Header("컴포넌트")]
     public Image characterImage;
     public EventTrigger characterTrigger;
-
     public CharacterTeam characterTeam;
+    public Outline characterOutLine;
+
+    public Transform body;
     public Transform characterIcons;
+
+    public IconText pre_iconText;
     public IconIcon pre_icon;
 
     private void OnEnable()
@@ -65,7 +72,7 @@ public abstract class Character : MonoBehaviour
         FightManager.Instance.OnTargetFinded += Act;
         FightManager.Instance.OnTurnFinish += ReturnToBasic;
         FightManager.Instance.OnFightFinish += ReturnToBasic;
-        //FightManager.Instance.OnFightFinish += RemoveIconList;
+        FightManager.Instance.OnFightFinish += RemoveIconList;
     }
 
     private void OnDisable()
@@ -76,7 +83,7 @@ public abstract class Character : MonoBehaviour
         FightManager.Instance.OnTargetFinded -= Act;
         FightManager.Instance.OnTurnFinish -= ReturnToBasic;
         FightManager.Instance.OnFightFinish -= ReturnToBasic;
-        //FightManager.Instance.OnFightFinish -= RemoveIconList;
+        FightManager.Instance.OnFightFinish -= RemoveIconList;
 
         OnActingStart = null;
         OnCanITargeted = null;
@@ -91,14 +98,19 @@ public abstract class Character : MonoBehaviour
         OnDamaged = null;
     }
 
-
     // 시스템
+    public void SetSpeed()
+    {
+        int value = UnityEngine.Random.Range(minSpeed, maxSpeed + 1);
+        speed = value;
+    }
+
     void AnotherSelected()
     {
         TurnStartedSet();
 
         Character selectedChar = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
-        if (selectedChar.speed != speed)
+        if (selectedChar.nowTurnCount != nowTurnCount)
         {
             characterImage.color = new Color32(116, 116, 116, 200);
             return;
@@ -134,11 +146,13 @@ public abstract class Character : MonoBehaviour
 
     void DefaultSet()
     {
-        characterName = characterData.defaultCharacterName;
-        skillList = characterData.defaultSkillList;
-
         maxHp = characterData.defaultHp;
         minSpeed = characterData.defaultMinSpeed;
+        maxSpeed = characterData.defaultMaxSpeed;
+
+        characterName = characterData.defaultCharacterName;
+        skillList = characterData.defaultSkillList;
+        hp = maxHp;
     }
 
     void TurnStartedSet()
@@ -189,20 +203,20 @@ public abstract class Character : MonoBehaviour
     }
 
     
-    public virtual void AddIcon(IconData data, SkillContext context, int changedStack)
+    public virtual void AddIcon(IconData data, int changedStack)
     {
-        if (iconlist.Count != 0 && iconlist.Contains(data.myIcon))
+        Icon icon = data.myIcon;
+
+        if (iconlist.Contains(icon))
         {
-            iconlist.Find(x => x == data.myIcon).ChangeStack(changedStack);
+            iconlist.Find(x => x == icon).ChangeStack(changedStack);
         }
         else
         {
-            Icon icon = data.myIcon;
             IconContext iconContext = new IconContext
             {
                 data = data,
-                target = this,
-                skill = context.useSkill
+                target = this
             };
             icon.Initialize(iconContext);
 
@@ -213,7 +227,10 @@ public abstract class Character : MonoBehaviour
             iconImage.Initialize(icon, this);
         }
 
-        OnIconStackChange?.Invoke(data.myIcon);
+        IconText text = Instantiate(pre_iconText, body);
+        text.Initialize(data);
+
+        OnIconStackChange?.Invoke(icon);
     }
 
     
@@ -222,13 +239,11 @@ public abstract class Character : MonoBehaviour
         iconlist.Remove(icon);
     }
 
-    /*
     public void RemoveIconList()
     {
         foreach(Icon icon in iconlist)
         {
-            //icon.data.RemoveEvent();
+            icon.RemoveEvent();
         }
     }
-    */
 }

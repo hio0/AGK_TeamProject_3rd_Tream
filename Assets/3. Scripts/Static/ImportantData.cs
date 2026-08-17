@@ -5,6 +5,7 @@ using UnityEngine;
 public static class ImportantData
 {
     public static int dayCount;
+    public static int gameMinutes;
 
     public static List<Character> canUsedStudents = new(); 
     public static List<Character> usedStudents = new();

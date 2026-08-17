@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class MapIcon : MonoBehaviour
 {
-    int roomNum;
-    int floorNum;
+    public int roomNum;
+    public int floorNum;
     MapData p;
 
     public static int nowNum;
@@ -38,16 +38,13 @@ public class MapIcon : MonoBehaviour
         Templet.AddEvent(trigger, EventTriggerType.PointerClick, OnClick);
 
         icon.ReturnImage();
+        ResetMe();
 
         RoomData data = SchoolManager.instance.GetRoomData?.Invoke();
         if (data.nowRoomNum == roomNum && data.nowFloor == floorNum)
         {
             Select();
         }
-    }
-
-    private void OnEnable()
-    {
         p.OnReseted += ResetMe;
     }
 

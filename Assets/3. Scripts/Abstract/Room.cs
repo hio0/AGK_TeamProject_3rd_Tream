@@ -15,13 +15,15 @@ public class Room : MonoBehaviour
     public Image wall;
     public Image ground;
 
-    public List<RectTransform> objectTransform;
-    public List<RoomObject> objects;
+    public List<RoomObjectTransform> objectTransform;
+    public List<ItemData> items;
     public List<EnemyWave> enemyWaves;
 
     Rigidbody2D rb;
     RectTransform rect;
     public int footstep;
+
+    public bool ioneFoot;
 
     private void OnEnable()
     {

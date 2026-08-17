@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public Action OnDroped;
+    public Action<string, GameObject> OnButtonClicked;
     public Func<RectTransform> GetUIRect;
 
     private void Awake()

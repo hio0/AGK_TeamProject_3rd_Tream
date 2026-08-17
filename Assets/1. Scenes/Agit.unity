@@ -4826,9 +4826,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dedugs:
-  - {fileID: 6529937018926312250, guid: 52ecf3794c04fd64fb8876253b1bf3d0, type: 3}
-  - {fileID: 6529937018926312250, guid: 52ecf3794c04fd64fb8876253b1bf3d0, type: 3}
-  - {fileID: 6529937018926312250, guid: 52ecf3794c04fd64fb8876253b1bf3d0, type: 3}
+  - {fileID: 6529937018926312250, guid: e87444abac9d90f4d9eed47bdae885dd, type: 3}
+  - {fileID: 6529937018926312250, guid: a7b2a794748135a499e6d2c94473a376, type: 3}
+  - {fileID: 6529937018926312250, guid: e4f030470f750a946b2011d7f6361ae1, type: 3}
   loadSceneTime: 1
 --- !u!4 &1848874844
 Transform:

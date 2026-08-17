@@ -76,7 +76,7 @@ public abstract class Skill : ScriptableObject
                 }
                 break;
             case ITargetedMeSkill:
-                if (user.speed == target.speed)
+                if (user.nowTurnCount == target.nowTurnCount)
                 {
                     canTarget = true;
                 }

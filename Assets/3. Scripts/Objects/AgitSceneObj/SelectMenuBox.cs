@@ -25,7 +25,7 @@ public class SelectMenuBox : MonoBehaviour
 
         Sleep();
 
-        AgitManager.instance.OnButtonClicked += Open;
+        GameManager.instance.OnButtonClicked += Open;
     }
 
     // Update is called once per frame

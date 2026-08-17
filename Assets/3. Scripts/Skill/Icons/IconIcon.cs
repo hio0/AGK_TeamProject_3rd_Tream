@@ -16,11 +16,13 @@ public class IconIcon : MonoBehaviour
     {
         myIcon = icon;
         myChar = character;
+
+        myChar.OnIconStackChange += AddStackT;
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        myChar.OnIconStackChange += AddStackT;
+        myChar.OnIconStackChange -= AddStackT;
     }
 
     void AddStackT(Icon icon)

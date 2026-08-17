@@ -60,7 +60,7 @@ public abstract class CharacterTeam : MonoBehaviour
         {
             int r = UnityEngine.Random.Range(0, targetingList.Count);
 
-            if (targetingList[r].speed == mainTarget.speed)
+            if (targetingList[r].nowTurnCount == mainTarget.nowTurnCount)
             {
                 i--;
                 continue;

@@ -36,11 +36,13 @@ public class StudentInfo : MonoBehaviour
     {
         icon.sprite = mychar.characterData.iconImage;
 
+        /*
         characterNameT.text = mychar.characterData.defaultCharacterName;
         LevelT.text = $"Lv.<size=35>{mychar.characterData.nowLevel}</size>";
         hpT.text = $"{mychar.characterData.nowHp} / {mychar.characterData.nowMaxHp}";
 
         hpFillImage.fillAmount = (float)mychar.characterData.nowHp / (float)mychar.characterData.nowMaxHp;
+        */
 
         Templet.AddEvent(trigger, EventTriggerType.BeginDrag, OnBeginDrag);
         Templet.AddEvent(trigger, EventTriggerType.Drag, OnDrag);

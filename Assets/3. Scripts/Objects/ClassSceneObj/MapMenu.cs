@@ -7,20 +7,14 @@ public class MapMenu : MonoBehaviour
     public MapRange pre_map;
     public Transform parent_transform;
 
-    private void Awake()
-    {
-        SchoolManager.instance.OnStarted += MakeMap;
-    }
-
     private void OnEnable()
     {
-        SchoolManager.instance.OnStarted -= MakeMap;
+        SchoolManager.instance.OnStarted += MakeMap;
     }
 
     private void OnDisable()
     {
         SchoolManager.instance.OnStarted -= MakeMap;
-
         SaveData();
     }
 
@@ -38,7 +32,7 @@ public class MapMenu : MonoBehaviour
         {
             MapRange range = Instantiate(pre_map, parent_transform);
             
-            range.Initialize(i, data, data.floorRoomList[i]);
+            range.Initialize(i + 1, data, data.floorRoomList[i + 1]);
 
         }
     }

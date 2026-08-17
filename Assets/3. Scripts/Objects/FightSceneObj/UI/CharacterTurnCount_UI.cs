@@ -31,7 +31,7 @@ public class CharacterTurnCount_UI : ActionObject
 
     void SetNum()
     {
-        numText.text = mychar.speed.ToString();
+        numText.text = mychar.nowTurnCount.ToString();
         numText.color = new Color32(171, 171, 171, 255);
     }
 }

@@ -8,20 +8,15 @@ public class MapData : MonoBehaviour
     public int mapCount;
     public Action OnReseted;
 
-    List<Room> rooms = new();
+    int myfloor;
 
-    public void Initialize(List<Room> rooms)
+    public void Initialize(int myfloor)
     {
-        this.rooms = rooms;
-    }
-
-    private void Awake()
-    {
-        RoomData data = SchoolManager.instance.GetRoomData?.Invoke();
+        this.myfloor = myfloor;
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            transform.GetChild(i).gameObject.GetComponent<MapIcon>().Initialize(i, data.nowFloor, this);
+            transform.GetChild(i).gameObject.GetComponent<MapIcon>().Initialize(i, myfloor, this);
         }
     }
 }

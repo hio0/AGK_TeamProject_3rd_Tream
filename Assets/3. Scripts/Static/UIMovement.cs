@@ -19,23 +19,33 @@ public static class UIMovement
         }
     }
 
-    public static IEnumerator LerpFade(RectTransform what, CanvasGroup can, Vector2 target, float speed)
+    public static IEnumerator LerpFade(RectTransform what, CanvasGroup can, Vector2 target)
     {
-        while (can.alpha > 0.01f)
+        Vector2 startPos = what.anchoredPosition;
+        float totalDistance = Vector2.Distance(startPos, target);
+
+        if (totalDistance <= 0f)
         {
-            float distance = Vector2.Distance(what.anchoredPosition, target);
-            float maxDistance = target.y - what.anchoredPosition.y;
-            float t = 1f - Mathf.Clamp01(distance / maxDistance);
+            can.alpha = 0f;
+            yield break;
+        }
 
-            t *= t;
+        while (true)
+        {
+            float currentDistance = Vector2.Distance(startPos, what.anchoredPosition);
 
-            can.alpha = Mathf.Lerp(can.alpha, 0f, t * speed * Time.deltaTime);
+            float progress = currentDistance / totalDistance;
+
+            can.alpha = 1f - Mathf.Clamp01(progress);
+
+            if (progress >= 1f)
+                break;
 
             yield return null;
         }
 
         can.alpha = 0f;
-    }
+}
 
     public static IEnumerator SizeSetAnimation(RectTransform what, Vector2 target, float speed)
     {

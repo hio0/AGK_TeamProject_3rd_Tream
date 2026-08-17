@@ -12,6 +12,7 @@ public static class SkillTemplet
             Action attackEffect = () =>
             {
                 float damage = UnityEngine.Random.Range(minDamage, maxDamage + 1);
+                Debug.Log($"BeforeDmg: {damage.ToString()}");
 
                 AttackSkillData data = new AttackSkillData
                 {
@@ -21,6 +22,7 @@ public static class SkillTemplet
                 };
                 skill.OnAttack?.Invoke(data);
                 target.hp -= (int)damage;
+                Debug.Log($"AfterDmg: {damage.ToString()}");
             };
 
             target.Damaged(attackEffect);

@@ -25,7 +25,7 @@ public class Bat_Hitting : Skill, ITargetedEnemySkill, IAttackSkill
         SkillTemplet.Attack(this, MinDamage, MaxDamage, skillContext);
         OnSkillEffected?.Invoke();
 
-        skillContext.user.AddIcon(SkillTemplet.FindIcon(skillIcons, typeof(Power)), skillContext, 3);
+        skillContext.user.AddIcon(SkillTemplet.FindIcon(skillIcons, typeof(Power)), 3);
 
         yield return new WaitForSeconds(0.5f);
         OnSkillFinish?.Invoke();

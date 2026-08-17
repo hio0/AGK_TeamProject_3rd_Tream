@@ -15,7 +15,7 @@ public class MapRange : MonoBehaviour
 
     public void Initialize(int myfloor, RoomData data, GameObject map)
     {
-        this.myfloor = myfloor + 1;
+        this.myfloor = myfloor;
         this.data = data;
         this.map = map;
     }
@@ -31,6 +31,6 @@ public class MapRange : MonoBehaviour
         floorT.text = $"{myfloor}층";
 
         GameObject obj = Instantiate(map, parent_mapIcon);
-        obj.GetComponent<MapData>().Initialize(data.roomList[myfloor]);
+        obj.GetComponent<MapData>().Initialize(myfloor);
     }
 }

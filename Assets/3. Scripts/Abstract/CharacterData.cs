@@ -13,16 +13,5 @@ public class CharacterData : ScriptableObject
 
     public int defaultHp;
     public int defaultMinSpeed;
-
-    [Header("현재 정보")]
-    public int nowLevel;
-
-    public int nowHp;
-    public int nowMaxHp;
-
-    public CharacterData()
-    {
-        nowHp = defaultHp;
-        nowMaxHp = defaultHp;
-    }
+    public int defaultMaxSpeed;
 }
