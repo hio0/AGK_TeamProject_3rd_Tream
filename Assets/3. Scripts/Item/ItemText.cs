@@ -25,7 +25,7 @@ public class ItemText : MonoBehaviour
     void Start()
     {
         image.sprite = data.itemImage;
-        plusCountT.text = $"+{count}";
+        plusCountT.text = count.ToString("+#;-#;0");
         itemNameT.text = data.itemName;
 
         Animatied();

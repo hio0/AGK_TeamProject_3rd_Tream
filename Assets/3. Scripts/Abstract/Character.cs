@@ -21,10 +21,12 @@ public abstract class Character : MonoBehaviour
     public int hp;
     public int speed;
     public List<Icon> iconlist = new();
+    public List<Item> itemList = new();
 
     public int maxHp;
     public int minSpeed;
     public int maxSpeed;
+    public int nextLevel;
 
     [Header("시스템")]
     public int nowPosition;
@@ -45,6 +47,7 @@ public abstract class Character : MonoBehaviour
     public Action OnTriggerClick;
     public Action OnTriggerExit;
 
+    public event Action OnLevelUp; 
     public event Action<Icon> OnIconStackChange;
     public event Action<SkillContext> OnAction;
     public event Action OnDamaged;
@@ -73,6 +76,7 @@ public abstract class Character : MonoBehaviour
         FightManager.Instance.OnTurnFinish += ReturnToBasic;
         FightManager.Instance.OnFightFinish += ReturnToBasic;
         FightManager.Instance.OnFightFinish += RemoveIconList;
+        FightManager.Instance.OnActingFinished += ActFinish;
     }
 
     private void OnDisable()
@@ -84,6 +88,7 @@ public abstract class Character : MonoBehaviour
         FightManager.Instance.OnTurnFinish -= ReturnToBasic;
         FightManager.Instance.OnFightFinish -= ReturnToBasic;
         FightManager.Instance.OnFightFinish -= RemoveIconList;
+        FightManager.Instance.OnActingFinished -= ActFinish;
 
         OnActingStart = null;
         OnCanITargeted = null;
@@ -99,6 +104,12 @@ public abstract class Character : MonoBehaviour
     }
 
     // 시스템
+    public void SetImage(Sprite sprite)
+    {
+        characterImage.sprite = sprite;
+        characterImage.SetNativeSize();
+    }
+
     public void SetSpeed()
     {
         int value = UnityEngine.Random.Range(minSpeed, maxSpeed + 1);
@@ -151,7 +162,9 @@ public abstract class Character : MonoBehaviour
         maxSpeed = characterData.defaultMaxSpeed;
 
         characterName = characterData.defaultCharacterName;
+        SetImage(characterData.standingImage);
         skillList = characterData.defaultSkillList;
+
         hp = maxHp;
     }
 
@@ -164,6 +177,11 @@ public abstract class Character : MonoBehaviour
         iTargeting = false;
         iSelecting = false;
         iActChar = false;
+    }
+
+    void ActFinish()
+    {
+        SetImage(characterData.standingImage);
     }
 
     // 자식꺼
@@ -189,6 +207,8 @@ public abstract class Character : MonoBehaviour
     public virtual void Damaged(Action skillEffect)
     {
         skillEffect?.Invoke();
+        SetImage(characterData.hitImage);
+
         HpToZero();
 
         OnDamaged?.Invoke();

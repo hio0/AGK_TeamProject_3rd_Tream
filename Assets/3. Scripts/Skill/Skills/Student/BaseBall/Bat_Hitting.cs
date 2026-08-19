@@ -13,7 +13,7 @@ public class Bat_Hitting : Skill, ITargetedEnemySkill, IAttackSkill
     public int MinDamage => minDamage;
     public int MaxDamage => maxDamage;
 
-    public Action<AttackSkillData> OnAttack { get; set; }
+    public Func<AttackSkillData, AttackSkillData> OnAttack { get; set; }
 
     public override IEnumerator Effected(SkillContext skillContext)
     {

@@ -10,6 +10,7 @@ public class SkillData
     public Sprite skillIcon;
     public int skillTargetCount;
 
+    public List<Sprite> skillSprite;
     public List<IconData> skillIcons;
 
     [TextArea] public string skillExplanation;
@@ -22,6 +23,7 @@ public abstract class Skill : ScriptableObject
     public Sprite skillIcon;
     public int skillTargetCount;
 
+    public List<Sprite> skillSprite;
     public List<IconData> skillIcons;
 
     [TextArea] public string skillExplanation;
@@ -51,6 +53,7 @@ public abstract class Skill : ScriptableObject
             skillIcon = skill.skillIcon,
             skillExplanation = skill.skillExplanation,
             skillIcons = skill.skillIcons,
+            skillSprite = skill.skillSprite,
             skillTargetCount = skill.skillTargetCount
         };
 

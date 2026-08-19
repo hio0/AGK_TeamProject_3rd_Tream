@@ -10,6 +10,8 @@ public class CharacterData : ScriptableObject
     public List<Skill> defaultSkillList = new();
 
     public Sprite iconImage;
+    public Sprite standingImage;
+    public Sprite hitImage;
 
     public int defaultHp;
     public int defaultMinSpeed;

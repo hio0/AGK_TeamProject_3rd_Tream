@@ -8,10 +8,10 @@ public class ItemIcon : MonoBehaviour
     [SerializeField] BasicIcon icon;
     [SerializeField] TMP_Text countT;
 
-    Item myItem;
-    int count;
+    public ItemData myItem { get; private set; }
+    public int count { get; private set; }
 
-    public void Initialize(int count, Item item)
+    public void Initialize(int count, ItemData item)
     {
         myItem = item;
         this.count = count;
@@ -20,7 +20,13 @@ public class ItemIcon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        icon.spriteImage.sprite = myItem.data.itemImage;
+        icon.spriteImage.sprite = myItem.itemImage;
+        countT.text = count.ToString();
+    }
+
+    public void ChangeCount(int value)
+    {
+        count += value;
         countT.text = count.ToString();
     }
 }

@@ -51,7 +51,7 @@ public abstract class Icon
     public abstract void RemoveEvent();
 
     // 템플릿
-    protected void ActionEffect(Skill skill, Action<AttackSkillData> effect)
+    protected void ActionEffect(Skill skill, Func<AttackSkillData, AttackSkillData> effect)
     {
         if (skill is IAttackSkill)
         {

@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
 
     public event Action OnPressingA;
     public event Action OnPressingD;
+    public event Action OnPressE;
     public event Action OnPressTab;
 
     private void Awake()
@@ -32,6 +33,11 @@ public class InputManager : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             OnPressingD?.Invoke();
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            OnPressE?.Invoke();
         }
 
         if(Input.GetKeyDown(KeyCode.Tab))

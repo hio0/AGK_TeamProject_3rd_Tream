@@ -19,13 +19,16 @@ public class Power : Icon
         {
             IAttackSkill atk = (IAttackSkill)context.useSkill;
             AttackSkillData data = new();
-            Action<AttackSkillData> act = (atkdata) => data = atkdata;
+            Func<AttackSkillData, AttackSkillData> act = (atkdata) =>
+            {
+                data = atkdata;
 
+                float power = data.damage / 10 * stack;
+                data.damage *= power;
+
+                return data;
+            };
             atk.OnAttack += act;
-
-            float power = data.damage / 10 * stack;
-            data.damage *= power;
-
             atk.OnAttack -= act;
         }
     }

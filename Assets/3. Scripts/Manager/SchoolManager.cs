@@ -20,6 +20,7 @@ public class SchoolManager : MonoBehaviour
 
     public Func<int> GetMapIcon;
     public Func<RoomData> GetRoomData;
+    [SerializeField] ItemData deduct;
 
     [Header("시스템")]
     float timer;
@@ -43,6 +44,8 @@ public class SchoolManager : MonoBehaviour
 
         FightManager.Instance.OnFighting += TimerActive;
         FightManager.Instance.OnFightFinish += TimerActive;
+
+        ItemManager.Instance.OnAddItem?.Invoke(deduct, 3);
 
         UpdateTimeText();
         StartCoroutine(TimeRoutine());

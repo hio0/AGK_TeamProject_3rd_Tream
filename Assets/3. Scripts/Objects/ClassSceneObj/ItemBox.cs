@@ -48,7 +48,7 @@ public class ItemBox : MonoBehaviour
         if(succsess <= r)
         {
             int itemNum = Random.Range(0, itemList.Count);
-            ItemManager.Instance.AddItem(itemList[itemNum], 1);
+            ItemManager.Instance.OnAddItem?.Invoke(itemList[itemNum], 1);
         }
 
         isOpend = true;

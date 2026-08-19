@@ -2,43 +2,67 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Timeline.Actions.MenuPriority;
 
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager Instance;
 
+    public Action<ItemData, int> OnAddItem;
+    public Action<ItemData, int> OnRemoveItem;
+
     [SerializeField] ItemText pre_text;
     [SerializeField] Transform parent_text;
-    [SerializeField] ItemData deduct;
-
-    public Action<Item> OnItemAdded;
 
     private void Awake()
     {
         Instance = this;
+
+        OnAddItem += AddItem;
+        OnRemoveItem += RemoveItem;
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        AddItem(deduct, 1);
+        OnAddItem -= AddItem;
+        OnRemoveItem -= RemoveItem;
     }
 
-    public void AddItem(ItemData data, int added)
+   void AddItem(ItemData data, int added)
     {
-        Dictionary<Item, int> list = ImportantData.gettingItemList;
-        Item addItem = data.myItem;
+        Dictionary<ItemData, int> list = ImportantData.gettingItemList;
 
-        if(list.Count != 0 && list.ContainsKey(addItem))
+        if(list.Count != 0 && list.ContainsKey(data))
         {
-            list[addItem] += added;
+            list[data] += added;
         }
         else
         {
-            list.Add(addItem, added);
+            list.Add(data, added);
         }
         ItemText text = Instantiate(pre_text, parent_text);
         text.Initialize(data, added);
 
-        OnItemAdded?.Invoke(addItem);
+        ImportantData.gettingItemList = list;
+    }
+
+    void RemoveItem(ItemData data, int minus)
+    {
+        Dictionary<ItemData, int> list = ImportantData.gettingItemList;
+
+        if (list.Count != 0 && list.ContainsKey(data))
+        {
+            list[data] -= minus;
+
+            ItemText text = Instantiate(pre_text, parent_text);
+            text.Initialize(data, minus);
+
+            if (list[data] <= 0)
+            {
+                list.Remove(data);
+            }
+
+            ImportantData.gettingItemList = list;
+        }
     }
 }

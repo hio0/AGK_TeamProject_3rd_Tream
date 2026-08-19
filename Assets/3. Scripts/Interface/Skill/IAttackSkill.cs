@@ -15,5 +15,5 @@ public interface IAttackSkill
     int MinDamage { get; }
     int MaxDamage { get; }
 
-    Action<AttackSkillData> OnAttack { get; set; }
+    Func<AttackSkillData, AttackSkillData> OnAttack { get; set; }
 }

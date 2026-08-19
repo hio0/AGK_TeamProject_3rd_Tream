@@ -20,7 +20,9 @@ public static class SkillTemplet
                     minDamage = minDamage,
                     maxDamage = maxDamage
                 };
-                skill.OnAttack?.Invoke(data);
+                AttackSkillData currentData = skill.OnAttack?.Invoke(data);
+                damage = currentData.damage;
+
                 target.hp -= (int)damage;
                 Debug.Log($"AfterDmg: {damage.ToString()}");
             };
