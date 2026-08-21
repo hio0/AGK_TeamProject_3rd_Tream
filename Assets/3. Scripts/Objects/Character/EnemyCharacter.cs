@@ -10,7 +10,6 @@ public class EnemyCharacter : CharacterTeam
     protected override void ActingStart()
     {
         FocusCamera.Instance.Live(0);
-        FocusCamera.Instance.LockingMovingCamera(false);
 
         usedSkill = null;
 

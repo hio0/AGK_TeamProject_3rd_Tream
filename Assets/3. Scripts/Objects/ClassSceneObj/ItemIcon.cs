@@ -15,18 +15,29 @@ public class ItemIcon : MonoBehaviour
     {
         myItem = item;
         this.count = count;
+
+        if (myItem == null)
+        {
+            NullValue();
+        }
+        else
+        {
+            countT.gameObject.SetActive(true);
+
+            icon.spriteImage.sprite = myItem.itemImage;
+            countT.text = count.ToString();
+        }
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        icon.spriteImage.sprite = myItem.itemImage;
-        countT.text = count.ToString();
+        NullValue();
     }
 
-    public void ChangeCount(int value)
+    void NullValue()
     {
-        count += value;
-        countT.text = count.ToString();
+        icon.spriteImage.sprite = null;
+        countT.gameObject.SetActive(false);
     }
 }

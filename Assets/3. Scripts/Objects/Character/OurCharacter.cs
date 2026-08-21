@@ -12,7 +12,6 @@ public class OurCharacter : CharacterTeam
     protected override void ActingStart()
     {
         SchoolManager.instance.OnNoticedSomething($"{mychar.characterName}의 차례!");
-        FocusCamera.Instance.LockingMovingCamera(true);
     }
 
     protected override void CanITargeting()

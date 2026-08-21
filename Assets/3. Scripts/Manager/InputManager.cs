@@ -42,6 +42,7 @@ public class InputManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Tab))
         {
+            ItemManager.Instance.OnAddItem?.Invoke(SchoolManager.instance.deduct, 3);
             OnPressTab?.Invoke();
         }
     }

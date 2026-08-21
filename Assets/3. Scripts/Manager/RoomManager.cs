@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters;
@@ -23,6 +24,8 @@ public class RoomData
 
 public class RoomManager : MonoBehaviour
 {
+    public static RoomManager Instance;
+
     public List<Room> hallways = new();
     public List<Room> rooms = new();
 
@@ -35,8 +38,42 @@ public class RoomManager : MonoBehaviour
     public List<GameObject> mapDatas;
     public Dictionary<int, List<Room>> roomList = new();
 
+    public event Action<int> OnNodeSetting;
+    public event Action<int> OnNodePass;
+
     public ItemBox pre_itemBox;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void OnEnable()
+    {
+        SchoolManager.instance.OnStarted += SetRoom;
+    }
+
+    private void OnDisable()
+    {
+        SchoolManager.instance.OnStarted -= SetRoom;
+    }
+
+    void SetRoom()
+    {
+        int nodeCount = 3 + ImportantData.dayCount / 3;
+        if (ImportantData.dayCount >= 5)
+        {
+            nodeCount++;
+        }
+        if (ImportantData.nowFloorCount == ImportantData.maxFloorCount)
+        {
+            nodeCount++;
+        }
+
+        OnNodeSetting?.Invoke(nodeCount);
+    }
+
+    /*
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -62,6 +99,7 @@ public class RoomManager : MonoBehaviour
 
     }
 
+    
     RoomData ReturnData()
     {
         RoomData data = new RoomData
@@ -226,4 +264,5 @@ public class RoomManager : MonoBehaviour
         ImportantData.nowFloorCount = nowFloor;
         ImportantData.floorRoomsList = floorRoomList;
     }
+    */
 }

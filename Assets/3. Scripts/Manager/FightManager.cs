@@ -87,7 +87,6 @@ public class FightManager : MonoBehaviour
         {
             DefultSet();
             FocusCamera.Instance.Live(0);
-            DownLetterBox_UI.Instance.Move();
 
             yield return new WaitForSeconds(1.5f); // 전투 시작 연출
 
@@ -175,8 +174,6 @@ public class FightManager : MonoBehaviour
         {
             FocusCamera.Instance.Live(0);
 
-            DownLetterBox_UI.Instance.Move();
-            UpLetterBox_UI.Instance.MoveTo(true);
             fightP.SetActive(false);
             OnFightFinish?.Invoke();
         }

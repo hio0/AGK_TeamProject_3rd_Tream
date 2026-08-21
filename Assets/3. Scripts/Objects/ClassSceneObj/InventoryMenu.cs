@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class InventoryMenu : MonoBehaviour
 {
-    [SerializeField] RectTransform rect;
-    [SerializeField] GameObject exit;
-    [SerializeField] ItemIcon pre_itemIcon;
-    [SerializeField] Transform parent_itemIcon;
+    public List<ItemIcon> iconList = new();
 
-    bool isIn;
-    [SerializeField] Vector2 openPos;
-    [SerializeField] Vector2 closePos;
-    [SerializeField] float speed;
-    List<ItemIcon> iconList = new();
+    [SerializeField] ItemText pre_text;
+    [SerializeField] Transform parent_text;
 
     private void Awake()
     {
@@ -22,18 +16,16 @@ public class InventoryMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        isIn = false;
-
-        InputManager.Instance.OnPressTab += OpenInventory;
         ItemManager.Instance.OnAddItem += SetInventory;
         ItemManager.Instance.OnRemoveItem += RemoveInventory;
+        ItemManager.Instance.GetInventory += ReturnData;
     }
 
     private void OnDisable()
     {
-        InputManager.Instance.OnPressTab -= OpenInventory;
         ItemManager.Instance.OnAddItem -= SetInventory;
         ItemManager.Instance.OnRemoveItem -= RemoveInventory;
+        ItemManager.Instance.GetInventory -= ReturnData;
     }
 
     // Update is called once per frame
@@ -42,70 +34,84 @@ public class InventoryMenu : MonoBehaviour
 
     }
 
-    void StartSet()
+    List<ItemIcon> ReturnData()
     {
-        foreach(var item in ImportantData.gettingItemList)
-        {
-            SetInventory(item.Key, item.Value);
-        }
-
-        rect.anchoredPosition = closePos;
+        return iconList;
     }
 
-    public void OpenInventory()
+    void StartSet()
     {
-        if (isIn)
+        if (ImportantData.gettingItemList.Count > 0)
         {
-            UIMovement.DoAnchorMove(rect, closePos, speed);
-        }
-        else
-        {
-            UIMovement.DoAnchorMove(rect, openPos, speed);
-        }
+            int a = 0;
 
-        isIn = !isIn;
-        exit.SetActive(isIn);
+            foreach (var item in ImportantData.gettingItemList)
+            {
+                NewItem(iconList[a], item.Key, item.Value);
+                a++;
+            }
+        }
     }
 
     void SetInventory(ItemData data, int value)
     {
         bool isIn = false;
 
-        if(iconList.Count != 0)
+        foreach (ItemIcon icon in iconList)
         {
-            foreach (ItemIcon icon in iconList)
+            if (icon.myItem == data)
             {
-                if (icon.myItem == data)
-                {
-                    isIn = true;
+                isIn = true;
 
-                    icon.ChangeCount(value);
-                }
+                ImportantData.gettingItemList[data] += value;
+                icon.Initialize(ImportantData.gettingItemList[data], data);
+
+                break;
             }
         }
 
         if (!isIn)
         {
-            ItemIcon icon = Instantiate(pre_itemIcon, parent_itemIcon);
-            icon.Initialize(value, data);
-
-            iconList.Add(icon);
+            foreach (ItemIcon icon in iconList)
+            {
+                if (icon.myItem == null)
+                {
+                    NewItem(icon, data, value);
+                    ImportantData.gettingItemList.Add(data, value);
+                    break;
+                }
+            }
         }
+
+        ItemText text = Instantiate(pre_text, parent_text);
+        text.Initialize(data, value);
+    }
+
+    void NewItem(ItemIcon icon, ItemData data, int value)
+    {
+        icon.Initialize(value, data);
     }
 
     void RemoveInventory(ItemData data, int value)
     {
         foreach (ItemIcon icon in iconList)
         {
-            if (icon.myItem == data)
+            if (icon.myItem != null && icon.myItem == data)
             {
-                icon.ChangeCount(-value);
-                if(icon.count <= 0)
+                if (ImportantData.gettingItemList[data] - value <= 0)
                 {
-                    iconList.Remove(icon);
-                    Destroy(icon);
+                    icon.Initialize(0, null);
+                    ImportantData.gettingItemList.Remove(data);
+                }
+                else
+                {
+                    ImportantData.gettingItemList[data] += value;
+                    icon.Initialize(ImportantData.gettingItemList[data], data);
                 }
             }
+
+            ItemText text = Instantiate(pre_text, parent_text);
+            text.Initialize(data, value);
         }
     }
 }
