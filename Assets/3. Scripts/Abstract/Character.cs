@@ -15,7 +15,7 @@ public abstract class Character : MonoBehaviour
     [Header("기본 정보")]
     public CharacterData characterData;
     public string characterName;
-    public List<Skill> skillList = new();
+    public List<SkillData> skillList = new();
 
     public int level;
     public int hp;
@@ -31,6 +31,7 @@ public abstract class Character : MonoBehaviour
     [Header("시스템")]
     public int nowPosition;
     public int nowTurnCount;
+    public bool isapproval;
 
     public bool iActChar;
     public bool iOurUnit;
@@ -47,7 +48,7 @@ public abstract class Character : MonoBehaviour
     public Action OnTriggerClick;
     public Action OnTriggerExit;
 
-    public event Action OnLevelUp; 
+    public event Action OnLevelUp;
     public event Action<Icon> OnIconStackChange;
     public event Action<SkillContext> OnAction;
     public event Action OnDamaged;
@@ -166,12 +167,14 @@ public abstract class Character : MonoBehaviour
         skillList = characterData.defaultSkillList;
 
         hp = maxHp;
+
+        Templet.AddEvent(characterTrigger, EventTriggerType.Drop, OnDrop);
     }
 
     void TurnStartedSet()
     {
         characterTeam = GetComponent<CharacterTeam>();
-        characterTrigger.triggers.Clear();
+        characterTrigger.triggers.RemoveAll(entry => entry.eventID == EventTriggerType.PointerEnter || entry.eventID == EventTriggerType.PointerExit || entry.eventID == EventTriggerType.PointerClick);
         selectingTargets.Clear();
 
         iTargeting = false;
@@ -189,7 +192,8 @@ public abstract class Character : MonoBehaviour
     {
         int r = UnityEngine.Random.Range(0, skillList.Count);
 
-        return skillList[r];
+        Skill skill = skillList[r].mySkill;
+        return skill;
     }
 
     public virtual void Act() // 스킬컨텍스트 받고 계산은 스킬 쪽에서 다함 ㅇ
@@ -222,7 +226,7 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    
+
     public virtual void AddIcon(IconData data, int changedStack)
     {
         Icon icon = data.myIcon;
@@ -248,12 +252,12 @@ public abstract class Character : MonoBehaviour
         }
 
         IconText text = Instantiate(pre_iconText, body);
-        text.Initialize(data);
+        text.Initialize(data.iconImage, data.iconName, data.textColor);
 
         OnIconStackChange?.Invoke(icon);
     }
 
-    
+
     public virtual void RemoveIcon(Icon icon)
     {
         iconlist.Remove(icon);
@@ -261,9 +265,26 @@ public abstract class Character : MonoBehaviour
 
     public void RemoveIconList()
     {
-        foreach(Icon icon in iconlist)
+        foreach (Icon icon in iconlist)
         {
             icon.RemoveEvent();
         }
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        Item drag = eventData.pointerDrag.GetComponent<ItemIcon>().myItem.myItem;
+
+        ItemContext context = new ItemContext
+        {
+            data = eventData.pointerDrag.GetComponent<ItemIcon>().myItem,
+            target = this
+        };
+        drag.Initialize(context);
+
+        IconText text = Instantiate(pre_iconText, body);
+        text.Initialize(drag.data.itemImage, drag.data.itemName, new Color32(255, 255, 255, 255));
+
+        SchoolManager.instance.OnNoticedSomething?.Invoke($"{characterData.name}에게\n{drag.data.itemName}을 사용했다.");
     }
 }

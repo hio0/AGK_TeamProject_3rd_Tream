@@ -8,8 +8,19 @@ public class ClassUIPanel : MonoBehaviour
     [SerializeField] CanvasGroup can;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
+        SchoolManager.instance.OnStarted += Act;
+    }
+
+    private void OnDisable()
+    {
+        SchoolManager.instance.OnStarted -= Act;
+    }
+
+    void Act()
+    {
+        can.alpha = 0f;
         UIMovement.DOFade(can, 1f, 1.5f);
     }
 }

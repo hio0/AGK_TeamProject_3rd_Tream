@@ -8,40 +8,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class RoomData
-{
-    public List<Room> hallways = new();
-    public List<Room> rooms = new();
-
-    public int nowRoomNum;
-    public Room nowRoom;
-    public int nowFloor;
-
-    public int floorCount;
-    public Dictionary<int, GameObject> floorRoomList = new();
-    public Dictionary<int, List<Room>> roomList = new();
-}
-
 public class RoomManager : MonoBehaviour
 {
     public static RoomManager Instance;
 
-    public List<Room> hallways = new();
-    public List<Room> rooms = new();
-
-    public int nowRoomNum;
-    public Room nowRoom;
-    public int nowFloor;
-
-    public int floorCount;
-    public Dictionary<int, GameObject> floorRoomList = new();
-    public List<GameObject> mapDatas;
-    public Dictionary<int, List<Room>> roomList = new();
-
-    public event Action<int> OnNodeSetting;
-    public event Action<int> OnNodePass;
-
-    public ItemBox pre_itemBox;
+    public Action<int> OnNodeSetting;
+    public Action OnNodePass;
+    public Func<NodeData> GetNodeData;
 
     private void Awake()
     {
@@ -50,12 +23,31 @@ public class RoomManager : MonoBehaviour
 
     private void OnEnable()
     {
-        SchoolManager.instance.OnStarted += SetRoom;
+        SchoolManager.instance.OnNextClass += NewDaySet;
+        SchoolManager.instance.OnNextFloor += SetRoom;
     }
 
     private void OnDisable()
     {
-        SchoolManager.instance.OnStarted -= SetRoom;
+        SchoolManager.instance.OnNextClass -= NewDaySet;
+        SchoolManager.instance.OnNextFloor -= SetRoom;
+    }
+
+    void NewDaySet()
+    {
+        ImportantData.nowFloorCount = 1;
+
+        int plusFloor;
+        plusFloor = ImportantData.dayCount / 4;
+        if (ImportantData.dayCount >= 3)
+        {
+            plusFloor++;
+        }
+        if (ImportantData.dayCount >= 5)
+        {
+            plusFloor++;
+        }
+        ImportantData.maxFloorCount = plusFloor;
     }
 
     void SetRoom()

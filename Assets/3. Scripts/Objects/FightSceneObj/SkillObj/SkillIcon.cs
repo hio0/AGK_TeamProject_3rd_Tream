@@ -1,25 +1,27 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static System.Collections.Specialized.BitVector32;
 
 public class SkillIcon : MonoBehaviour
 {
-    Skill myskill;
+    SkillData myskill;
     SkillExplanation skillExplanation;
     Character user;
 
-    public Image image;
+    [SerializeField] Outline mainOutline;
+    [SerializeField] Outline subOutline;
+    [SerializeField] TMP_Text text;
     public EventTrigger trigger;
 
     static Action OnClicked;
 
-    public void Initialize(Skill skill, SkillExplanation skillExplan, Character user) // 사실 이렇게 하기 보단 이벤트로 값 넘겨 받는게 맞긴 하다 ㅇㅇ,,,
+    public void Initialize(SkillData skill, SkillExplanation skillExplan, Character user) // 사실 이렇게 하기 보단 이벤트로 값 넘겨 받는게 맞긴 하다 ㅇㅇ,,,
     {
         myskill = skill;
         skillExplanation = skillExplan;
@@ -43,21 +45,46 @@ public class SkillIcon : MonoBehaviour
         OnClicked -= DeleteEvent;
     }
 
+    void SetIcon()
+    {
+        Color32 color = new Color32();
+        string name = null;
+
+        switch(myskill.skillType)
+        {
+            case SkillData.actType.attack:
+                color = new Color32(174, 104, 104, 255);
+                name = "공격";
+                break;
+            case SkillData.actType.guard:
+                color = new Color32(113, 120, 195, 255);
+                name = "수비";
+                break;
+            case SkillData.actType.special:
+                color = new Color32(113, 195, 134, 255);
+                name = "특수";
+                break;
+            case SkillData.actType.emotion:
+                color = new Color32(195, 179, 113, 255);
+                name = "감정";
+                break;
+        }
+
+        mainOutline.effectColor = color;
+        subOutline.effectColor = color;
+        text.color = color;
+        text.text = name;
+    }
+
     Skill ReturnSkill()
     {
-        return myskill;
+        return myskill.mySkill;
     }
 
     void DeleteEvent()
     {
         FightManager.Instance.GetNowSkill -= ReturnSkill;
     }
-
-    public void SetIcon()
-    {
-        image.sprite = myskill.skillIcon;
-    }
-
 
     void SkillExplanation()
     {

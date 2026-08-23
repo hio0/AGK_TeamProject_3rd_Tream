@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -100,6 +100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4488167926210379937}
+  - component: {fileID: 330934304502991439}
   m_Layer: 5
   m_Name: SpeakBox
   m_TagString: Untagged
@@ -125,9 +126,25 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: -15.79}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 360.89, y: 288.1}
+  m_AnchoredPosition: {x: 122.8, y: 269.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &330934304502991439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5564343628807866421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c3aa6521f79374787f1dfb9d222a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rect: {fileID: 4488167926210379937}
+  sprite: {fileID: 1994425200371749819}
+  speakT: {fileID: 2619439510281771247}
+  typingSpeed: 0.05
 --- !u!1 &7085481213439251914
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,17 +171,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7085481213439251914}
-  m_LocalRotation: {x: -0.082721226, y: 0.99657273, z: -0, w: 0}
+  m_LocalRotation: {x: -0.09141464, y: 0.99581295, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4488167926210379937}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: -9.49}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: -10.49}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 12.2, y: 16.4}
-  m_SizeDelta: {x: 271.8, y: 0}
+  m_SizeDelta: {x: 259.8, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5299651819598190590
 CanvasRenderer:
@@ -194,7 +211,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ...
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 767e6d70af9f5f9418b020c1c180f38d, type: 2}
   m_sharedMaterial: {fileID: -7103141521710960898, guid: 767e6d70af9f5f9418b020c1c180f38d, type: 2}
@@ -221,8 +238,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 30.7
+  m_fontSizeBase: 30.7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

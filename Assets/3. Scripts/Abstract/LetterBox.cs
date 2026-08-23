@@ -16,7 +16,16 @@ public abstract class LetterBox : MonoBehaviour
         rect.sizeDelta = new Vector2(0, 0);
         isIn = false;
 
+        FightManager.Instance.OnFighting += Move;
+        FightManager.Instance.OnActingFinished += Move;
+
         SetStatic();
+    }
+
+    private void OnDisable()
+    {
+        FightManager.Instance.OnFighting -= Move;
+        FightManager.Instance.OnActingFinished -= Move;
     }
 
     public LetterBox ReturnData()

@@ -4,69 +4,42 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemBox : MonoBehaviour
+public class ItemBox : RoomObject
 {
-    public RectTransform rect;
-    public EventTrigger trigger;
-    public Image image;
+    public List<ItemData> items = new();
+    public List<KeyValuePair<ItemData, int>> itemList = new();
 
-    public List<ItemData> itemList;
-    public bool isOpend { get; private set; }
-
-    public void Initialize(Vector2 size, Color32 color, List<ItemData> objs)
+    public override void OnMiddle()
     {
-        rect.sizeDelta = size;
-        image.color = color;
-        itemList = objs;
+        Map.Instance.Stop();
+        int r = Random.Range(2, 5);
 
-        isOpend = false;
-    }
+        itemList.Clear();
+        List<int> list = new();
 
-    private void Start()
-    {
-        FightManager.Instance.OnFighting += TriggerDis;
-        FightManager.Instance.OnFightFinish += TriggerEna;
-    }
-
-    private void OnDisable()
-    {
-        FightManager.Instance.OnFighting -= TriggerDis;
-        FightManager.Instance.OnFightFinish -= TriggerEna;
-    }
-
-    public void OnClick()
-    {
-        if(isOpend)
+        for (int i = 0; i < r; i++)
         {
-            return;
+            int item = Random.Range(0, items.Count);
+            if(list.Contains(item))
+            {
+                i--;
+                continue;
+            }
+
+            int count = Random.Range(1, 3);
+            itemList.Add(new KeyValuePair<ItemData, int>(items[item], count));
+            //list.Add(item);
         }
 
-        int succsess = Random.Range(1, 101);
-        int plus = Random.Range(15, 41);
-        int r = Random.Range(1, 101) + plus;
-
-        if(succsess <= r)
+        IEnumerator Cor()
         {
-            int itemNum = Random.Range(0, itemList.Count);
-            ItemManager.Instance.OnAddItem?.Invoke(itemList[itemNum], 1);
+            yield return new WaitForSeconds(1.5f);
+
+            SchoolManager.instance.OnItemFind?.Invoke(itemList);
+            SchoolManager.instance.OnItemFinding?.Invoke();
+            SchoolManager.instance.OnNoticedSomething?.Invoke("캐릭터를 선택해\n의견을 결정하자!");
         }
 
-        isOpend = true;
+        StartCoroutine(Cor());
     }
-
-    public void Exit()
-    {
-        isOpend = true;
-    }
-
-    void TriggerDis()
-    {
-        trigger.enabled = false;
-    }
-
-    void TriggerEna()
-    {
-        trigger.enabled = true;
-    }
-
 }

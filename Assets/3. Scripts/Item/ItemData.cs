@@ -9,6 +9,7 @@ public class ItemData : ScriptableObject
     public enum tier
     {
         common,
+        rare,
         hero,
         legendary
     }

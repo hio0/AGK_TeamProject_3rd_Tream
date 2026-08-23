@@ -18,11 +18,11 @@ public class IconText : MonoBehaviour
     public CanvasGroup can;
     public RectTransform rect;
 
-    public void Initialize(IconData data)
+    public void Initialize(Sprite spr, string name, Color32 col)
     {
-        iconSprie = data.iconImage;
-        text = data.iconName;
-        color = data.textColor;
+        iconSprie = spr;
+        text = name;
+        color = col;
     }
 
     // Start is called before the first frame update

@@ -41,28 +41,20 @@ public class RangeManager : MonoBehaviour
         {
             Instantiate(data, ourRange.transform);
         }
+
+        ourRange.GetCharacter();
     }
 
     void SetEnemyRange()
     {
-        List<EnemyWave> list = SchoolManager.instance.GetRoomData?.Invoke().nowRoom.enemyWaves;
+        List<Character> list = FightManager.Instance.GetNowEnemys?.Invoke().enemyList;
 
-        while (true)
+        foreach (Character character in list)
         {
-            int r1 = UnityEngine.Random.Range(0, list.Count);
-            EnemyWave enemys = list[r1];
-
-            int r2 = UnityEngine.Random.Range(1, 101);
-            if (r2 <= enemys.wavePersent)
-            {
-                foreach (Character character in enemys.enemyList)
-                {
-                    Instantiate(character, enemyRange.transform);
-                }
-
-                break;
-            }
+            Instantiate(character, enemyRange.transform);
         }
+
+        enemyRange.GetCharacter();
     }
 
     void FightTurnSetting()

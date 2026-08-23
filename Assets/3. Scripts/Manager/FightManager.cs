@@ -52,6 +52,7 @@ public class FightManager : MonoBehaviour
     public Action OnTargetFinding;
     public Action OnTargetFinded;
 
+    public Func<EnemyWaves> GetNowEnemys;
     public Func<CharacterRangeData> GetRangeData;
     public Func<Skill> GetNowSkill;
 
@@ -86,6 +87,7 @@ public class FightManager : MonoBehaviour
         IEnumerator FightStartCor()
         {
             DefultSet();
+            fightP.SetActive(true);
             FocusCamera.Instance.Live(0);
 
             yield return new WaitForSeconds(1.5f); // 전투 시작 연출
@@ -109,7 +111,6 @@ public class FightManager : MonoBehaviour
     public void TurnStart()
     {
         turnCount++;
-        fightP.SetActive(true);
 
         OnTurnStart?.Invoke();
         OnActingStart?.Invoke();

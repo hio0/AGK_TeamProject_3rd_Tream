@@ -51,21 +51,16 @@ public abstract class Icon
     public abstract void RemoveEvent();
 
     // 템플릿
-    protected void ActionEffect(Skill skill, Func<AttackSkillData, AttackSkillData> effect)
+    protected void ActionEffect(IAttackSkill skill, Func<AttackSkillData, AttackSkillData> effect)
     {
-        if (skill is IAttackSkill)
-        {
-            IAttackSkill atk = skill.GetComponent<IAttackSkill>();
-
-            atk.OnAttack += effect;
-        }
+        skill.OnAttack += effect;
     }
 
     public void IsRemoveIcon()
     {
         remainTime--;
 
-        if(remainTime <= 0)
+        if (remainTime <= 0)
         {
             target.RemoveIcon(this);
         }

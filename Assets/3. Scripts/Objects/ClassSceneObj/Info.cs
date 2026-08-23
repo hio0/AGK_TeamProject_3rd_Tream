@@ -14,7 +14,6 @@ public class Info : MonoBehaviour
     void Start()
     {
         SchoolManager.instance.OnStarted += SetFloorT;
-        SchoolManager.instance.OnNextRoom += NextRoomT;
     }
 
     // Update is called once per frame
@@ -23,17 +22,8 @@ public class Info : MonoBehaviour
 
     }
 
-    void NextRoomT()
-    {
-        RoomData data = SchoolManager.instance.GetRoomData?.Invoke();
-
-        roomT.text = data.nowRoom.roomName;
-    }
-
     void SetFloorT()
     {
-        RoomData data = SchoolManager.instance.GetRoomData?.Invoke();
-
-        floorT.text = $"{data.nowFloor}F";
+        floorT.text = $"{ImportantData.nowFloorCount}F";
     }
 }

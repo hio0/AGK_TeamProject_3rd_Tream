@@ -17,7 +17,7 @@ public class Room : MonoBehaviour
 
     public List<RoomObjectTransform> objectTransform;
     public List<ItemData> items;
-    public List<EnemyWave> enemyWaves;
+    public List<EnemyWaves> enemyWaves;
 
     Rigidbody2D rb;
     RectTransform rect;

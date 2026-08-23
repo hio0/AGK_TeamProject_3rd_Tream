@@ -7,7 +7,8 @@ public class CharacterData : ScriptableObject
 {
     [Header("기본 정보")]
     public string defaultCharacterName;
-    public List<Skill> defaultSkillList = new();
+    public List<SkillData> defaultSkillList = new();
+    public SpeakData speakData;
 
     public Sprite iconImage;
     public Sprite standingImage;

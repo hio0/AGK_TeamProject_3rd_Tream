@@ -29,7 +29,6 @@ public class Power : Icon
                 return data;
             };
             atk.OnAttack += act;
-            atk.OnAttack -= act;
         }
     }
 

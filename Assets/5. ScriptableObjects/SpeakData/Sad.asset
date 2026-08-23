@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8b8f4e2ec021c48ad9a6da83bc136c, type: 3}
+  m_Name: Sad
+  m_EditorClassIdentifier: 
+  opinionSpeach_approval:
+  - "...\uAC00\uC838\uAC00\uACE0 \uC2F6\uC5B4."
+  - "\uC800\uAE30, \uC6B0\uB9AC \uC800\uAC70 \uAC00\uC838\uAC00\uBA74 \uC548\uB420\uAE4C?"
+  opinionSpeach_opposite:
+  - "...\uC544...\uC774\uAC74 \uB108\uBB34 \uC704\uD5D8\uD574\uBCF4\uC5EC..."
+  - "\uB108\uBB34 \uBD88\uAE38\uD574."

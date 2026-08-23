@@ -10,6 +10,8 @@ public class LoadingManager : MonoBehaviour
     [SerializeField] float spinSpeed;
     string goingSceneName;
 
+    [SerializeField] GameObject main;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +20,14 @@ public class LoadingManager : MonoBehaviour
 
     void Loading()
     {
-        goingSceneName = SceneMoveManager.Instance.goingSceneName;
+        goingSceneName = SceneMovement.goingSceneName;
+
+        switch (goingSceneName)
+        {
+            case "School":
+                main.SetActive(true);
+                break;
+        }
 
         IEnumerator LoadScene()
         {
@@ -35,10 +44,7 @@ public class LoadingManager : MonoBehaviour
 
                 if (progress >= 0.99f)
                 {
-                    yield return new WaitForSeconds(1.5f); // 연출용 딜레이
-                    Action action = () => op.allowSceneActivation = true;
-
-                    StartCoroutine(SceneMoveManager.Instance.FadeLoad(action, 1f));
+                    op.allowSceneActivation = true;
                 }
 
                 yield return null;

@@ -52,7 +52,7 @@ public class EnemyCharacter : CharacterTeam
 
             mainTarget = targetCharList[r];
             mainTarget.selectingTargets = MultifulTargeting(mainTarget, usedSkill);
-            SchoolManager.instance.OnNoticedSomething($"{mychar.characterName}의 {usedSkill.skillName}!");
+            SchoolManager.instance.OnNoticedSomething($"{mychar.characterName}의\n{usedSkill.data.skillName}!");
 
             yield return new WaitForSeconds(1f);
 

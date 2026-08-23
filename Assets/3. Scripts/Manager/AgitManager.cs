@@ -20,6 +20,6 @@ public class AgitManager : MonoBehaviour
 
     public void Attendance()
     {
-        SceneMoveManager.Instance.FadeSceneLoad("School", loadSceneTime);
+        //SceneMoveManager.Instance.FadeSceneLoad("School", loadSceneTime);
     }
 }

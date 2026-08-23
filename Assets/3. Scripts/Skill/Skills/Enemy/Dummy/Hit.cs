@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Skils/Hit")]
+[Serializable]
 public class Hit : Skill, ITargetedEnemySkill, IAttackSkill
 {
     public int minDamage;
@@ -16,7 +16,7 @@ public class Hit : Skill, ITargetedEnemySkill, IAttackSkill
 
     public override IEnumerator Effected(SkillContext skillContext)
     {
-        OnSkillAction?.Invoke(ReturnData(this));
+        OnSkillAction?.Invoke(ReturnData());
 
         OnSkillStart?.Invoke();
         yield return new WaitForSeconds(1f);

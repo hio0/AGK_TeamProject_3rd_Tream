@@ -8,7 +8,7 @@ public abstract class CharacterTeam : MonoBehaviour
     protected Character mychar;
     protected SkillContext skillContext;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         mychar = GetComponent<Character>();
         ResetTeamEvent();
@@ -26,7 +26,7 @@ public abstract class CharacterTeam : MonoBehaviour
 
     protected List<Character> MultifulTargeting(Character mainTarget, Skill useSkill) // 타겟 후보들 중 진짜 타겟 정하기
     {
-        if (useSkill.skillTargetCount <= 1)
+        if (useSkill.data.skillTargetCount <= 1)
         {
             List<Character> list = new();
             list.Add(mainTarget);
@@ -50,7 +50,7 @@ public abstract class CharacterTeam : MonoBehaviour
             }
         }
 
-        int loopNum = targetingList.Count - useSkill.skillTargetCount;
+        int loopNum = targetingList.Count - useSkill.data.skillTargetCount;
         if (loopNum < 0)
         {
             loopNum = 0;

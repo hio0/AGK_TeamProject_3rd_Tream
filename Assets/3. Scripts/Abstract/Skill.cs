@@ -4,29 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-public class SkillData
+[Serializable]
+public abstract class Skill
 {
-    public string skillName;
-    public Sprite skillIcon;
-    public int skillTargetCount;
-
-    public List<Sprite> skillSprite;
-    public List<IconData> skillIcons;
-
-    [TextArea] public string skillExplanation;
-}
-
-public abstract class Skill : ScriptableObject
-{
-    [Header("기본 정보")]
-    public string skillName;
-    public Sprite skillIcon;
-    public int skillTargetCount;
-
-    public List<Sprite> skillSprite;
-    public List<IconData> skillIcons;
-
-    [TextArea] public string skillExplanation;
+    public SkillData data;
 
     [Header("시스템")]
     public bool canTarget;
@@ -45,16 +26,17 @@ public abstract class Skill : ScriptableObject
         return canTarget;
     }
 
-    protected virtual SkillData ReturnData(Skill skill)
+    protected virtual SkillData ReturnData()
     {
         SkillData data = new SkillData
         {
-            skillName = skill.skillName,
-            skillIcon = skill.skillIcon,
-            skillExplanation = skill.skillExplanation,
-            skillIcons = skill.skillIcons,
-            skillSprite = skill.skillSprite,
-            skillTargetCount = skill.skillTargetCount
+            skillType = this.data.skillType,
+            skillName = this.data.skillName,
+            skillCoolTime = this.data.skillCoolTime,
+            skillExplanation = this.data.skillExplanation,
+            skillIcons = this.data.skillIcons,
+            skillSprite = this.data.skillSprite,
+            skillTargetCount = this.data.skillTargetCount
         };
 
         return data;

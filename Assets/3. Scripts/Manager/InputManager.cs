@@ -8,7 +8,9 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance;
 
     public event Action OnPressingA;
+    public event Action OnPressA;
     public event Action OnPressingD;
+    public event Action OnPressD;
     public event Action OnPressE;
     public event Action OnPressTab;
 
@@ -35,6 +37,15 @@ public class InputManager : MonoBehaviour
             OnPressingD?.Invoke();
         }
 
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            OnPressA?.Invoke();
+        }
+        if( Input.GetKeyUp(KeyCode.D))
+        {
+            OnPressD?.Invoke();
+        }
+
         if (Input.GetKey(KeyCode.E))
         {
             OnPressE?.Invoke();
@@ -42,7 +53,6 @@ public class InputManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Tab))
         {
-            ItemManager.Instance.OnAddItem?.Invoke(SchoolManager.instance.deduct, 3);
             OnPressTab?.Invoke();
         }
     }

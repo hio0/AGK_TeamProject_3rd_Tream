@@ -1,6 +1,8 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -56,6 +58,18 @@ public static class UIMovement
 
             what.sizeDelta = new Vector2(x, y);
             yield return null;
+        }
+    }
+
+    public static IEnumerator Typing(TMP_Text text, string message, float duration)
+    {
+        text.text = message;
+        text.maxVisibleCharacters = 0;
+
+        for (int i = 0; i <= message.Length; i++)
+        {
+            text.maxVisibleCharacters = i;
+            yield return new WaitForSeconds(duration);
         }
     }
 

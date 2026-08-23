@@ -34,7 +34,7 @@ public class Naration : MonoBehaviour
         {
             UIMovement.DoAnchorMove(rect, Vector2.zero, 0.5f);
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(5f);
 
             UIMovement.DOFade(can, 0, 1f);
         }

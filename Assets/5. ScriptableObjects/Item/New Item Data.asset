@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myItem:
     rid: 7406696622029012992
-  itemTier: 0
+  itemTier: 1
   itemName: "\uB514\uBC84\uADF8"
   itemImage: {fileID: 0}
-  maxStack: 0
+  maxStack: 99
   icons:
   - {fileID: 11400000, guid: fe2f29be87a9f2c42b8e2986381bfae8, type: 2}
   dong: 12
