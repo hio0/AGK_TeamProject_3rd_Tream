@@ -30,6 +30,7 @@ public class Range : MonoBehaviour
                 if (our == null)
                 {
                     character.AddComponent<OurCharacter>();
+                    character.AddComponent<CharacterEmotion>();
                 }
             }
             else
@@ -44,5 +45,28 @@ public class Range : MonoBehaviour
         }
 
         return list;
+    }
+
+    public void Clear()
+    {
+        for(int i = 0; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+    }
+
+    public void Exp()
+    {
+        IEnumerator Cor()
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).GetComponent<Character>().GetExp(Random.Range(ImportantData.dayCount * 5, ImportantData.dayCount * 20));
+
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        StartCoroutine(Cor());
     }
 }

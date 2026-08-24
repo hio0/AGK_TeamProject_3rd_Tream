@@ -18,7 +18,6 @@ public class SkillData : ScriptableObject
     public int skillTargetCount;
     public int skillCoolTime;
 
-    public List<Sprite> skillSprite;
     public List<IconData> skillIcons;
 
     [TextArea] public string skillExplanation;

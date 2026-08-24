@@ -12,7 +12,7 @@ public class ItemIcon : MonoBehaviour
     [SerializeField] TMP_Text countT;
     BasicIcon basicIcon;
     [SerializeField] BasicIcon pre_basicIcon;
-    Item dragObject;
+    [SerializeField] Transform parent_basicIcon;
 
     public ItemData myItem { get; private set; }
     public int count { get; private set; }
@@ -48,20 +48,15 @@ public class ItemIcon : MonoBehaviour
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        dragObject = myItem.myItem;
-
-        RectTransform rect = GameManager.instance.GetUIRect?.Invoke();
-        basicIcon = Instantiate(pre_basicIcon, rect);
+        basicIcon = Instantiate(pre_basicIcon, parent_basicIcon);
         MoveWithMouse(eventData);
 
-        BasicIconData basicIconData = basicIcon.ReturnImage();
+        basicIcon.bgImage.color = new Color32(0, 0, 0, 0);
+        basicIcon.strokeImage.color = new Color32(0, 0, 0, 0);
+        basicIcon.spriteImage.color = new Color32(255, 255, 255, 255);
+        basicIcon.spriteImage.sprite = myItem.itemImage;
 
-        basicIconData.bgImage.color = new Color32(0, 0, 0, 0);
-        basicIconData.strokeImage.color = new Color32(0, 0, 0, 0);
-        basicIconData.spriteImage.color = new Color32(255, 255, 255, 255);
-        basicIconData.spriteImage.sprite = myItem.itemImage;
-
-        basicIconData.canvasGroup.blocksRaycasts = false;
+        basicIcon.can.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -71,18 +66,15 @@ public class ItemIcon : MonoBehaviour
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        dragObject = null;
-
         Destroy(basicIcon.gameObject);
-        basicIcon = null;
     }
 
     void MoveWithMouse(PointerEventData eventData)
     {
-        RectTransform rect = GameManager.instance.GetUIRect?.Invoke();
+        RectTransform parentRect = basicIcon.transform.parent as RectTransform;
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            rect,
+            parentRect,
             eventData.position,
             eventData.pressEventCamera,
             out Vector2 localPos
@@ -94,6 +86,7 @@ public class ItemIcon : MonoBehaviour
     void NullValue()
     {
         icon.spriteImage.sprite = null;
+        icon.spriteImage.color = new Color32(255, 255, 255, 0);
         countT.gameObject.SetActive(false);
     }
 }

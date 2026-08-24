@@ -6,40 +6,21 @@ using UnityEngine.UIElements;
 
 public class SkillExplanation : MonoBehaviour
 {
-    SkillData myskill;
-
     [SerializeField] TMP_Text skillNameT;
-    [SerializeField] ScrollView skillExplanationScroll;
     [SerializeField] TMP_Text skillExplanationT;
+    [SerializeField] TMP_Text skillTypeT;
 
-    RectTransform rect;
-    [SerializeField] Vector2 targetPos = new Vector2(-700, -415);
-
-    public void Initialize(SkillData skill)
+    public void Initialize(SkillData skill, TMP_Text text)
     {
-        myskill = skill;
-    }
-
-    private void Awake()
-    {
-        rect = GetComponent<RectTransform>();
-    }
-
-    private void OnEnable()
-    {
-        /*
-        skillNameT.text = myskill.skillName;
-        skillExplanationT.text = myskill.skillExplanation;
-
-        UIMovement.DoAnchorMove(rect, targetPos, 0.4f);
-        */
+        skillNameT.text = skill.skillName;
+        skillExplanationT.text = skill.skillExplanation;
+        skillTypeT = text;
     }
 
     private void OnDisable()
     {
         skillNameT.text = null;
         skillExplanationT.text = null;
-
-        rect.anchoredPosition = new Vector2(-700, -700);
+        skillTypeT = null;
     }
 }

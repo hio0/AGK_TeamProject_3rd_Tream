@@ -64,7 +64,7 @@ public class CharacterMenu : MonoBehaviour
         characterImage.sprite = selectedChar.characterData.iconImage;
         characterNameT.text = selectedChar.characterName;
         hpT.text = $"{selectedChar.hp} / {selectedChar.maxHp}";
-        lvT.text = $"{selectedChar.level} / {selectedChar.nextLevel}";
+        lvT.text = $"{selectedChar.level} / {selectedChar.maxLevel}";
         speedT.text = $"{selectedChar.minSpeed} - {selectedChar.maxSpeed}";
 
         lv.gameObject.SetActive(true);

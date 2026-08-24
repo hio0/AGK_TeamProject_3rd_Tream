@@ -13,8 +13,23 @@ MonoBehaviour:
   m_Name: Sad
   m_EditorClassIdentifier: 
   defaultCharacterName: "\uC2AC\uD514"
-  defaultSkillList: []
-  iconImage: {fileID: 0}
+  defaultSkillList:
+  - {fileID: 11400000, guid: f340f0e1c29a8ae4d8fc62c5e8bbb408, type: 2}
+  motionData:
+  - type: 0
+    image: {fileID: -1463825016, guid: 5e07fd81da66dd644af0e5ff21d36230, type: 3}
+  - type: 1
+    image: {fileID: 363400151, guid: 664aa259508417c4a926e3f46b344e57, type: 3}
+  - type: 2
+    image: {fileID: 986618611, guid: 92234090f6e53a3458ccb6731bfe25b7, type: 3}
+  - type: 3
+    image: {fileID: -729405757, guid: 638710c3c0c5b784ca0e37fb08eb69e5, type: 3}
+  - type: 4
+    image: {fileID: -1876457861, guid: 266a04467064b214bb7d955780a99c87, type: 3}
+  speakData: {fileID: 11400000, guid: 5d389bf43ed8e9f4fb89ec813e1b8a81, type: 2}
+  iconImage: {fileID: -20857950, guid: 1b3d0a562ec35fc4dbb4fa44233ca9ca, type: 3}
+  standingImage: {fileID: 0}
+  hitImage: {fileID: 0}
   defaultHp: 37
   defaultMinSpeed: 5
   defaultMaxSpeed: 7

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b748d34ce6331844ad3cbcbe75cb67d, type: 3}
+  m_Name: Grrr
+  m_EditorClassIdentifier: 
+  mySkill:
+    rid: 7406696813558759424
+  skillType: 0
+  skillName: "\uC73C\uC5B4\uC5B4..."
+  skillTargetCount: 1
+  skillCoolTime: 0
+  skillSprite: []
+  skillIcons: []
+  skillExplanation: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 7406696813558759424
+      type: {class: Grrr, ns: , asm: Assembly-CSharp}
+      data:
+        canTarget: 0
+        minDamage: 2
+        maxDamage: 6

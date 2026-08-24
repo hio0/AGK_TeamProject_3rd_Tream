@@ -76,9 +76,9 @@ public class SkillIcon : MonoBehaviour
         text.text = name;
     }
 
-    Skill ReturnSkill()
+    SkillData ReturnSkill()
     {
-        return myskill.mySkill;
+        return myskill;
     }
 
     void DeleteEvent()
@@ -88,7 +88,7 @@ public class SkillIcon : MonoBehaviour
 
     void SkillExplanation()
     {
-        skillExplanation.Initialize(myskill);
+        skillExplanation.Initialize(myskill, text);
         skillExplanation.gameObject.SetActive(true);
     }
 

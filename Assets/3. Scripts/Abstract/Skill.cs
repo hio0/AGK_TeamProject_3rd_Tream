@@ -7,7 +7,7 @@ using static UnityEngine.UIElements.UxmlAttributeDescription;
 [Serializable]
 public abstract class Skill
 {
-    public SkillData data;
+    public SkillData data { get; private set; }
 
     [Header("시스템")]
     public bool canTarget;
@@ -16,6 +16,11 @@ public abstract class Skill
     public Action OnSkillStart;
     public Action OnSkillEffected;
     public Action OnSkillFinish;
+
+    public void Initialize(SkillData data)
+    {
+        this.data = data;
+    }
 
     public abstract IEnumerator Effected(SkillContext skillContext); // context 받는 쪽이 계산 역할 !!
 
@@ -35,7 +40,6 @@ public abstract class Skill
             skillCoolTime = this.data.skillCoolTime,
             skillExplanation = this.data.skillExplanation,
             skillIcons = this.data.skillIcons,
-            skillSprite = this.data.skillSprite,
             skillTargetCount = this.data.skillTargetCount
         };
 

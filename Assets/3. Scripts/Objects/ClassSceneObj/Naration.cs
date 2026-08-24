@@ -37,6 +37,10 @@ public class Naration : MonoBehaviour
             yield return new WaitForSeconds(5f);
 
             UIMovement.DOFade(can, 0, 1f);
+
+            yield return new WaitForSeconds(1.2f);
+
+            Destroy(gameObject);
         }
 
         StartCoroutine(Cor());

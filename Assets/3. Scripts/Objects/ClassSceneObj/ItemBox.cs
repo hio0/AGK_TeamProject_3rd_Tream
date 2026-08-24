@@ -9,9 +9,20 @@ public class ItemBox : RoomObject
     public List<ItemData> items = new();
     public List<KeyValuePair<ItemData, int>> itemList = new();
 
+    private void OnEnable()
+    {
+        SchoolManager.instance.OnItemFindEnd += Map.Instance.EventSet;
+    }
+
+    private void OnDisable()
+    {
+        SchoolManager.instance.OnItemFindEnd -= Map.Instance.EventSet;
+    }
+
     public override void OnMiddle()
     {
         Map.Instance.Stop();
+        Map.Instance.EventDiSet();
         int r = Random.Range(2, 5);
 
         itemList.Clear();
@@ -38,6 +49,7 @@ public class ItemBox : RoomObject
             SchoolManager.instance.OnItemFind?.Invoke(itemList);
             SchoolManager.instance.OnItemFinding?.Invoke();
             SchoolManager.instance.OnNoticedSomething?.Invoke("캐릭터를 선택해\n의견을 결정하자!");
+            SchoolManager.instance.OnMoneyChanged.Invoke(Random.Range(0, 42));
         }
 
         StartCoroutine(Cor());

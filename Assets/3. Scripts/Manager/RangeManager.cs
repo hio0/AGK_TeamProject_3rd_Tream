@@ -8,6 +8,8 @@ using UnityEngine.TextCore.Text;
 
 public class RangeManager : MonoBehaviour
 {
+    public static RangeManager instance;
+
     public List<Character> actingCharacterList = new();
 
     public Range ourRange;
@@ -15,6 +17,11 @@ public class RangeManager : MonoBehaviour
 
     int nowSelectedNum;
     Character nowSelectedChar;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void OnEnable()
     {
@@ -146,5 +153,16 @@ public class RangeManager : MonoBehaviour
         actingCharacterList.RemoveAt(targetNum);
         Destroy(dyingChar);
         act?.Invoke();
+    }
+
+    public void RangeClear()
+    {
+        ourRange.Clear();
+        enemyRange.Clear();
+    }
+
+    public void CharacterExp()
+    {
+        ourRange.Exp();
     }
 }

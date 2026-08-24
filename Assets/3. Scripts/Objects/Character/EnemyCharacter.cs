@@ -7,6 +7,13 @@ public class EnemyCharacter : CharacterTeam
 {
     Skill usedSkill;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        LevelSet();
+    }
+
     protected override void ActingStart()
     {
         FocusCamera.Instance.Live(0);
@@ -66,5 +73,13 @@ public class EnemyCharacter : CharacterTeam
     protected override void Dying()
     {
         FightManager.Instance.OnDyingSomeOne?.Invoke(mychar.gameObject);
+    }
+
+    void LevelSet()
+    {
+        int lv = ImportantData.dayCount / 3 + Random.Range(0, 3);
+
+        mychar.levelCount = lv;
+        mychar.LevelStatChanged(lv);
     }
 }

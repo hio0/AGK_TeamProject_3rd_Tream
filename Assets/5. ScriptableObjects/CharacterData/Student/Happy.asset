@@ -13,8 +13,23 @@ MonoBehaviour:
   m_Name: Happy
   m_EditorClassIdentifier: 
   defaultCharacterName: "\uAE30\uC068"
-  defaultSkillList: []
-  iconImage: {fileID: 0}
+  defaultSkillList:
+  - {fileID: 11400000, guid: 02b5f3a7ab9eb2f4290154369d992640, type: 2}
+  motionData:
+  - type: 0
+    image: {fileID: -962552679, guid: ee81ba80d1c141d4cb726505b15833e8, type: 3}
+  - type: 1
+    image: {fileID: 1139990709, guid: d13c6dedbc77d45478854ef3d18b955a, type: 3}
+  - type: 2
+    image: {fileID: 1824892704, guid: cb42a4700fc2b714e93264036a473493, type: 3}
+  - type: 3
+    image: {fileID: 1496921313, guid: efb9eb39a53458e44a6c6d71fc2e9424, type: 3}
+  - type: 4
+    image: {fileID: -398468171, guid: 56e74c64704cb154e99eefa71e3b2b4e, type: 3}
+  - type: 5
+    image: {fileID: -1428227529, guid: 5ef7608348a44b946bb3da5af462c500, type: 3}
+  speakData: {fileID: 11400000, guid: f6af185c50d69da47bdecf227dc7c5c7, type: 2}
+  iconImage: {fileID: -16374971, guid: ba5a677d399b36b4fa61f8e30263c779, type: 3}
   standingImage: {fileID: -962552679, guid: ee81ba80d1c141d4cb726505b15833e8, type: 3}
   hitImage: {fileID: 21300000, guid: cb42a4700fc2b714e93264036a473493, type: 3}
   defaultHp: 26

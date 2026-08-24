@@ -32,7 +32,6 @@ MonoBehaviour:
     - rid: 7406696768849313793
       type: {class: Yeek, ns: , asm: Assembly-CSharp}
       data:
-        data: {fileID: 0}
-        canTarget: 0
-        minDamage: 0
-        maxDamage: 0
+        canTarget: 1
+        minDamage: 4
+        maxDamage: 13

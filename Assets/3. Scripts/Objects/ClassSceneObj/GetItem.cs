@@ -47,16 +47,26 @@ public class GetItem : MonoBehaviour
 
     void GetOrTrash(bool isGet)
     {
+        int a = nowRemainCount - 1;
+
         if(isGet)
         {
-            ItemManager.Instance.OnAddItem?.Invoke(remainItemList[nowRemainCount].Key, remainItemList[nowRemainCount].Value);
+            ItemManager.Instance.OnAddItem?.Invoke(remainItemList[a].Key, remainItemList[a].Value);
         }
         else
         {
-            SchoolManager.instance.OnNoticedSomething?.Invoke($"{remainItemList[nowRemainCount].Key.itemName}은/는\n 가져가지 않기로 했다.");
+            SchoolManager.instance.OnNoticedSomething?.Invoke($"{remainItemList[a].Key.itemName}은/는\n 가져가지 않기로 했다.");
         }
 
-        SetNextItem();
+        if (nowRemainCount < remainItemList.Count)
+        {
+            SetNextItem();
+        }
+        else
+        {
+            SchoolManager.instance.OnItemFindEnd?.Invoke();
+            obj.SetActive(false);
+        }
     }
 
     void SetNextItem()
@@ -64,8 +74,6 @@ public class GetItem : MonoBehaviour
         image.sprite = remainItemList[nowRemainCount].Key.itemImage;
         remainItemT.gameObject.SetActive(true);
 
-        Debug.Log(remainItemList.Count);
-        Debug.Log(nowRemainCount);
         int a = remainItemList.Count - nowRemainCount - 1;
         if (a <= 0)
         {
@@ -109,10 +117,5 @@ public class GetItem : MonoBehaviour
         itemExpT.text = remainItemList[nowRemainCount].Key.itemExplanation;
 
         nowRemainCount++;
-        if(nowRemainCount > remainItemList.Count)
-        {
-            SchoolManager.instance.OnItemFindEnd?.Invoke();
-            obj.SetActive(false);
-        }
     }
 }

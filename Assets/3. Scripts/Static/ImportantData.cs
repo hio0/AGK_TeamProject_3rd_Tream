@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class ImportantData
@@ -16,12 +17,13 @@ public static class ImportantData
     public static Dictionary<int, GameObject> floorRoomsList = new();
 
     public static Dictionary<ItemData, int> gettingItemList = new();
+    public static Dictionary<ItemData, int> myItemList = new();
 
     public static void SetDefultValue()
     {
         dayCount = 1;
         gameMinutes = 0;
-        moneyCount = 0;
+        moneyCount = 30;
 
         canUsedStudents.Clear();
         usedStudents.Clear();
@@ -31,5 +33,6 @@ public static class ImportantData
 
         floorRoomsList.Clear();
         gettingItemList.Clear();
+        myItemList.Clear();
     }
 }

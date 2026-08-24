@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -20,7 +21,8 @@ public class Map : MonoBehaviour
 
     [SerializeField] RoomObject obj_elevator;
     [SerializeField] RoomObject obj_itemBox;
-    [SerializeField] RoomObject obj_enemyWave;
+    [SerializeField] List<EnemyWaves> obj_enemyWave = new();
+    [SerializeField] RoomObject obj_agitTrigger;
 
     public event Action OnMove;
     public event Action OnStop;
@@ -35,6 +37,7 @@ public class Map : MonoBehaviour
     {
         parent_obj.anchoredPosition = obj_openPos;
         SchoolManager.instance.OnNextClass += EventSet;
+        SchoolManager.instance.OnNextClass += ResetDate;
 
         FightManager.Instance.OnFighting += EventDiSet;
         FightManager.Instance.OnFightFinish += EventSet;
@@ -43,6 +46,7 @@ public class Map : MonoBehaviour
     private void OnDisable()
     {
         SchoolManager.instance.OnNextClass -= EventSet;
+        SchoolManager.instance.OnNextClass -= ResetDate;
 
         FightManager.Instance.OnFighting -= EventDiSet;
         FightManager.Instance.OnFightFinish -= EventSet;
@@ -67,6 +71,15 @@ public class Map : MonoBehaviour
         InputManager.Instance.OnPressA -= Stop;
     }
 
+    void ResetDate()
+    {
+        map.material.mainTextureOffset = Vector2.zero;
+        for (int i = 0; i < parent_obj.childCount; i++)
+        {
+            Destroy(parent_obj.GetChild(i).gameObject);
+        }
+    }
+
     void Move()
     {
         isStop = true;
@@ -87,9 +100,9 @@ public class Map : MonoBehaviour
             map.material.mainTextureOffset = new Vector2(mapoffset, map.material.mainTextureOffset.y);
             OnMove?.Invoke();
 
-            if (footstep >= 1f)
+            if (footstep >= 1.5f)
             {
-                footstep -= 1f;
+                footstep -= 1.5f;
                 SetObject();
 
                 NodeData data = RoomManager.Instance.GetNodeData?.Invoke();
@@ -111,22 +124,29 @@ public class Map : MonoBehaviour
 
     void SetObject()
     {
-        RoomObject obj = null;
+        GameObject obj = null;
         int r = UnityEngine.Random.Range(1, 101);
 
         if(r <= 40)
         {
-            obj = obj_itemBox;
+            obj = obj_itemBox.gameObject;
         }
         else if(r >= 41 && r <= 90)
         {
-            //obj = obj_enemyWave;
+            obj = obj_enemyWave[UnityEngine.Random.Range(0, obj_enemyWave.Count)].gameObject;
         }
 
         NodeData data = RoomManager.Instance.GetNodeData?.Invoke();
         if (data.nodeList.Count - 1 <= data.nowNodeNum) 
         {
-            obj = obj_elevator;
+            if(ImportantData.nowFloorCount == ImportantData.maxFloorCount)
+            {
+                obj = obj_agitTrigger.gameObject;
+            }
+            else
+            {
+                obj = obj_elevator.gameObject;
+            }
         }
 
         parent_obj.anchoredPosition = obj_openPos;

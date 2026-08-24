@@ -10,13 +10,14 @@ public class SchoolManager : MonoBehaviour
 {
     public static SchoolManager instance;
 
-    public event Action OnStarted;
+    public Action OnStarted;
     public event Action OnFinished;
 
     public Action OnNextClass;
     public Action OnNextRoom;
     public Action OnNextFloor;
     public event Action<int, int> OnTimerSet;
+    public Action<string> OnRoomChanged;
 
     public Action OnAgitScene;
     public Action OnElevatorScene;
@@ -31,15 +32,13 @@ public class SchoolManager : MonoBehaviour
     public Action<int> OnMoneyChanged;
 
     public Func<int> GetMapIcon;
-    public ItemData deduct;
+
+    public List<Character> defultCharacterList;
 
     [Header("시스템")]
-    float timer;
-    [SerializeField] TMP_Text timerT;
-    [SerializeField] float timerPlusCool;
-    public bool isTimerSet;
-
     [SerializeField] RectTransform startP;
+    [SerializeField] MiddleManager middleP;
+
     [SerializeField] SpeakData defultData;
     [SerializeField] SpeakBox pre_SpeakBox;
 
@@ -53,44 +52,26 @@ public class SchoolManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        IEnumerator Cor()
-        {
-            UIMovement.DoAnchorMove(startP, new Vector2(-2461.2f, 0), 1.5f);
+        UIMovement.DoAnchorMove(startP, new Vector2(-2461.2f, 0), 1.5f);
 
-            yield return new WaitForSeconds(1.5f);
+        Action ele = () => { MiddleSet(true); GetUse(FightManager.Instance.GetRangeData.Invoke().ourRangeChar); };
+        Action agi = () => { MiddleSet(false); GetUse(FightManager.Instance.GetRangeData.Invoke().ourRangeChar); };
+        OnElevatorScene += ele;
+        OnAgitScene += agi;
 
-            OnNextClass?.Invoke();
-            OnNextFloor?.Invoke();
-            OnStarted?.Invoke();
+        Action st = () => OnRoomChanged("복도");
+        Action ag = () => OnRoomChanged("엘리베이터");
+        Action lel = () => OnRoomChanged("아지트");
+        OnNextFloor += st;
+        OnElevatorScene += ag;
+        OnAgitScene += lel;
 
-            isTimerSet = true;
-            timer = 1;
-        }
-        StartCoroutine(Cor());
-
-        FightManager.Instance.OnFighting += TimerActive;
-        FightManager.Instance.OnFightFinish += TimerActive;
-
-        UpdateTimeText();
-        StartCoroutine(TimeRoutine());
+        MiddleSet(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isTimerSet)
-        {
-            timer -= Time.deltaTime;
-            if (timer <= 0)
-            {
-                
-            }
-        }
-        else
-        {
-            timerT.gameObject.SetActive(true);
-            timer = 1;
-        }
 
     }
 
@@ -100,32 +81,7 @@ public class SchoolManager : MonoBehaviour
 
         ImportantData.dayCount = 1;
         ImportantData.nowFloorCount = 1;
-    }
-
-    private IEnumerator TimeRoutine()
-    {
-        while (isTimerSet)
-        {
-            yield return new WaitForSeconds(timerPlusCool);
-
-            ImportantData.gameMinutes += 5;
-
-            UpdateTimeText();
-        }
-    }
-
-    private void UpdateTimeText()
-    {
-        int hour = ImportantData.gameMinutes / 60;
-        int minute = ImportantData.gameMinutes % 60;
-
-        timerT.text = $"{hour:00} : {minute:00}";
-    }
-
-    void TimerActive()
-    {
-        isTimerSet = !isTimerSet;
-        timer = timerPlusCool;
+        ImportantData.canUsedStudents.AddRange(defultCharacterList);
     }
 
     public void Speak(SpeakData data, string speach, Transform parent)
@@ -152,5 +108,39 @@ public class SchoolManager : MonoBehaviour
         SpeakBox box = Instantiate(pre_SpeakBox, parent);
 
         box.Initialize(massage);
+    }
+
+    public void GetUse(List<Character> characters)
+    {
+        ImportantData.canUsedStudents = characters;
+    }
+
+    void MiddleSet(bool isEle)
+    {
+        middleP.gameObject.SetActive(true);
+        middleP.Initialize(isEle);
+    }
+
+    public void NextDay()
+    {
+        ImportantData.dayCount++;
+    }
+
+    public void SetStart()
+    {
+        IEnumerator Cor()
+        {
+            SceneChange.instance.Move(true);
+
+            yield return new WaitForSeconds(1.5f);
+
+            middleP.gameObject.SetActive(false);
+
+            OnStarted?.Invoke();
+            OnNextClass?.Invoke();
+            OnNextFloor?.Invoke();
+        }
+
+        StartCoroutine(Cor());
     }
 }

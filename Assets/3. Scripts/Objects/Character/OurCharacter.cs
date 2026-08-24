@@ -3,26 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.TextCore.Text;
 using static Unity.Collections.AllocatorManager;
 
 public class OurCharacter : CharacterTeam
 {
+    string a;
+
     protected override void Awake()
     {
         base.Awake();
 
         SchoolManager.instance.OnItemFinding += Opinion;
-        SchoolManager.instance.OnItemNext += Opinion;
+        SchoolManager.instance.OnItemNext += SetOpinion;
         SchoolManager.instance.OnItemFindEnd += OpinionExit;
+
+        Map.Instance.OnMove += Move;
+        Map.Instance.OnStop += Stop;
     }
 
     private void OnDisable()
     {
         SchoolManager.instance.OnItemFinding -= Opinion;
-        SchoolManager.instance.OnItemNext -= Opinion;
+        SchoolManager.instance.OnItemNext -= SetOpinion;
         SchoolManager.instance.OnItemFindEnd -= OpinionExit;
+
+        Map.Instance.OnMove -= Move;
+        Map.Instance.OnStop -= Stop;
     }
 
     protected override void ActingStart()
@@ -32,7 +42,7 @@ public class OurCharacter : CharacterTeam
 
     protected override void CanITargeting()
     {
-        Skill skill = FightManager.Instance.GetNowSkill?.Invoke();
+        Skill skill = FightManager.Instance.GetNowSkill?.Invoke().mySkill;
 
         CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
 
@@ -45,7 +55,10 @@ public class OurCharacter : CharacterTeam
 
     protected override void TargetFinding()
     {
-        Skill myskill = FightManager.Instance.GetNowSkill?.Invoke();
+        SkillData skill = FightManager.Instance.GetNowSkill.Invoke();
+        Skill myskill = skill.mySkill;
+        myskill.Initialize(skill);
+
         List<Character> targetCharList = new();
         CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
         foreach (Character targetchar in rangeData.allCharacterList)
@@ -59,7 +72,11 @@ public class OurCharacter : CharacterTeam
         foreach (Character target in targetCharList)
         {
             target.ReturnToBasic();
-            mychar.characterTrigger.triggers.RemoveAll(entry => entry.eventID == EventTriggerType.PointerEnter || entry.eventID == EventTriggerType.PointerExit || entry.eventID == EventTriggerType.PointerClick);
+            mychar.characterTrigger.triggers.RemoveAll(entry =>
+    entry.eventID is EventTriggerType.PointerEnter
+                  or EventTriggerType.PointerExit
+                  or EventTriggerType.PointerClick
+);
 
             void OnEnter(Character targetchar)
             {
@@ -95,55 +112,62 @@ public class OurCharacter : CharacterTeam
 
     }
 
-    void Opinion()
+    void SetOpinion()
     {
-        List<Character> sameCharacterList = new();
         bool randomBool = UnityEngine.Random.value > 0.5f;
         mychar.isapproval = randomBool;
 
-        OpinionExit();
+        if (mychar.isapproval)
+        {
+            a = "opinionSpeach_approval";
+            mychar.characterOpinion.color = new Color32(130, 158, 243, 255);
+            mychar.characterOpinion.text = "찬성";
+        }
+        else
+        {
+            a = "opinionSpeach_opposite";
+            mychar.characterOpinion.color = new Color32(243, 130, 138, 255);
+            mychar.characterOpinion.text = "반대";
+        }
+    }
+
+    void Opinion()
+    {
+        List<Character> sameCharacterList = new();
+
+        SetOpinion();
 
         void OnEnter(PointerEventData eventData)
         {
             sameCharacterList.Clear();
-            mychar.characterOutLine.enabled = true;
+            mychar.characterOpinion.gameObject.SetActive(true);
 
             CharacterRangeData rangeData = FightManager.Instance.GetRangeData?.Invoke();
             foreach(Character character in rangeData.ourRangeChar)
             {
                 if(character.isapproval== mychar.isapproval)
                 {
-                    character.characterOutLine.enabled = true;
+                    character.characterOpinion.gameObject.SetActive(true);
                     sameCharacterList.Add(character);
                 }
             }
 
-            string a = null;
-            if(mychar.isapproval)
-            {
-                a = "opinionSpeach_approval";
-                mychar.characterOutLine.effectColor = new Color32(130, 158, 243, 255);
-            }
-            else
-            {
-                a = "opinionSpeach_opposite";
-                mychar.characterOutLine.effectColor = new Color32(243, 130, 138, 255);
-            }
             SchoolManager.instance.Speak(mychar.characterData.speakData, a, this.transform);
         }
 
         void OnClick(PointerEventData eventData)
         {
+            OnExit(eventData);
             SchoolManager.instance.OnNextFind(mychar.isapproval);
             SchoolManager.instance.OnItemNext();
         }
 
         void OnExit(PointerEventData eventData)
         {
-            mychar.characterOutLine.enabled = false;
-            foreach(Character character in sameCharacterList)
+            mychar.characterOpinion.gameObject.SetActive(false);
+            foreach (Character character in sameCharacterList)
             {
-                character.characterOutLine.enabled = false;
+                character.characterOpinion.gameObject.SetActive(false);
             }
         }
 
@@ -155,6 +179,22 @@ public class OurCharacter : CharacterTeam
 
     void OpinionExit()
     {
-        mychar.characterTrigger.triggers.RemoveAll(entry => entry.eventID == EventTriggerType.PointerEnter || entry.eventID == EventTriggerType.PointerExit || entry.eventID == EventTriggerType.PointerClick);
+
+
+        mychar.characterTrigger.triggers.RemoveAll(entry =>
+    entry.eventID is EventTriggerType.PointerEnter
+                  or EventTriggerType.PointerExit
+                  or EventTriggerType.PointerClick
+);
+    }
+
+    void Move()
+    {
+        mychar.SetImage(mychar.characterData.motionData.Find(x => x.type == MotionData.MotionType.run));
+    }
+
+    void Stop()
+    {
+        mychar.SetImage(mychar.characterData.motionData.Find(x => x.type == MotionData.MotionType.standing));
     }
 }

@@ -105,13 +105,10 @@ public class InventoryMenu : MonoBehaviour
                 }
                 else
                 {
-                    ImportantData.gettingItemList[data] += value;
+                    ImportantData.gettingItemList[data] -= value;
                     icon.Initialize(ImportantData.gettingItemList[data], data);
                 }
             }
-
-            ItemText text = Instantiate(pre_text, parent_text);
-            text.Initialize(data, value);
         }
     }
 }

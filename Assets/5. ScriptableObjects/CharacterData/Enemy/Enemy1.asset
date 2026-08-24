@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ca1f70ee1cd8b24c9c6187f8e7aa642, type: 3}
+  m_Name: Enemy1
+  m_EditorClassIdentifier: 
+  defaultCharacterName: "\uAD34\uC774"
+  defaultSkillList:
+  - {fileID: 11400000, guid: 0f19bf305f47e09469f893f8ba4bd158, type: 2}
+  motionData:
+  - type: 0
+    image: {fileID: -653672771, guid: 604862fb1a6de3b42a0f3d9e4b6a5b35, type: 3}
+  - type: 2
+    image: {fileID: -494154821, guid: 38f1590a2bd5e614eb6b6403e0cb8020, type: 3}
+  - type: 3
+    image: {fileID: -1451277554, guid: d28f10275fdf1374783934db7e719ded, type: 3}
+  - type: 4
+    image: {fileID: 1368399438, guid: 90101e6f724ef3745857fd9dfeba1b03, type: 3}
+  speakData: {fileID: 0}
+  iconImage: {fileID: 0}
+  standingImage: {fileID: 0}
+  hitImage: {fileID: 0}
+  defaultHp: 10
+  defaultMinSpeed: 3
+  defaultMaxSpeed: 8

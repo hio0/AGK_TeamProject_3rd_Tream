@@ -9,7 +9,7 @@ public abstract class VirtualCamera : MonoBehaviour
 
     protected virtual void Awake()
     {
-       cam = GetComponent<CinemachineCamera>();
+        cam = GetComponent<CinemachineCamera>();
     }
     // 간편 기능
     public void LivingAndTargeting(Character target)

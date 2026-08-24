@@ -7,42 +7,48 @@ using UnityEngine.UI;
 
 public class StudentInfo : MonoBehaviour
 {
-    public Character mychar;
-    public Image icon;
+    public Character mychar { get; private set; }
 
-    public TMP_Text characterNameT;
-    public TMP_Text LevelT;
-    public TMP_Text hpT;
-    public TMP_Text stmT;
-
-    public Image hpFillImage;
-    public Image stmFillImage;
-
-    public GameObject pre_artifectIcon;
-    public Transform parent_acrtifectIcon;
+    [SerializeField] Image icon;
+    [SerializeField] LevelIcon levelIcon;
+    [SerializeField] TMP_Text characterNameT;
+    [SerializeField] TMP_Text LevelT;
+    [SerializeField] TMP_Text hpT;
+    [SerializeField] TMP_Text speedT;
+    [SerializeField] TMP_Text emotionT;
 
     public EventTrigger trigger;
-    Character dragObject;
+
     BasicIcon basicIcon;
     public BasicIcon pre_basicIcon;
+    [SerializeField] Transform rect;
 
-    public void Initialize(Character character)
+    public void Initialize(Character character, Transform pa)
     {
         mychar = character;
+        rect = pa;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         icon.sprite = mychar.characterData.iconImage;
+        icon.SetNativeSize();
 
-        /*
+        levelIcon.Initialize(mychar);
         characterNameT.text = mychar.characterData.defaultCharacterName;
-        LevelT.text = $"Lv.<size=35>{mychar.characterData.nowLevel}</size>";
-        hpT.text = $"{mychar.characterData.nowHp} / {mychar.characterData.nowMaxHp}";
-
-        hpFillImage.fillAmount = (float)mychar.characterData.nowHp / (float)mychar.characterData.nowMaxHp;
-        */
+        LevelT.text = $"{mychar.level} / {mychar.maxLevel}";
+        hpT.text = $"{mychar.hp} / {mychar.maxHp}";
+        speedT.text = $"{mychar.minSpeed} / {mychar.maxSpeed}";
+        if(mychar.characterEmotion != null)
+        {
+            CharacterEmotion emotion = mychar.characterEmotion;
+            emotionT.text = $"{emotion.imotionStack} / 4";
+        }
+        else
+        {
+            emotionT.text = "0 / 0";
+        }
 
         Templet.AddEvent(trigger, EventTriggerType.BeginDrag, OnBeginDrag);
         Templet.AddEvent(trigger, EventTriggerType.Drag, OnDrag);
@@ -51,18 +57,12 @@ public class StudentInfo : MonoBehaviour
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        dragObject = eventData.pointerDrag.GetComponent<StudentInfo>().mychar;
-
-        RectTransform rect = GameManager.instance.GetUIRect?.Invoke();
         basicIcon = Instantiate(pre_basicIcon, rect);
-        MoveWithMouse(eventData);
 
-        BasicIconData basicIconData = basicIcon.ReturnImage();
+        basicIcon.spriteImage.color = new Color32(255, 255, 255, 255);
+        basicIcon.spriteImage.sprite = mychar.characterData.iconImage;
 
-        basicIconData.spriteImage.color = new Color32(255, 255, 255, 255);
-        basicIconData.spriteImage.sprite = mychar.characterData.iconImage;
-
-        basicIconData.canvasGroup.blocksRaycasts = false;
+        basicIcon.can.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -72,18 +72,16 @@ public class StudentInfo : MonoBehaviour
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        dragObject = null;
-
         Destroy(basicIcon.gameObject);
         basicIcon = null;
     }
 
     void MoveWithMouse(PointerEventData eventData)
     {
-        RectTransform rect = GameManager.instance.GetUIRect?.Invoke();
+        RectTransform parentRect = basicIcon.transform.parent as RectTransform;
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            rect,
+            parentRect,
             eventData.position,
             eventData.pressEventCamera,
             out Vector2 localPos

@@ -54,7 +54,7 @@ public class FightManager : MonoBehaviour
 
     public Func<EnemyWaves> GetNowEnemys;
     public Func<CharacterRangeData> GetRangeData;
-    public Func<Skill> GetNowSkill;
+    public Func<SkillData> GetNowSkill;
 
     public int turnCount { get; private set; }
 
@@ -175,8 +175,12 @@ public class FightManager : MonoBehaviour
         {
             FocusCamera.Instance.Live(0);
 
-            fightP.SetActive(false);
+            SchoolManager.instance.OnMoneyChanged.Invoke(UnityEngine.Random.Range(15, 31));
+            
+
             OnFightFinish?.Invoke();
+
+            fightP.SetActive(false);
         }
 
         return isFinished;
@@ -188,4 +192,5 @@ public class FightManager : MonoBehaviour
         OnTurnStart = null;
         OnTurnFinish = null;
     }
+
 }

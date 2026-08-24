@@ -30,7 +30,7 @@ public class SkillIconSetting : MonoBehaviour
         }
     }
 
-    void SkillIconSet() // 스껄
+    void SkillIconSet()
     {
         ResetInfo();
 
@@ -42,6 +42,7 @@ public class SkillIconSetting : MonoBehaviour
 
             foreach (SkillData skill in mySkillList)
             {
+
                 SkillIcon skillIcon = Instantiate(pre_skillIcon, transform);
 
                 skillIcon.Initialize(skill, skillExplanation, nowSelectedChar);

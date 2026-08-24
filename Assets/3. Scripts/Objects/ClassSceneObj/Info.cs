@@ -13,7 +13,8 @@ public class Info : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SchoolManager.instance.OnStarted += SetFloorT;
+        SchoolManager.instance.OnRoomChanged += SetRoomT;
+        SchoolManager.instance.OnNextFloor += SetFloorT;
     }
 
     // Update is called once per frame
@@ -22,8 +23,21 @@ public class Info : MonoBehaviour
 
     }
 
+    void SetRoomT(string room)
+    {
+        roomT.text = room;
+    }
+
     void SetFloorT()
     {
+        if(ImportantData.nowFloorCount <= 0)
+        {
+            floorT.gameObject.SetActive(false);
+        }
+        else
+        {
+            floorT.gameObject.SetActive(true);
+        }
         floorT.text = $"{ImportantData.nowFloorCount}F";
     }
 }

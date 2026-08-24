@@ -17,7 +17,7 @@ public abstract class LetterBox : MonoBehaviour
         isIn = false;
 
         FightManager.Instance.OnFighting += Move;
-        FightManager.Instance.OnActingFinished += Move;
+        FightManager.Instance.OnFightFinish += Move;
 
         SetStatic();
     }
@@ -25,7 +25,7 @@ public abstract class LetterBox : MonoBehaviour
     private void OnDisable()
     {
         FightManager.Instance.OnFighting -= Move;
-        FightManager.Instance.OnActingFinished -= Move;
+        FightManager.Instance.OnFightFinish -= Move;
     }
 
     public LetterBox ReturnData()

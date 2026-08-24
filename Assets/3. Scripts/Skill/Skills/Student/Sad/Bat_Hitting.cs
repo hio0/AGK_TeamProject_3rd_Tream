@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 [Serializable]
@@ -20,15 +21,19 @@ public class Bat_Hitting : Skill, ITargetedEnemySkill, IAttackSkill
         OnSkillAction?.Invoke(ReturnData());
 
         OnSkillStart?.Invoke();
-        yield return new WaitForSeconds(1f);
+        skillContext.user.SetImage(skillContext.user.characterData.motionData.Find(x => x.type == MotionData.MotionType.attackReady));
+
+        yield return new WaitForSeconds(0.7f);
+        skillContext.user.SetImage(skillContext.user.characterData.motionData.Find(x => x.type == MotionData.MotionType.attack));
 
         SkillTemplet.Attack(this, MinDamage, MaxDamage, skillContext);
         OnSkillEffected?.Invoke();
 
         skillContext.user.AddIcon(SkillTemplet.FindIcon(data.skillIcons, typeof(Power)), 3);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
         OnSkillFinish?.Invoke();
+        skillContext.user.SetImage(skillContext.user.characterData.motionData.Find(x => x.type == MotionData.MotionType.standing));
 
         FightManager.Instance.OnActingFinished?.Invoke();
         FocusCamera.Instance.Live(0);

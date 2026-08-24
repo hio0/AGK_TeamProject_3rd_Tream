@@ -14,6 +14,8 @@ public class Money : MonoBehaviour
     void Start()
     {
         SchoolManager.instance.OnMoneyChanged += ChangedMoney;
+
+        text.text = ImportantData.moneyCount.ToString();
     }
 
     private void OnDisable()
@@ -34,6 +36,8 @@ public class Money : MonoBehaviour
 
         IEnumerator Cor()
         {
+            text.text = ImportantData.moneyCount.ToString();
+
             can.alpha = 1;
             changeT.text = value.ToString("+#;-#;0");
 

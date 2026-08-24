@@ -20,7 +20,7 @@ public static class SkillTemplet
                     minDamage = minDamage,
                     maxDamage = maxDamage
                 };
-                AttackSkillData currentData = skill.OnAttack?.Invoke(data);
+                AttackSkillData currentData = skill.OnAttack?.Invoke(data) ?? data;
                 damage = currentData.damage;
 
                 target.hp -= (int)damage;

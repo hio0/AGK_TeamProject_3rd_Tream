@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,7 +18,9 @@ public abstract class Character : MonoBehaviour
     public string characterName;
     public List<SkillData> skillList = new();
 
+    public int levelCount;
     public int level;
+    public int maxLevel;
     public int hp;
     public int speed;
     public List<Icon> iconlist = new();
@@ -26,7 +29,6 @@ public abstract class Character : MonoBehaviour
     public int maxHp;
     public int minSpeed;
     public int maxSpeed;
-    public int nextLevel;
 
     [Header("시스템")]
     public int nowPosition;
@@ -49,15 +51,18 @@ public abstract class Character : MonoBehaviour
     public Action OnTriggerExit;
 
     public event Action OnLevelUp;
+    public event Action<int> OnLevelChanged;
     public event Action<Icon> OnIconStackChange;
     public event Action<SkillContext> OnAction;
     public event Action OnDamaged;
+    public event Action<int> OnHeal;
 
     [Header("컴포넌트")]
     public Image characterImage;
     public EventTrigger characterTrigger;
     public CharacterTeam characterTeam;
-    public Outline characterOutLine;
+    public TMP_Text characterOpinion;
+    public CharacterEmotion characterEmotion;
 
     public Transform body;
     public Transform characterIcons;
@@ -65,11 +70,15 @@ public abstract class Character : MonoBehaviour
     public IconText pre_iconText;
     public IconIcon pre_icon;
 
-    private void OnEnable()
+    private void Awake()
     {
         DefaultSet();
         ReturnToBasic();
 
+    }
+
+    private void OnEnable()
+    {
         FightManager.Instance.OnActingStart += AnotherSelected;
         FightManager.Instance.OnTargetFinding += CanITargeted;
         FightManager.Instance.OnTargetFinding += Targeting;
@@ -105,8 +114,10 @@ public abstract class Character : MonoBehaviour
     }
 
     // 시스템
-    public void SetImage(Sprite sprite)
+    public void SetImage(MotionData data)
     {
+        Sprite sprite = data.image;
+
         characterImage.sprite = sprite;
         characterImage.SetNativeSize();
     }
@@ -163,17 +174,19 @@ public abstract class Character : MonoBehaviour
         maxSpeed = characterData.defaultMaxSpeed;
 
         characterName = characterData.defaultCharacterName;
-        SetImage(characterData.standingImage);
+        SetImage(characterData.motionData.Find(x => x.type == MotionData.MotionType.standing));
         skillList = characterData.defaultSkillList;
 
         hp = maxHp;
+        level = 0;
+        levelCount = 0;
+        maxLevel = 15;
 
         Templet.AddEvent(characterTrigger, EventTriggerType.Drop, OnDrop);
     }
 
     void TurnStartedSet()
     {
-        characterTeam = GetComponent<CharacterTeam>();
         characterTrigger.triggers.RemoveAll(entry => entry.eventID == EventTriggerType.PointerEnter || entry.eventID == EventTriggerType.PointerExit || entry.eventID == EventTriggerType.PointerClick);
         selectingTargets.Clear();
 
@@ -184,7 +197,7 @@ public abstract class Character : MonoBehaviour
 
     void ActFinish()
     {
-        SetImage(characterData.standingImage);
+        SetImage(characterData.motionData.Find(x => x.type == MotionData.MotionType.standing));
     }
 
     // 자식꺼
@@ -193,6 +206,7 @@ public abstract class Character : MonoBehaviour
         int r = UnityEngine.Random.Range(0, skillList.Count);
 
         Skill skill = skillList[r].mySkill;
+        skill.Initialize(skillList[r]);
         return skill;
     }
 
@@ -211,7 +225,19 @@ public abstract class Character : MonoBehaviour
     public virtual void Damaged(Action skillEffect)
     {
         skillEffect?.Invoke();
-        SetImage(characterData.hitImage);
+        SetImage(characterData.motionData.Find(x => x.type == MotionData.MotionType.hit));
+
+        IEnumerator Cor()
+        {
+            Color32 bcol = characterImage.color;
+            characterImage.color = new Color32(192, 68, 89, 255);
+
+            yield return new WaitForSeconds(0.5f);
+
+            characterImage.color = bcol;
+        }
+
+        StartCoroutine(Cor());
 
         HpToZero();
 
@@ -226,6 +252,12 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    public virtual void Heal(int healCount)
+    {
+        hp += healCount;
+
+        OnHeal.Invoke(healCount);
+    }
 
     public virtual void AddIcon(IconData data, int changedStack)
     {
@@ -285,6 +317,49 @@ public abstract class Character : MonoBehaviour
         IconText text = Instantiate(pre_iconText, body);
         text.Initialize(drag.data.itemImage, drag.data.itemName, new Color32(255, 255, 255, 255));
 
+        ItemManager.Instance.OnRemoveItem.Invoke(eventData.pointerDrag.GetComponent<ItemIcon>().myItem, 1);
+
         SchoolManager.instance.OnNoticedSomething?.Invoke($"{characterData.name}에게\n{drag.data.itemName}을 사용했다.");
+    }
+
+    public void GetExp(int exp)
+    {
+        level = level + exp;
+        if (level >= maxLevel)
+        {
+            LevelUp();
+        }
+
+        OnLevelChanged?.Invoke(exp);
+    }
+
+    void LevelUp()
+    {
+        LevelPlus();
+
+        IconText text = Instantiate(pre_iconText, body);
+        text.Initialize(null, "레벨 업!", new Color32(90, 108, 166, 255));
+    }
+
+    void LevelPlus()
+    {
+        maxLevel = maxLevel * 2 / ImportantData.dayCount / 3;
+        level = 0;
+        levelCount++;
+
+        LevelStatChanged(levelCount);
+        OnLevelUp.Invoke();
+    }
+
+    public void LevelStatChanged(int lv)
+    {
+        maxHp += UnityEngine.Random.Range(3, 5);
+        hp = maxHp;
+    }
+
+    public void EmotionUp()
+    {
+        IconText text = Instantiate(pre_iconText, body);
+        text.Initialize(null, "감정 격양!", new Color32(227, 118, 46, 255));
     }
 }

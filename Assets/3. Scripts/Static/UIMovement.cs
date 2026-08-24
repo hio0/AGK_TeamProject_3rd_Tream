@@ -93,4 +93,11 @@ public static class UIMovement
     {
         what.DOFade(howmuch, time);
     }
+
+    public static void DoPunchScale(RectTransform rect, Vector2 targetSize, float time)
+    {
+        rect.sizeDelta = Vector3.zero;
+
+        rect.DOSizeDelta(targetSize, time).SetEase(Ease.OutBack);
+    }
 }

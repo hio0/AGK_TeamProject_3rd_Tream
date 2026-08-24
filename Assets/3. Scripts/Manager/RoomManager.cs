@@ -38,7 +38,7 @@ public class RoomManager : MonoBehaviour
         ImportantData.nowFloorCount = 1;
 
         int plusFloor;
-        plusFloor = ImportantData.dayCount / 4;
+        plusFloor = 2 + ImportantData.dayCount / 4;
         if (ImportantData.dayCount >= 3)
         {
             plusFloor++;

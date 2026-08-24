@@ -19,13 +19,18 @@ public class Yeek : Skill, ITargetedEnemySkill, IAttackSkill
         OnSkillAction?.Invoke(ReturnData());
 
         OnSkillStart?.Invoke();
+        skillContext.user.SetImage(skillContext.user.characterData.motionData.Find(x => x.type == MotionData.MotionType.attackReady));
+
         yield return new WaitForSeconds(1f);
 
         SkillTemplet.Attack(this, MinDamage, MaxDamage, skillContext);
         OnSkillEffected?.Invoke();
 
+        skillContext.user.SetImage(skillContext.user.characterData.motionData.Find(x => x.type == MotionData.MotionType.attack));
+
         yield return new WaitForSeconds(0.5f);
         OnSkillFinish?.Invoke();
+        skillContext.user.SetImage(skillContext.user.characterData.motionData.Find(x => x.type == MotionData.MotionType.standing));
 
         FightManager.Instance.OnActingFinished?.Invoke();
         FocusCamera.Instance.Live(0);
