@@ -12,6 +12,8 @@ public class MainManager : MonoBehaviour
     public List<RectTransform> buttons;
     public float openPos;
 
+    public AudioClip mainTheme;
+
     private void Start()
     {
         StartAnimation();
@@ -20,6 +22,9 @@ public class MainManager : MonoBehaviour
     public void Started()
     {
         panel.SetActive(true);
+
+        AudioSource soure = SoundManager.instance.GetSoundData.Invoke().bgm;
+        SoundManager.instance.FadeSound(soure, 0.2f, 1f);
     }
 
     public void Setting()
@@ -43,6 +48,8 @@ public class MainManager : MonoBehaviour
         can.alpha = 1f;
         title.alpha = 0f;
         UIMovement.DOFade(can, 0, 1f);
+
+        SoundManager.instance.BGMPlay(mainTheme);
 
         IEnumerator Cor()
         {

@@ -15,13 +15,7 @@ public class LevelIcon : MonoBehaviour
 
     void Start()
     {
-        if(mychar == null)
-        {
-            mychar = GetComponentInParent<Character>();
-            mychar.OnLevelUp += SetLevel;
-        }
 
-        SetLevel();
     }
 
     private void OnDisable()

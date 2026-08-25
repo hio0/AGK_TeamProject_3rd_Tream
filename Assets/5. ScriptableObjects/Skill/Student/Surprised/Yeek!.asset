@@ -18,14 +18,12 @@ MonoBehaviour:
   skillName: "\uC774\uD06C!"
   skillTargetCount: 1
   skillCoolTime: 0
-  skillSprite:
-  - {fileID: 21300000, guid: d1ed629310eb8364d884a1387dcd82f0, type: 3}
-  - {fileID: 21300000, guid: 5f023e8720ac5a443bbaa7ed9e2a5ffa, type: 3}
-  skillIcons: []
-  skillExplanation: "[ \uC801 \uD0C0\uAC9F\uD305 ]\n\n\uD53C\uD574: 4 - 13\n\uBC94\uC704:
-    1\uCE78\n\n - \uC790\uC2E0\uC5D0\uAC8C \uB180\uB78C!\uC774 \uC788\uB2E4\uBA74
-    \uCD5C\uC18C \uD53C\uD574 + 4, \uCD5C\uB300 \uD53C\uD574 - 1\r\n - \uC2A4\uD0AC
-    \uC885\uB8CC \uC2DC \uB180\uB78C! \uC81C\uAC70"
+  skillIcons:
+  - {fileID: 11400000, guid: c3b854cc1c968f443ad65fb416c273bc, type: 2}
+  skillExplanation: "[ \uC801 \uD0C0\uAC9F\uD305 ]\n\uD53C\uD574: 4 - 13\n\uBC94\uC704:
+    1\uCE78\n\n\uC790\uC2E0\uC5D0\uAC8C \uB180\uB78C!\uC774 \uC788\uB2E4\uBA74 \uCD5C\uC18C
+    \uD53C\uD574 +4, \uCD5C\uB300 \uD53C\uD574 -1\n\uB180\uB78C! \uC81C\uAC70\n\n[\uB180\uB78C!]:
+    \uD2B9\uC815 \uC2A4\uD0AC\uC5D0 \uC0AC\uC6A9\uB428."
   references:
     version: 2
     RefIds:

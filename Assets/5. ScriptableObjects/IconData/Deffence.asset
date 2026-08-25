@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Deffence
   m_EditorClassIdentifier: 
   myIcon:
-    rid: -2
+    rid: 7406696819617693708
   iconName: "\uBC29\uC5B4"
   iconImage: {fileID: 378278798, guid: 3ddbbf6f6ac9f3d40a2b406a5eb49384, type: 3}
   limitStack: 20
@@ -28,5 +28,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 7406696819617693708
+      type: {class: Deffence, ns: , asm: Assembly-CSharp}
+      data:
+        data: {fileID: 11400000}
+        target: {fileID: 0}
+        stack: 1
+        remainTime: 3

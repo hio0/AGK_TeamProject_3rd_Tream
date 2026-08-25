@@ -15,6 +15,10 @@ MonoBehaviour:
   defaultCharacterName: "\uB180\uB78C"
   defaultSkillList:
   - {fileID: 11400000, guid: 8c2f78e55c9e2c34aa9953a034fd0459, type: 2}
+  - {fileID: 11400000, guid: 6d530975e60665e45a7c487bb33aec25, type: 2}
+  - {fileID: 11400000, guid: 3f64268786d875d4fbf038a2134d22fb, type: 2}
+  - {fileID: 11400000, guid: a175cbdb264e75c47815d1ec9e1bb905, type: 2}
+  - {fileID: 11400000, guid: 5fbdbf2a9ae686f4f96b45103e048c6f, type: 2}
   motionData:
   - type: 0
     image: {fileID: 1231487921, guid: cca20c7986375cc48bc3a76c0275207c, type: 3}
@@ -23,15 +27,18 @@ MonoBehaviour:
   - type: 2
     image: {fileID: 596508616, guid: 78feea2cc51a12248b2bb7da4bf1bc12, type: 3}
   - type: 3
-    image: {fileID: -2057446855, guid: d1ed629310eb8364d884a1387dcd82f0, type: 3}
+    image: {fileID: 2134929068, guid: d1ed629310eb8364d884a1387dcd82f0, type: 3}
   - type: 4
     image: {fileID: -518430466, guid: 5f023e8720ac5a443bbaa7ed9e2a5ffa, type: 3}
   - type: 5
     image: {fileID: -1267571767, guid: 04e323f472f21f1439b073d612fa5fff, type: 3}
+  - type: 6
+    image: {fileID: 21300000, guid: 0fc9a886eec6b21428f9292f7c9d0058, type: 3}
   speakData: {fileID: 11400000, guid: 3b646b3731dc4da4cb87bfc2059d414c, type: 2}
   iconImage: {fileID: -1776857493, guid: cf6c287639d56624eb54bfa4b9337fe7, type: 3}
-  standingImage: {fileID: 0}
-  hitImage: {fileID: 0}
+  pokjuCol:
+    serializedVersion: 2
+    rgba: 529185
   defaultHp: 28
   defaultMinSpeed: 5
   defaultMaxSpeed: 7

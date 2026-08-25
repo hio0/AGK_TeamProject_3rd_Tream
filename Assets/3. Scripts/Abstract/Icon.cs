@@ -62,6 +62,7 @@ public abstract class Icon
 
         if (remainTime <= 0)
         {
+            RemoveEvent();
             target.RemoveIcon(this);
         }
     }

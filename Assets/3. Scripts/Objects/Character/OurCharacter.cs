@@ -1,13 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.TextCore.Text;
-using static Unity.Collections.AllocatorManager;
 
 public class OurCharacter : CharacterTeam
 {
@@ -87,7 +82,7 @@ public class OurCharacter : CharacterTeam
             {
                 skillContext = MakeSkillContext(myskill, targetchar.selectingTargets);
 
-                FightManager.Instance.OnTargetFinded?.Invoke();
+                FightManager.Instance.OnTargetFinded?.Invoke(RetrunContext());
                 SchoolManager.instance.OnNoticedSomething($"{mychar.characterName}의\n{myskill.data.skillName}!");
                 targetchar.OnTriggerClick?.Invoke();
 

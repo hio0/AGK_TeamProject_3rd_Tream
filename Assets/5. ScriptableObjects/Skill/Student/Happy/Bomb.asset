@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b748d34ce6331844ad3cbcbe75cb67d, type: 3}
+  m_Name: Bomb
+  m_EditorClassIdentifier: 
+  mySkill:
+    rid: 7406696819617693702
+  skillType: 2
+  skillName: "\uC18C\uB9AC \uC62C\uB824 !!!"
+  skillTargetCount: 4
+  skillCoolTime: 0
+  skillIcons:
+  - {fileID: 11400000, guid: 91731187cca630f4799476d2bcc1bb5d, type: 2}
+  - {fileID: 11400000, guid: b733fd1052304ff4fbf2f7244adeab38, type: 2}
+  skillExplanation: "[ \uC801\uAD70 \uD0C0\uAC9F\uD305 ]\n\uD53C\uD574: 1-3\n\uBC94\uC704:
+    4\uCE78\n\n\uC18D\uBC15 2 ~ 4, \uCDE8\uC57D 4 \uBD80\uC5EC.\n\n[\uC18D\uBC15]:
+    \uB2E4\uC74C \uD134 \uC18D\uB3C4\uAC00 \uC2A4\uD0DD\uB9CC\uD07C \uAC10\uC18C,
+    \uC774\uD6C4 \uC2A4\uD0DD \uC18C\uBA78.\n[\uCDE8\uC57D]: \uBC1B\uB294 \uD53C\uD574\uAC00
+    \uC2A4\uD0DD \uB2F9 10%\uB9CC\uD07C \uC99D\uAC00."
+  references:
+    version: 2
+    RefIds:
+    - rid: 7406696819617693702
+      type: {class: Bomb, ns: , asm: Assembly-CSharp}
+      data:
+        canTarget: 1
+        minDamage: 1
+        maxDamage: 3

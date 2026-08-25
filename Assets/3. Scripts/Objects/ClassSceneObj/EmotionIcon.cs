@@ -24,7 +24,7 @@ public class EmotionIcon : MonoBehaviour
 
             emotion.OnImotionChanged += SetEmotion;
 
-            SetEmotion(0);
+            SetEmotion();
         }
     }
 
@@ -36,7 +36,7 @@ public class EmotionIcon : MonoBehaviour
         }
     }
 
-    void SetEmotion(int a)
+    void SetEmotion()
     {
         emoT.text = emotion.imotionStack.ToString();
     }

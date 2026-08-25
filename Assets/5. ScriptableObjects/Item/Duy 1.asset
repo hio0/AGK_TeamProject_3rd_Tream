@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79131cd8b108b17418ea621351b7243c, type: 3}
-  m_Name: New Item Data
+  m_Name: Duy 1
   m_EditorClassIdentifier: 
   myItem:
-    rid: 7406696622029012992
-  itemTier: 1
-  itemName: "\uB514\uBC84\uADF8"
-  itemImage: {fileID: 0}
+    rid: 7406696819617693711
+  itemTier: 3
+  itemName: "\uACE0\uC7A5\uB09C \uB098\uCE68\uBC18"
+  itemImage: {fileID: 1592964980, guid: 13750456d2bc2f74ba6cd53d1662a441, type: 3}
   maxStack: 99
-  icons:
-  - {fileID: 11400000, guid: fe2f29be87a9f2c42b8e2986381bfae8, type: 2}
-  dong: 12
-  itemExplanation: "\uC790\uC2E0\uC758 \uD134 \uC2DC\uC791 \uC2DC : \uD798 2 \uC5BB\uC74C."
+  icons: []
+  dong: 99
+  itemExplanation: "\uC0AC\uC6A9 \uC2DC: \uC544\uBB34 \uD6A8\uACFC\uAC00 \uC5C6\uB2E4.\n<i>\uACE0\uC7A5\uB098\uC11C
+    \uD6A8\uACFC\uAC00 \uC5C6\uB2E4...</i>"
   references:
     version: 2
     RefIds:
-    - rid: 7406696622029012992
+    - rid: 7406696819617693711
       type: {class: Dummy, ns: , asm: Assembly-CSharp}
       data:
         data: {fileID: 0}

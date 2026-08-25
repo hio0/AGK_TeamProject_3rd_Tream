@@ -11,7 +11,7 @@ public class SkillIconSetting : MonoBehaviour
 
     private void OnEnable()
     {
-        NeedIcon();
+        SchoolManager.instance.OnStarted += NeedIcon;
         FightManager.Instance.OnTargetFinded += ResetInfo;
     }
 
@@ -32,7 +32,7 @@ public class SkillIconSetting : MonoBehaviour
 
     void SkillIconSet()
     {
-        ResetInfo();
+        ResetInfo(null);
 
         Character nowSelectedChar = FightManager.Instance.GetRangeData?.Invoke().nowSelectedChar;
 
@@ -42,6 +42,17 @@ public class SkillIconSetting : MonoBehaviour
 
             foreach (SkillData skill in mySkillList)
             {
+                if(skill.skillType == SkillData.actType.emotion_Pokju)
+                {
+                    continue;
+                }
+                if (skill.skillType == SkillData.actType.emotion)
+                {
+                    if(nowSelectedChar.characterEmotion.imotionStack == 0)
+                    {
+                        continue;
+                    }
+                }
 
                 SkillIcon skillIcon = Instantiate(pre_skillIcon, transform);
 
@@ -50,7 +61,7 @@ public class SkillIconSetting : MonoBehaviour
         }
     }
 
-    void ResetInfo()
+    void ResetInfo(SkillContext context)
     {
         for (int i = 0; i < transform.childCount; i++)
         {

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97df9a8791b15234084e53c0376c35b4, type: 3}
+  m_Name: Surprised
+  m_EditorClassIdentifier: 
+  myIcon:
+    rid: 7406696819617693700
+  iconName: "\uB180\uB78C!"
+  iconImage: {fileID: 56517773, guid: af22659a34d4e914eb1a6beb7e8e377a, type: 3}
+  limitStack: 10
+  limitTurn: 3
+  textColor:
+    serializedVersion: 2
+    rgba: 4286299130
+  iconExplanation: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 7406696819617693700
+      type: {class: Surprised, ns: , asm: Assembly-CSharp}
+      data:
+        data: {fileID: 11400000}
+        target: {fileID: 0}
+        stack: 0
+        remainTime: 0

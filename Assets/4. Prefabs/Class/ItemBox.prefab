@@ -26,17 +26,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4410609105294533166}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.032282885, w: 0.99947876}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3.7}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 545.8, y: 349}
+  m_AnchoredPosition: {x: 0, y: -80.92}
+  m_SizeDelta: {x: 619.5, y: 456.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2444042619585135505
 CanvasRenderer:
@@ -59,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.11463154, g: 0.11463154, b: 0.1509434, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f67d3f026459dff4eb8f6ea276b73c97, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e8ca4f35d61c03047b3d8d9465f076c6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,4 +89,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 11400000, guid: e75d6dceeac80af45883f3bafb6d3c64, type: 2}
+  - {fileID: 11400000, guid: 804ba8aa197ea36469fcba1c2dcfcf50, type: 2}
+  - {fileID: 11400000, guid: ca6f4d3193817104384cc947e7c8dcda, type: 2}
+  - {fileID: 11400000, guid: 7e3b5fe111df5ba4d90a5f78ddb10f8c, type: 2}
+  - {fileID: 11400000, guid: f1cda85326c886c43905d36fca4d1851, type: 2}
+  sprite: {fileID: 8047925512962061280}
+  openSprite: {fileID: 21300000, guid: 3892efc12cfa42148b5f83821cfae7ff, type: 3}

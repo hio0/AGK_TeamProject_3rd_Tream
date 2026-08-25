@@ -5,18 +5,17 @@ using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static Unity.VisualScripting.Member;
 
 public class SchoolManager : MonoBehaviour
 {
     public static SchoolManager instance;
 
     public Action OnStarted;
-    public event Action OnFinished;
 
     public Action OnNextClass;
     public Action OnNextRoom;
     public Action OnNextFloor;
-    public event Action<int, int> OnTimerSet;
     public Action<string> OnRoomChanged;
 
     public Action OnAgitScene;
@@ -41,6 +40,9 @@ public class SchoolManager : MonoBehaviour
 
     [SerializeField] SpeakData defultData;
     [SerializeField] SpeakBox pre_SpeakBox;
+
+    [SerializeField] AudioClip mainTheme;
+    [SerializeField] AudioClip fightTheme;
 
     private void Awake()
     {
@@ -67,6 +69,29 @@ public class SchoolManager : MonoBehaviour
         OnAgitScene += lel;
 
         MiddleSet(false);
+
+        SoundManager.instance.BGMPlay(mainTheme);
+        Action act = () =>
+        {
+            AudioSource soure = SoundManager.instance.GetSoundData.Invoke().bgm;
+            soure.volume = 0.2f;
+            soure.loop = true;
+        };
+        OnStarted += act;
+
+        Action fg = () =>
+        {
+            AudioSource soure = SoundManager.instance.GetSoundData.Invoke().bgm;
+            SoundManager.instance.BGMPlay(fightTheme);
+        };
+        Action fh = () =>
+        {
+            SoundManager.instance.BGMPlay(mainTheme);
+        };
+        FightManager.Instance.OnFighting += fg;
+        FightManager.Instance.OnFightFinish += fh;
+
+        act();
     }
 
     // Update is called once per frame
@@ -119,6 +144,9 @@ public class SchoolManager : MonoBehaviour
     {
         middleP.gameObject.SetActive(true);
         middleP.Initialize(isEle);
+
+        AudioSource soure = SoundManager.instance.GetSoundData.Invoke().bgm;
+        soure.volume = 0.2f;
     }
 
     public void NextDay()

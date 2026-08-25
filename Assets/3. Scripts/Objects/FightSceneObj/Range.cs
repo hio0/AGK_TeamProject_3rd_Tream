@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class Range : MonoBehaviour
 {
@@ -26,21 +23,10 @@ public class Range : MonoBehaviour
             if (isOur)
             {
                 character.iOurUnit = true;
-                character.TryGetComponent<OurCharacter>(out OurCharacter our);
-                if (our == null)
-                {
-                    character.AddComponent<OurCharacter>();
-                    character.AddComponent<CharacterEmotion>();
-                }
             }
             else
             {
                 character.iOurUnit = false;
-                character.TryGetComponent<EnemyCharacter>(out EnemyCharacter ene);
-                if (ene == null)
-                {
-                    character.AddComponent<EnemyCharacter>();
-                }
             }
         }
 

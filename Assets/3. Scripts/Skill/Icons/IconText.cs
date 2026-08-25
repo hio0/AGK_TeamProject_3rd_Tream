@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class IconText : MonoBehaviour
 {
     public Image iconImage;
-    Sprite iconSprie;
     public TMP_Text iconText;
     string text;
     Color32 color;
@@ -20,7 +20,15 @@ public class IconText : MonoBehaviour
 
     public void Initialize(Sprite spr, string name, Color32 col)
     {
-        iconSprie = spr;
+        if(spr == null)
+        {
+            iconImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            iconImage.gameObject.SetActive(true);
+            iconImage.sprite = spr;
+        }
         text = name;
         color = col;
     }
@@ -28,7 +36,6 @@ public class IconText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        iconImage.sprite = iconSprie;
         iconImage.color = color;
         iconText.text = text;
         iconText.color = color;

@@ -1,12 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UI;
 
 public class RoomManager : MonoBehaviour
 {

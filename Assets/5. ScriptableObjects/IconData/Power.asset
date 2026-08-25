@@ -33,5 +33,5 @@ MonoBehaviour:
       data:
         data: {fileID: 11400000}
         target: {fileID: 0}
-        stack: 6
-        remainTime: 3
+        stack: 0
+        remainTime: 0

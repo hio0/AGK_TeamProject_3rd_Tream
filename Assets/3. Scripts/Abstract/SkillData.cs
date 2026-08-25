@@ -11,7 +11,8 @@ public class SkillData : ScriptableObject
         attack,
         guard,
         special,
-        emotion
+        emotion,
+        emotion_Pokju
     }
     public actType skillType;
     public string skillName;

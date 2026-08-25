@@ -15,6 +15,8 @@ public class IconIcon : MonoBehaviour
     public void Initialize(Icon icon,  Character character)
     {
         myIcon = icon;
+        iconIcon.sprite = icon.data.iconImage;
+        iconIcon.color = icon.data.textColor;
         myChar = character;
 
         myChar.OnIconStackChange += AddStackT;

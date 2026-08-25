@@ -35,11 +35,10 @@ public class StudentInfo : MonoBehaviour
         icon.sprite = mychar.characterData.iconImage;
         icon.SetNativeSize();
 
-        levelIcon.Initialize(mychar);
         characterNameT.text = mychar.characterData.defaultCharacterName;
         LevelT.text = $"{mychar.level} / {mychar.maxLevel}";
         hpT.text = $"{mychar.hp} / {mychar.maxHp}";
-        speedT.text = $"{mychar.minSpeed} / {mychar.maxSpeed}";
+        speedT.text = $"{mychar.characterData.defaultMinSpeed} / {mychar.characterData.defaultMaxSpeed}";
         if(mychar.characterEmotion != null)
         {
             CharacterEmotion emotion = mychar.characterEmotion;

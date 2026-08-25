@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -27,6 +28,21 @@ public class Duddle : Skill, ITargetedEnemySkill, IAttackSkill
         yield return new WaitForSeconds(1f);
 
         SkillTemplet.Attack(this, MinDamage, MaxDamage, skillContext);
+
+        foreach(Character our in skillContext.ourRangeChar)
+        {
+            int r = UnityEngine.Random.Range(1, 3);
+
+            our.AddIcon(SkillTemplet.FindIcon(data.skillIcons, typeof(Deffence)), r);
+        }
+
+        foreach(Character ene in skillContext.enemyRangeChar)
+        {
+            int r = UnityEngine.Random.Range(2, 4);
+
+            ene.AddIcon(SkillTemplet.FindIcon(data.skillIcons, typeof(Broken)), r);
+        }
+
         OnSkillEffected?.Invoke();
 
         skillContext.user.SetImage(skillContext.user.characterData.motionData.Find(x => x.type == MotionData.MotionType.attack));

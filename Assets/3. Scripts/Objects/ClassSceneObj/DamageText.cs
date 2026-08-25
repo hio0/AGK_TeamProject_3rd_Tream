@@ -34,7 +34,6 @@ public class DamageText : MonoBehaviour
     {
         IEnumerator Cor()
         {
-            UIMovement.DoPunchScale(rect, targetSize, 0.5f);
             can.alpha = 1f;
 
             yield return new WaitForSeconds(1f);

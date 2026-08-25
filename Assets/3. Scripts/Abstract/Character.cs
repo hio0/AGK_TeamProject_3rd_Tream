@@ -39,6 +39,7 @@ public abstract class Character : MonoBehaviour
     public bool iOurUnit;
     public bool iTargeting;
     public bool iSelecting; // 이건 이벤트버스로 해도 되긴하는데,,,어차피 이거 관여하는 쪽에서 이미 날 알고 있어서, 모르는 채로 정보 교환이라는 이벤트 버스 방식일 필요가 없어서,,,
+    public bool iPokju;
     public List<Character> selectingTargets = new();
 
     public Action OnActingStart;
@@ -55,6 +56,7 @@ public abstract class Character : MonoBehaviour
     public event Action<Icon> OnIconStackChange;
     public event Action<SkillContext> OnAction;
     public event Action OnDamaged;
+    public event Action<int> OnSpeed;
     public event Action<int> OnHeal;
 
     [Header("컴포넌트")]
@@ -69,6 +71,8 @@ public abstract class Character : MonoBehaviour
 
     public IconText pre_iconText;
     public IconIcon pre_icon;
+
+    public EmotionCutScene emotionCut;
 
     private void Awake()
     {
@@ -124,8 +128,11 @@ public abstract class Character : MonoBehaviour
 
     public void SetSpeed()
     {
+        speed = 0;
         int value = UnityEngine.Random.Range(minSpeed, maxSpeed + 1);
-        speed = value;
+
+        OnSpeed?.Invoke(value);
+        speed += value;
     }
 
     void AnotherSelected()
@@ -210,14 +217,62 @@ public abstract class Character : MonoBehaviour
         return skill;
     }
 
-    public virtual void Act() // 스킬컨텍스트 받고 계산은 스킬 쪽에서 다함 ㅇ
+    public virtual void Act(SkillContext skillContext) // 스킬컨텍스트 받고 계산은 스킬 쪽에서 다함 ㅇ
     {
         if (iActChar)
         {
-            SkillContext skillContext = characterTeam.RetrunContext();
+            SkillContext context = new();
 
-            OnAction?.Invoke(skillContext);
-            StartCoroutine(skillContext.useSkill.Effected(skillContext));
+            if (!iPokju)
+            {
+                context = skillContext;
+            }
+            else
+            {
+                Skill skill = characterData.defaultSkillList.First(x => x.skillType == SkillData.actType.emotion_Pokju).mySkill;
+
+                int a = 0;
+                List<Character> list = new();
+                list.AddRange(skillContext.ourRangeChar);
+                list.AddRange(skillContext.enemyRangeChar);
+
+                List<Character> targets = new();
+                foreach (Character character in list)
+                {
+                    if (a == 4)
+                    {
+                        break;
+                    }
+
+                    int r = UnityEngine.Random.Range(1, 101);
+                    if (r <= 40)
+                    {
+                        a++;
+                        targets.Add(character);
+                    }
+                }
+
+                context = new SkillContext
+                {
+                    user = skillContext.user,
+                    useSkill = skill,
+                    enemyRangeChar = skillContext.enemyRangeChar,
+                    ourRangeChar = skillContext.ourRangeChar,
+                    targets = targets
+                };
+
+                EmotionCutScene cut = Instantiate(emotionCut, FightManager.Instance.fightP.GetComponent<RectTransform>());
+                cut.Initialize(true, characterData.motionData.Find(x => x.type == MotionData.MotionType.emotionCutscene).image, characterData.pokjuCol);
+            }
+
+            if(context.useSkill.data.skillType == SkillData.actType.emotion)
+            {
+                EmotionCutScene cut = Instantiate(emotionCut, FightManager.Instance.fightP.GetComponent<RectTransform>());
+                cut.Initialize(true, characterData.motionData.Find(x => x.type == MotionData.MotionType.emotionCutscene).image, characterData.pokjuCol);
+            }
+
+            OnAction?.Invoke(context);
+            StartCoroutine(context.useSkill.Effected(context));
             iActChar = false;
         }
     }
@@ -255,6 +310,10 @@ public abstract class Character : MonoBehaviour
     public virtual void Heal(int healCount)
     {
         hp += healCount;
+        if(hp >= maxHp)
+        {
+            hp = maxHp;
+        }
 
         OnHeal.Invoke(healCount);
     }
@@ -318,6 +377,8 @@ public abstract class Character : MonoBehaviour
         text.Initialize(drag.data.itemImage, drag.data.itemName, new Color32(255, 255, 255, 255));
 
         ItemManager.Instance.OnRemoveItem.Invoke(eventData.pointerDrag.GetComponent<ItemIcon>().myItem, 1);
+
+        drag.Effect();
 
         SchoolManager.instance.OnNoticedSomething?.Invoke($"{characterData.name}에게\n{drag.data.itemName}을 사용했다.");
     }

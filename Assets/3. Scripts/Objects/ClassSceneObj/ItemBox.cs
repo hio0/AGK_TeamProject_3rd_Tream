@@ -9,6 +9,9 @@ public class ItemBox : RoomObject
     public List<ItemData> items = new();
     public List<KeyValuePair<ItemData, int>> itemList = new();
 
+    [SerializeField] Image sprite;
+    [SerializeField] Sprite openSprite;
+
     private void OnEnable()
     {
         SchoolManager.instance.OnItemFindEnd += Map.Instance.EventSet;
@@ -45,6 +48,8 @@ public class ItemBox : RoomObject
         IEnumerator Cor()
         {
             yield return new WaitForSeconds(1.5f);
+
+            sprite.sprite = openSprite;
 
             SchoolManager.instance.OnItemFind?.Invoke(itemList);
             SchoolManager.instance.OnItemFinding?.Invoke();

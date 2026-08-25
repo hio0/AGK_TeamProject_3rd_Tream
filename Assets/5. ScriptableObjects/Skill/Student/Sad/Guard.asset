@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b748d34ce6331844ad3cbcbe75cb67d, type: 3}
+  m_Name: Guard
+  m_EditorClassIdentifier: 
+  mySkill:
+    rid: 7406696819617693706
+  skillType: 1
+  skillName: "\uC218\uBE44"
+  skillTargetCount: 1
+  skillCoolTime: 0
+  skillIcons:
+  - {fileID: 11400000, guid: d7e348297a0f50b43afda305d08140b1, type: 2}
+  skillExplanation: "[ \uC790\uC2E0 \uD0C0\uAC9F\uD305 ]\n\uBAA8\uB4E0 \uC544\uAD70\uC5D0\uAC8C
+    \uC790\uC2E0\uC758 \uBC29\uC5B4 \uC218\uCE58\uB9CC\uD07C \uBC29\uC5B4 \uBD80\uC5EC.\n\n[\uBC29\uC5B4]:
+    \uBC1B\uB294 \uD53C\uD574\uAC00 \uC2A4\uD0DD \uB2F9 10%\uB9CC\uD07C \uAC10\uC18C."
+  references:
+    version: 2
+    RefIds:
+    - rid: 7406696819617693706
+      type: {class: Guard, ns: , asm: Assembly-CSharp}
+      data:
+        canTarget: 0

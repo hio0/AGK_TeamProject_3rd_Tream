@@ -36,6 +36,7 @@ public class Money : MonoBehaviour
 
         IEnumerator Cor()
         {
+            ImportantData.moneyCount += value;
             text.text = ImportantData.moneyCount.ToString();
 
             can.alpha = 1;
@@ -47,5 +48,6 @@ public class Money : MonoBehaviour
         }
 
         StartCoroutine(Cor());
+        SchoolManager.instance.OnNoticedSomething.Invoke($"돈을 {value}만큼 얻었다.");
     }
 }

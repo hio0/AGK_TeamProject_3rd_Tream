@@ -21,12 +21,8 @@ public abstract class Item
     {
         data = context.data;
         target = context.target;
-
-        EffectTerms();
     }
 
-    protected virtual void Effect(SkillContext context)
+    public virtual void Effect()
     { }
-    protected abstract void EffectTerms();
-    public abstract void Remove();
 }

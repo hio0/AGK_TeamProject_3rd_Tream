@@ -64,7 +64,7 @@ public class EnemyCharacter : CharacterTeam
             yield return new WaitForSeconds(1f);
 
             skillContext = MakeSkillContext(usedSkill, mainTarget.selectingTargets);
-            FightManager.Instance.OnTargetFinded?.Invoke();
+            FightManager.Instance.OnTargetFinded?.Invoke(RetrunContext());
         }
 
         StartCoroutine(TargetFind());

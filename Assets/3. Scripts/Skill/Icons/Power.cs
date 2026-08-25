@@ -1,9 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 [Serializable]
 public class Power : Icon
@@ -23,8 +18,7 @@ public class Power : Icon
             {
                 data = atkdata;
 
-                float power = data.damage / 10 * stack;
-                data.damage *= power;
+                data.damage *= 1f + 0.1f * stack;
 
                 return data;
             };

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97df9a8791b15234084e53c0376c35b4, type: 3}
+  m_Name: JipJung
+  m_EditorClassIdentifier: 
+  myIcon:
+    rid: 7406696819617693704
+  iconName: "\uC9D1\uC911"
+  iconImage: {fileID: 916297948, guid: af22659a34d4e914eb1a6beb7e8e377a, type: 3}
+  limitStack: 3
+  limitTurn: 3
+  textColor:
+    serializedVersion: 2
+    rgba: 4286299130
+  iconExplanation: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 7406696819617693704
+      type: {class: JipJung, ns: , asm: Assembly-CSharp}
+      data:
+        data: {fileID: 11400000}
+        target: {fileID: 0}
+        stack: 0
+        remainTime: 0
+        surprised: {fileID: 11400000, guid: c3b854cc1c968f443ad65fb416c273bc, type: 2}

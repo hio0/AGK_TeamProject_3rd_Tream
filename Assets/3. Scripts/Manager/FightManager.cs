@@ -50,7 +50,7 @@ public class FightManager : MonoBehaviour
     public Action<GameObject> OnDyingSomeOne;
 
     public Action OnTargetFinding;
-    public Action OnTargetFinded;
+    public Action<SkillContext> OnTargetFinded;
 
     public Func<EnemyWaves> GetNowEnemys;
     public Func<CharacterRangeData> GetRangeData;
@@ -147,15 +147,19 @@ public class FightManager : MonoBehaviour
 
     public void TurnFinish()
     {
+        bool finished = false;
+
         IEnumerator TrunFini()
         {
             OnTurnFinish?.Invoke();
             FocusCamera.Instance.Live(0);
-            fightP.SetActive(false);
 
             yield return new WaitForSeconds(1f);
-
-            TurnStart();
+            finished = FightFinishedTrigger();
+            if(!finished)
+            {
+                TurnStart();
+            }
         }
 
         StartCoroutine(TrunFini());
@@ -176,11 +180,9 @@ public class FightManager : MonoBehaviour
             FocusCamera.Instance.Live(0);
 
             SchoolManager.instance.OnMoneyChanged.Invoke(UnityEngine.Random.Range(15, 31));
-            
-
-            OnFightFinish?.Invoke();
 
             fightP.SetActive(false);
+            OnFightFinish.Invoke();
         }
 
         return isFinished;

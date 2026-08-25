@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Elevator : RoomObject
 {
+    [SerializeField] AudioClip clip;
+
     private void OnEnable()
     {
         SchoolManager.instance.OnNextFloor += Map.Instance.EventSet;
@@ -23,6 +25,7 @@ public class Elevator : RoomObject
 
             yield return new WaitForSeconds(1.5f);
 
+            SoundManager.instance.SoundEffectPlay(clip);
             ElevatorChange.instance.Move();
 
             yield return new WaitForSeconds(1.5f);

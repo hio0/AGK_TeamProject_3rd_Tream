@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79131cd8b108b17418ea621351b7243c, type: 3}
+  m_Name: Duy
+  m_EditorClassIdentifier: 
+  myItem:
+    rid: 7406696819617693711
+  itemTier: 1
+  itemName: "\uBC84\uB824\uC9C4 \uBA54\uBAA8\uC7A5"
+  itemImage: {fileID: 1578802269, guid: 6b230df1f84025148be3a7f785f5ff63, type: 3}
+  maxStack: 99
+  icons: []
+  dong: 15
+  itemExplanation: "\uC0AC\uC6A9 \uC2DC: \uC4F8\uB370\uC5C6\uB294 \uC7A1\uC9C0\uC2DD\uC744
+    \uC77D\uC74C.\n<i>\uC0C1\uB2F9\uD55C \uC545\uD544\uC774\uB77C \uC77D\uAE30 \uC5B4\uB835\uB2E4.</i>"
+  references:
+    version: 2
+    RefIds:
+    - rid: 7406696819617693711
+      type: {class: Dummy, ns: , asm: Assembly-CSharp}
+      data:
+        data: {fileID: 0}
+        target: {fileID: 0}

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79131cd8b108b17418ea621351b7243c, type: 3}
+  m_Name: Duy 2
+  m_EditorClassIdentifier: 
+  myItem:
+    rid: 7406696819617693711
+  itemTier: 2
+  itemName: "\uD32C\uB2E8\uD2B8"
+  itemImage: {fileID: 2037878234, guid: 2d1bb407cbdd9974b89f921e8b788108, type: 3}
+  maxStack: 99
+  icons: []
+  dong: 30
+  itemExplanation: "\uC0AC\uC6A9 \uC2DC: \uD2B9\uBCC4\uD55C \uD6A8\uACFC \uC801\uC6A9\n<i>...\uC544\uBB34
+    \uD6A8\uACFC\uB3C4 \uC5C6\uB294 \uB4EF \uD558\uB2E4.</i>"
+  references:
+    version: 2
+    RefIds:
+    - rid: 7406696819617693711
+      type: {class: Dummy, ns: , asm: Assembly-CSharp}
+      data:
+        data: {fileID: 0}
+        target: {fileID: 0}

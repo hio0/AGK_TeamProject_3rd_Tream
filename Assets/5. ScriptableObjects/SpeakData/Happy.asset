@@ -18,3 +18,9 @@ MonoBehaviour:
   opinionSpeach_opposite:
   - "\uC73C. \uC2EB\uC5B4."
   - "\uC7AC\uBBF8\uC788\uC5B4 \uBCF4\uC774\uC9C0\uB294 \uC54A\uB294\uAC78~"
+  emotionUp:
+  - "...\uC544\uD558\uD558\uD558!"
+  - "(\uD0A4\uB4DD\uD0A4\uB4DD)"
+  emotionLimit:
+  - "...\uAE30\uBD84\uC774 \uC774\uC0C1\uD574."
+  - ...

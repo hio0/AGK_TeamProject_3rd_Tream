@@ -63,13 +63,7 @@ public class Hp_UI : ActionObject
                 parent_text = new Vector2(129.3f, 328.8f);
             }
             RectTransform charRect = myChar.GetComponent<RectTransform>();
-            RectTransform uiRect = GameManager.instance.GetUIRect.Invoke();
-
-            DamageText text = Instantiate(pre_text, uiRect);
-
-            RectTransform textRect = text.GetComponent<RectTransform>();
-
-            textRect.position = charRect.TransformPoint(parent_text);
+            DamageText text = Instantiate(pre_text, charRect);
 
             int a = hp - nowHp;
             text.Initialize(a.ToString(), new Color32(243, 77, 103, 255), parent_text);
@@ -95,52 +89,7 @@ public class Hp_UI : ActionObject
 
     void Heal(int healing)
     {
-        IEnumerator HpBgFill()
-        {
-            int hp = nowHp;
-            SetValue();
-            float fill = (float)healing / myChar.maxHp;
-
-            hpHealFill.gameObject.SetActive(true);
-
-            Vector2 parent_text = new();
-            if (myChar.iOurUnit)
-            {
-                parent_text = new Vector2(-129.3f, 328.8f);
-            }
-            else
-            {
-                parent_text = new Vector2(129.3f, 328.8f);
-            }
-            RectTransform charRect = myChar.GetComponent<RectTransform>();
-            RectTransform uiRect = GameManager.instance.GetUIRect.Invoke();
-
-            DamageText text = Instantiate(pre_text, uiRect);
-
-            RectTransform textRect = text.GetComponent<RectTransform>();
-
-            textRect.position = charRect.TransformPoint(parent_text);
-
-            int a = hp - nowHp;
-            text.Initialize(a.ToString(), new Color32(78, 243, 99, 255), parent_text);
-
-            yield return new WaitForSeconds(0.5f);
-
-            while (true)
-            {
-                hpHealFill.fillAmount += 0.03f;
-
-                if (hpHealFill.fillAmount <= fill)
-                {
-                    hpHealFill.fillAmount = fill;
-                    break;
-                }
-
-                yield return null;
-            }
-        }
-
-        StartCoroutine(HpBgFill());
+        SetValue();
     }
 
     void SetValue()

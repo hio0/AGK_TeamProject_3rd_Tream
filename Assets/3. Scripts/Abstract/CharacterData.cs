@@ -15,7 +15,7 @@ public class MotionData
         attackReady,
         attack,
         buff,
-
+        emotionCutscene
     }
 
     public MotionType type;
@@ -32,8 +32,7 @@ public class CharacterData : ScriptableObject
     public SpeakData speakData;
 
     public Sprite iconImage;
-    public Sprite standingImage;
-    public Sprite hitImage;
+    public Color32 pokjuCol;
 
     public int defaultHp;
     public int defaultMinSpeed;
